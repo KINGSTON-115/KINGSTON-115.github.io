@@ -156,7 +156,7 @@
             transition: all 0.3s ease;
         }
         .giant-link:hover {
-            color: #ffffff; /* 修复：悬停变白，在绿色背景上清晰可见 */
+            color: #ffffff;
             letter-spacing: 0.05em;
         }
         .giant-link::selection {
@@ -208,7 +208,7 @@
     <header class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
         <div class="flex items-center gap-3">
             <div class="w-3 h-3 bg-acid-green animate-pulse"></div>
-            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v3.7</span></span>
+            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v3.8</span></span>
         </div>
         <a href="https://github.com/KINGSTON-115" target="_blank" class="font-mono text-xs border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2">
             <i data-lucide="github" class="w-3 h-3"></i> SRC_CODE
@@ -272,12 +272,13 @@
                             <div class="font-mono text-acid-green text-xs mb-4">01 // AI + IOT</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">Nexus 智能时钟</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                我设计并实现了一个桌面智能终端，它不仅仅是时间显示器。通过与大型语言模型（LLM）后端集成，并利用 WebSocket 进行实时双向通讯，该设备能够理解自然语言指令，执行复杂任务。
+                                我设计并实现了一个桌面智能终端，它不仅仅是时间显示器。通过与大型语言模型（LLM）后端集成，并利用 WebSocket 进行实时双向通讯，该设备能够理解自然语言指令，执行复杂任务，并提供智能语音交互体验。它能作为您的私人 AI 助手，提供天气预报、日程提醒，甚至进行闲聊。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">ESP32</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">WebSockets</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LLM</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">语音识别</span>
                             </div>
                         </div>
                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-acid-green mt-8 font-mono group">
@@ -300,12 +301,13 @@
                             <div class="font-mono text-electric-blue text-xs mb-4">02 // FULL STACK + IOT</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">共享无人机柜系统</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                智能共享无人机租赁柜全栈开发。打通微信小程序前后端与物联网柜体控制协议，实现“扫码即飞”的自动化租赁体验。
+                                作为核心开发者，我负责从前端到后端的全栈开发，以及与物联网硬件的对接。该系统包含一个微信小程序作为用户界面，用户可扫码租赁无人机；后端服务处理订单、支付和设备状态管理；物联网模块则负责柜体的自动开锁、充电控制及无人机管理。实现了从租赁到归还的全自动化流程，大大提升了无人机共享的便捷性。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">WeChat MiniApp</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">Node.js/Java</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">IoT Protocol</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">全栈开发</span>
                             </div>
                         </div>
                          <a href="#" class="inline-flex items-center gap-2 text-white hover:text-electric-blue mt-8 font-mono group">
@@ -327,12 +329,13 @@
                             <div class="font-mono text-purple-400 text-xs mb-4">03 // COMPUTER VISION</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">精准激光除草机</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                这个项目将计算机视觉与精密硬件控制相结合，实现农业领域的自动化除草。我利用 OpenCV 进行实时图像采集与处理，并通过深度学习算法精准识别田间杂草的位置和种类。
+                                这个项目将计算机视觉与精密硬件控制相结合，实现农业领域的自动化除草。我利用 OpenCV 进行实时图像采集与处理，并通过深度学习算法（如 YOLO 或自定义 CNN 模型）精准识别田间杂草的位置和种类。识别出的杂草坐标被传输给高功率激光器，实现毫米级的定点清除，有效减少农药使用，提升农业效率。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">OpenCV</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">Python</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Hardware</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">硬件集成</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">深度学习</span>
                             </div>
                         </div>
                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-purple-400 mt-8 font-mono group">
@@ -355,12 +358,13 @@
                             <div class="font-mono text-electric-blue text-xs mb-4">04 // GPS & HARDWARE</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">北斗无人船水质监测</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                致力于海洋环境保护。我参与开发了一款集成北斗定位系统的无人船，能够根据预设路径自主巡航，并实时采集水质数据。核心控制采用 STM32 单片机。
+                                致力于海洋环境保护。我参与开发了一款集成北斗定位系统的无人船，能够根据预设路径自主巡航，并实时采集水质数据（如 pH 值、溶解氧、浊度等）。核心控制采用 STM32 单片机，通过 LoRa 模块实现远距离数据传输，确保数据及时回传到监控中心，为水质监测和污染溯源提供精准数据支持。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">STM32</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">BeiDou</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRa</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">传感器融合</span>
                             </div>
                         </div>
                          <a href="#" class="inline-flex items-center gap-2 text-white hover:text-electric-blue mt-8 font-mono group">
@@ -382,11 +386,13 @@
                             <div class="font-mono text-pink-500 text-xs mb-4">05 // GENERATIVE ART</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">黎族文化 AIGC 传承</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                运用前沿的生成式人工智能技术，赋能非物质文化遗产的数字化保护与传承。我利用 Stable Diffusion 模型，并结合 LoRA 技术，在大量黎族传统纹样和服饰数据上进行训练。
+                                运用前沿的生成式人工智能技术，赋能非物质文化遗产的数字化保护与传承。我利用 Stable Diffusion 模型，并结合 LoRA (Low-Rank Adaptation) 技术，在大量黎族传统纹样和服饰数据上进行训练，成功生成了独具风格的黎族艺术作品和现代服饰设计图。这不仅展示了 AI 在文化创意领域的潜力，也为传统文化的创新表达提供了新的途径。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">Stable Diffusion</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRA</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">AI 艺术</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">文化传承</span>
                             </div>
                         </div>
                          <a href="#" class="inline-flex items-center gap-2 text-white hover:text-pink-500 mt-8 font-mono group">
@@ -407,11 +413,13 @@
                             <div class="font-mono text-yellow-400 text-xs mb-4">06 // EMBEDDED CLASSIC</div>
                             <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">51 单片机微型电子琴</h3>
                             <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                一次对嵌入式经典设计的致敬。这个项目基于 51 单片机实现，使用 C51 语言进行底层编程。通过精心设计的矩阵键盘扫描算法，实时捕捉按键输入。
+                                一次对嵌入式经典设计的致敬。这个项目基于 51 单片机实现，使用 C51 语言进行底层编程。通过精心设计的矩阵键盘扫描算法，实时捕捉按键输入；利用 PWM (脉冲宽度调制) 技术精确控制蜂鸣器的发声频率和占空比，模拟出八个音阶的音色，实现一个功能完整的微型电子琴。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">C51</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">PWM</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">单片机</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">矩阵键盘</span>
                             </div>
                         </div>
                          <a href="#" class="inline-flex items-center gap-2 text-white hover:text-yellow-400 mt-8 font-mono group">
@@ -512,6 +520,14 @@
                 <div class="photo-frame">
                     <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80" alt="Photography Work">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_003.RAW</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_004.RAW</div>
+                </div>
+                 <div class="photo-frame">
+                    <img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_005.RAW</div>
                 </div>
             </div>
         </div>
@@ -635,18 +651,18 @@
         cards.forEach((card, index) => {
             if (index === cards.length - 1) return;
 
-            // 修正：延迟触发 + 提高最低亮度
+            // 修正：延迟触发 + 提高最低亮度 + 平滑过渡
             gsap.fromTo(card, 
                 { scale: 1, filter: "brightness(1)" },
                 {
                     scale: 0.92, 
-                    filter: "brightness(0.6)", // 提高最低亮度，防止全黑
+                    filter: "brightness(0.6)", // 保持最低亮度，绝不全黑
                     ease: "none",
                     scrollTrigger: {
                         trigger: card,
-                        start: "top -20%", // 延迟触发：卡片划上去20%高度后才开始变暗
-                        end: "bottom -100%", // 拉长动画时间
-                        scrub: true,
+                        start: "top -20%", // 延迟触发，等卡片划走一点后再变黑
+                        end: "bottom -100%", 
+                        scrub: 0.5, // 增加阻尼感
                     }
                 }
             );
