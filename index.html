@@ -55,10 +55,41 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
-            cursor: crosshair;
+            cursor: crosshair; /* 全局十字光标 */
+        }
+        
+        /* 选中文本样式 */
+        ::selection {
+            background-color: var(--accent-color);
+            color: black;
         }
 
         ::-webkit-scrollbar { width: 0; }
+
+        /* 1. 噪点纹理层 (New Polish Detail) */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* 2. 顶部滚动进度条 (New Polish Detail) */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--accent-color);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s ease-out;
+        }
 
         /* 3D 网格背景 */
         .perspective-grid {
@@ -75,7 +106,6 @@
             pointer-events: none;
             opacity: 0.5;
         }
-
         @keyframes grid-move {
             0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
             100% { transform: perspective(500px) rotateX(60deg) translateY(100px) translateZ(-200px); }
@@ -119,7 +149,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* 磁吸卡片堆叠效果 - 移动端适配优化 */
+        /* 磁吸卡片堆叠效果 */
         .project-card {
             position: sticky; 
             top: 10vh;
@@ -134,7 +164,6 @@
             border-color: var(--accent-color);
             transform: translateY(-5px);
         }
-        /* 移动端不需要过强的3D变换，保持稳固 */
         @media (max-width: 768px) {
             .project-card:hover { transform: none; }
         }
@@ -169,10 +198,6 @@
             color: #ffffff;
             letter-spacing: 0.05em;
         }
-        .giant-link::selection {
-            background: #000;
-            color: #fff;
-        }
 
         /* 摄影水平滚动容器 */
         .horizontal-scroll-container {
@@ -192,7 +217,6 @@
             padding-right: 5vw;
         }
         
-        /* 移动端照片尺寸适配 */
         .photo-frame {
             width: 60vh;
             height: 40vh;
@@ -258,9 +282,54 @@
             border-color: black !important;
         }
 
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: black;
+            padding: 10px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            transform: translateY(100px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10001;
+        }
+        #toast.show {
+            transform: translateY(0);
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        #loader.loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body class="antialiased">
+
+    <!-- 预加载器 -->
+    <div id="loader">
+        <div class="font-mono text-acid-green animate-pulse">SYSTEM_BOOTING...</div>
+    </div>
+
+    <!-- 滚动进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 噪点纹理 -->
+    <div class="noise-overlay"></div>
 
     <!-- 动态背景层 -->
     <div class="perspective-grid"></div>
@@ -270,7 +339,7 @@
     <header class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
         <div class="flex items-center gap-3">
             <div class="w-3 h-3 bg-acid-green animate-pulse"></div>
-            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v4.2</span></span>
+            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v5.0</span></span>
         </div>
         <div class="flex gap-4 items-center">
             <a href="articles.html" class="hidden md:flex font-mono text-xs text-gray-400 hover:text-acid-green transition-colors">
@@ -282,7 +351,7 @@
         </div>
     </header>
 
-    <!-- 1. HERO: 绝对居中 (响应式字体) -->
+    <!-- 1. HERO: 中轴对称 + 标语分行 -->
     <section class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0">
             <h1 class="text-[20vw] font-display font-black leading-none text-white">VOID</h1>
@@ -293,22 +362,22 @@
                 &lt; SYSTEM_INITIATED /&gt;
             </p>
             
-            <div class="hero-title-wrapper mb-10">
-                <!-- 响应式字体：移动端 5xl，桌面端 9xl -->
-                <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.0] md:leading-[0.9] text-white mix-blend-difference">
-                    STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">HUNGRY</span><br>
-                    STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">FOOLISH</span>
+            <div class="hero-title-wrapper mb-10 flex flex-col items-center">
+                <!-- 强制两行，每行一个块 -->
+                <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.1] md:leading-[0.95] text-white mix-blend-difference">
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">HUNGRY</span></span>
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">FOOLISH</span></span>
                 </h1>
             </div>
             
             <div class="flex flex-col items-center gap-8 hero-content">
-                <p class="font-mono text-gray-400 max-w-xl text-sm md:text-lg leading-relaxed mx-auto px-4">
+                <p class="font-mono text-gray-400 max-w-xl text-sm md:text-lg leading-relaxed mx-auto px-4 text-center">
                     我是 <strong class="text-white">Charles</strong>。<br>
                     游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
                     <span class="opacity-70 mt-2 block text-xs tracking-wider">在这里，代码是新的炼金术。</span>
                 </p>
                 
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-4">
                     <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-base md:text-lg hover:bg-acid-green transition-colors tracking-wider">
                         Deploy_Projects
                     </a>
@@ -328,7 +397,7 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED PROJECTS (Sticky Stack) -->
+    <!-- 2. SELECTED PROJECTS -->
     <section id="projects" class="relative pb-40">
         <div class="px-6 md:px-12 py-20">
             <h2 class="text-3xl md:text-6xl font-display font-bold mb-20 border-b border-white/20 pb-8 mix-blend-difference text-center md:text-left">
@@ -336,9 +405,7 @@
             </h2>
             
             <div class="flex flex-col gap-20">
-
-                <!-- 01: Nexus Clock -->
-                <!-- min-h-[600px] for mobile, h-[80vh] for desktop to ensure content fits -->
+                <!-- 01 -->
                 <article class="project-card min-h-[600px] md:h-[80vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                         <div>
@@ -366,7 +433,7 @@
                     </div>
                 </article>
 
-                <!-- 02: Drone Hive -->
+                <!-- 02 -->
                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;" onclick="openModal('drone')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
                         <div>
@@ -393,7 +460,7 @@
                     </div>
                 </article>
 
-                <!-- 03: Laser Weeder -->
+                <!-- 03 -->
                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;" onclick="openModal('laser')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
@@ -419,7 +486,7 @@
                     </div>
                 </article>
 
-                <!-- 04: BeiDou Ship -->
+                <!-- 04 -->
                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;" onclick="openModal('ship')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
@@ -445,7 +512,7 @@
                     </div>
                 </article>
 
-                 <!-- 05: Li Culture -->
+                 <!-- 05 -->
                  <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;" onclick="openModal('culture')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
@@ -471,7 +538,7 @@
                     </div>
                 </article>
 
-                 <!-- 06: Micro Piano -->
+                 <!-- 06 -->
                  <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;" onclick="openModal('piano')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
@@ -565,23 +632,7 @@
         </div>
     </section>
 
-    <!-- 4. ARTICLES ENTRY (New Section) -->
-    <section class="py-32 px-6 md:px-12 border-t border-white/10 bg-[#080808]">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-            <div>
-                <h2 class="text-4xl md:text-6xl font-display font-bold mb-4">THOUGHTS_LOG</h2>
-                <p class="text-gray-400 font-mono text-sm max-w-sm">
-                    记录技术探索、阅读思考与碎片化的灵感。这是我的数字花园。
-                </p>
-            </div>
-            <a href="articles.html" class="group inline-flex items-center gap-4 text-xl md:text-2xl font-mono hover:text-acid-green transition-colors">
-                ENTER_ARCHIVES 
-                <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-2 transition-transform"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- 5. OPTICAL_DATA -->
+    <!-- 4. OPTICAL_DATA (Horizontal Scroll) -->
     <section class="py-32 bg-[#080808] overflow-hidden border-t border-white/10">
         <div class="px-6 md:px-12 mb-12 flex items-end justify-between">
             <h2 class="text-3xl md:text-6xl font-display font-bold outline-text">OPTICAL_DATA</h2>
@@ -614,7 +665,7 @@
         </div>
     </section>
 
-    <!-- 6. FOOTER -->
+    <!-- 5. FOOTER -->
     <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
         <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4">
             <span>Status: Open to work</span>
@@ -628,7 +679,7 @@
                 2877616326@QQ.COM
             </a>
             
-            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="navigator.clipboard.writeText('c877616326'); alert('WeChat ID Copied')">
+            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="copyToClipboard('c877616326')">
                 WC: C877616326
             </div>
             
@@ -646,6 +697,9 @@
             <div>SCROLL_END</div>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast">COPIED TO CLIPBOARD_</div>
 
     <!-- 详情模态框 -->
     <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
@@ -674,7 +728,6 @@
     <script>
         lucide.createIcons();
 
-        // ... (Lenis, Canvas, GSAP scripts same as before) ...
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -728,6 +781,30 @@
                 if (!isAtStart && !isAtEnd) { e.preventDefault(); } else if (isAtStart && e.deltaY > 0) { e.preventDefault(); } else if (isAtEnd && e.deltaY < 0) { e.preventDefault(); } else { return; }
                 galleryContainer.scrollLeft += e.deltaY;
             }
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + "%";
+        });
+
+        // Toast Copy
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
+        // Loader Fade Out
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('loaded');
+            }, 800);
         });
 
         // --- Modal Logic ---
