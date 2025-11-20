@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIVES // CHARLES</title>
+    <style>
+        /* --- CORE SYSTEM STYLES --- */
+        :root {
+            --bg-color: #050505;
+            --text-main: #e0e0e0;
+            --text-dim: #666;
+            --accent: #ffffff;
+            --highlight: #333;
+            --font-stack: 'Courier New', Courier, monospace;
+            --spacing: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 14px;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            background-color: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--text-dim);
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand {
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+        }
+
+        /* --- HERO SECTION --- */
+        .archive-header {
+            margin-bottom: 80px;
+        }
+
+        .system-status {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: normal;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .intro-text {
+            max-width: 600px;
+            color: var(--text-dim);
+            border-left: 2px solid var(--text-dim);
+            padding-left: 15px;
+        }
+
+        /* --- ARTICLE LIST --- */
+        .article-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .article-item {
+            border: 1px solid var(--text-dim);
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .article-item:hover {
+            border-color: var(--text-main);
+            box-shadow: 4px 4px 0px var(--text-dim);
+            transform: translateY(-2px);
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 15px;
+            font-family: var(--font-stack);
+            text-transform: uppercase;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .article-excerpt {
+            font-size: 14px;
+            color: #bbb;
+            margin-bottom: 20px;
+            max-width: 90%;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tag {
+            font-size: 11px;
+            border: 1px solid var(--text-dim);
+            padding: 2px 8px;
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 100px;
+            border-top: 1px solid var(--text-dim);
+            padding-top: 40px;
+            padding-bottom: 60px;
+            font-size: 12px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .contact-block h3 {
+            font-size: 12px;
+            margin-bottom: 15px;
+            color: var(--text-dim);
+        }
+
+        /* --- UTILITIES & DECORATION --- */
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        ::selection {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-dim);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-main);
+        }
+
+        /* Mobile adjust */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 20px; }
+            header { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .nav-links a { margin-left: 0; margin-right: 20px; }
+            .footer-content { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="brand">CHARLES // v5.0</div>
+            <nav class="nav-links">
+                <a href="index.html">[ < BACK_TO_HOME ]</a>
+                <a href="https://github.com/KINGSTON-115" target="_blank">[ SRC_CODE ]</a>
+            </nav>
+        </header>
+
+        <section class="archive-header">
+            <span class="system-status">SYSTEM_STATUS: DATA_RETRIEVAL_ACTIVE</span>
+            <h1>ARCHIVES<span class="blink">_</span></h1>
+            <div class="intro-text">
+                <p>// 个人思考碎片与技术文档归档。</p>
+                <p>// Access Level: PUBLIC. Last update: 2025.11.20</p>
+            </div>
+        </section>
+
+        <div class="article-list">
+            
+            <article class="article-item">
+                <div class="meta-info">
+                    <span>LOG_ID: 003</span>
+                    <span>DATE: 2025.02.15</span>
+                </div>
+                <a href="#" class="article-title">关于嵌入式系统与 LLM 结合的思考</a>
+                <p class="article-excerpt">
+                    在 Nexus 智能时钟项目的开发过程中，尝试将大语言模型作为后端逻辑处理核心，探索了 WebSocket 在即时通讯中的低延迟优化方案...
+                </p>
+                <div class="tags">
+                    <span class="tag">IoT</span>
+                    <span class="tag">AI</span>
+                    <span class="tag">Architecture</span>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="meta-info">
+                    <span>LOG_ID: 002</span>
+                    <span>DATE: 2024.11.08</span>
+                </div>
+                <a href="#" class="article-title">YOLOv8 在低算力边缘设备上的剪枝实践</a>
+                <p class="article-excerpt">
+                    如何在 Jetson Nano 这种资源受限的设备上跑通高帧率检测？本文记录了对 YOLOv8 模型进行结构化剪枝与量化的全过程...
+                </p>
+                <div class="tags">
+                    <span class="tag">Computer Vision</span>
+                    <span class="tag">Edge AI</span>
+                </div>
+            </article>
+
+            <article class="article-item">
+                <div class="meta-info">
+                    <span>LOG_ID: 001</span>
+                    <span>DATE: 2024.08.20</span>
+                </div>
+                <a href="#" class="article-title">STM32 PID 控制算法调试笔记</a>
+                <p class="article-excerpt">
+                    在北斗水质监测船项目中，路径跟踪的稳定性至关重要。这里总结了 PID 参数整定的一些经验法则和遇到的“坑”。
+                </p>
+                <div class="tags">
+                    <span class="tag">Embedded</span>
+                    <span class="tag">Control Algo</span>
+                </div>
+            </article>
+
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="contact-block">
+                    <h3>INITIATE CONTACT PROTOCOL:</h3>
+                    <p><a href="mailto:2877616326@qq.com">2877616326@QQ.COM</a></p>
+                    <p>WC: C877616326</p>
+                </div>
+                <div class="social-block">
+                    <p><a href="https://github.com/KINGSTON-115" target="_blank">GITHUB: KINGSTON-115</a></p>
+                    <p><a href="https://space.bilibili.com/26031666" target="_blank">BILIBILI: 26031666</a></p>
+                </div>
+                <div class="copyright">
+                    <p>© 2025 CHARLES // END_OF_LINE</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
