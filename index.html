@@ -216,31 +216,37 @@
     </header>
 
     <!-- 1. HERO -->
-    <section class="min-h-screen flex flex-col justify-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
+    <!-- 增加 items-center 实现水平居中 -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0">
             <h1 class="text-[20vw] font-display font-black leading-none text-white">VOID</h1>
         </div>
 
-        <div class="relative z-10 max-w-5xl">
-            <p class="font-mono text-acid-green mb-4 text-sm md:text-base tracking-widest">
+        <!-- 增加 text-center 让内部文本居中 -->
+        <div class="relative z-10 max-w-5xl text-center w-full">
+            <p class="font-mono text-acid-green mb-6 text-sm md:text-base tracking-[0.5em] uppercase">
                 &lt; SYSTEM_INITIATED /&gt;
             </p>
             
-            <div class="hero-title-wrapper">
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-[0.9] mb-8 text-white mix-blend-difference">
+            <div class="hero-title-wrapper mb-8">
+                <!-- 稍微调整字体大小适应居中布局 -->
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-[0.9] text-white mix-blend-difference">
                     ENGINEERING <br> 
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">THE UNSEEN</span>
                 </h1>
             </div>
             
-            <div class="flex flex-col md:flex-row gap-8 md:items-end hero-content">
-                <p class="font-mono text-gray-400 max-w-md text-sm md:text-base leading-relaxed border-l-2 border-acid-green pl-4">
-                    我是 Charles。游走在<span class="text-white">模拟电路</span>与<span class="text-white">生成式 AI</span>边缘的开发者。<br>
-                    在这里，代码是新的炼金术。
+            <!-- 改为 flex-col 垂直堆叠，items-center 居中 -->
+            <div class="flex flex-col items-center gap-10 hero-content">
+                <!-- 移除左边框，改为 max-w-2xl 限制宽度，居中显示 -->
+                <p class="font-mono text-gray-400 max-w-2xl text-sm md:text-lg leading-relaxed mx-auto">
+                    我是 <strong class="text-white">Charles</strong>。<br>
+                    游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
+                    <span class="opacity-70 mt-2 block text-xs">在这里，代码是新的炼金术。</span>
                 </p>
                 
                 <div class="flex gap-4">
-                    <a href="#projects" class="glitch-hover px-8 py-4 bg-white text-black font-bold font-display uppercase text-lg hover:bg-acid-green transition-colors">
+                    <a href="#projects" class="glitch-hover px-10 py-4 bg-white text-black font-bold font-display uppercase text-lg hover:bg-acid-green transition-colors tracking-wider clip-path-button">
                         Deploy_Projects
                     </a>
                 </div>
