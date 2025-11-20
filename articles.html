@@ -4,303 +4,340 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARCHIVES // CHARLES</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts: JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        // 核心配色：酸性绿 (Acid Green)
+                        black: '#050505',
+                        acid: '#CCFF00',      // 核心高亮酸绿
+                        'acid-dim': 'rgba(204, 255, 0, 0.1)', // 弱化的酸绿背景
+                        'acid-dark': '#1a2200', // 深色装饰
+                    },
+                    animation: {
+                        'blink': 'blink 1s step-end infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* --- CORE SYSTEM STYLES --- */
-        :root {
-            --bg-color: #050505;
-            --text-main: #e0e0e0;
-            --text-dim: #666;
-            --accent: #ffffff;
-            --highlight: #333;
-            --font-stack: 'Courier New', Courier, monospace;
-            --spacing: 20px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-stack);
-            line-height: 1.6;
-            overflow-x: hidden;
-            font-size: 14px;
+            background-color: #050505;
+            color: #CCFF00; /* 全局默认文字颜色为酸绿 */
+            font-family: 'JetBrains Mono', monospace;
+            /* 酸绿滚动条 */
+            scrollbar-width: thin;
+            scrollbar-color: #CCFF00 #111;
         }
-
-        /* --- LAYOUT --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            background-color: var(--text-main);
-            color: var(--bg-color);
-        }
-
-        /* --- HEADER --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--text-dim);
-            padding-bottom: 20px;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .brand {
-            font-weight: bold;
-        }
-
-        .nav-links a {
-            margin-left: 20px;
-        }
-
-        /* --- HERO SECTION --- */
-        .archive-header {
-            margin-bottom: 80px;
-        }
-
-        .system-status {
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: normal;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .intro-text {
-            max-width: 600px;
-            color: var(--text-dim);
-            border-left: 2px solid var(--text-dim);
-            padding-left: 15px;
-        }
-
-        /* --- ARTICLE LIST --- */
-        .article-list {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .article-item {
-            border: 1px solid var(--text-dim);
-            padding: 25px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .article-item:hover {
-            border-color: var(--text-main);
-            box-shadow: 4px 4px 0px var(--text-dim);
-            transform: translateY(-2px);
-        }
-
-        .meta-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-bottom: 15px;
-            font-family: var(--font-stack);
-            text-transform: uppercase;
-        }
-
-        .article-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            font-weight: bold;
-            display: block;
-        }
-
-        .article-excerpt {
-            font-size: 14px;
-            color: #bbb;
-            margin-bottom: 20px;
-            max-width: 90%;
-        }
-
-        .tags {
-            display: flex;
-            gap: 10px;
-        }
-
-        .tag {
-            font-size: 11px;
-            border: 1px solid var(--text-dim);
-            padding: 2px 8px;
-            text-transform: uppercase;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 100px;
-            border-top: 1px solid var(--text-dim);
-            padding-top: 40px;
-            padding-bottom: 60px;
-            font-size: 12px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .contact-block h3 {
-            font-size: 12px;
-            margin-bottom: 15px;
-            color: var(--text-dim);
-        }
-
-        /* --- UTILITIES & DECORATION --- */
-        .blink {
-            animation: blinker 1s linear infinite;
-        }
-
-        @keyframes blinker {
-            50% { opacity: 0; }
-        }
-
-        ::selection {
-            background: var(--text-main);
-            color: var(--bg-color);
-        }
-
-        /* Scrollbar */
+        
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--bg-color);
+            background: #111;
+            border-left: 1px solid #222;
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--text-dim);
+            background: #CCFF00;
+            border-radius: 0px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-main);
+            background: #aaff00;
         }
 
-        /* Mobile adjust */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .container { padding: 20px; }
-            header { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .nav-links a { margin-left: 0; margin-right: 20px; }
-            .footer-content { flex-direction: column; }
+        /* 选中文本：酸绿背景，黑字 */
+        ::selection {
+            background-color: #CCFF00;
+            color: #000000;
+        }
+
+        /* 核心交互：悬停反色（变绿块） */
+        .hover-acid {
+            transition: all 0.1s ease;
+        }
+        .hover-acid:hover {
+            background-color: #CCFF00;
+            color: #000000;
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.5); /* 荧光光晕 */
+        }
+        
+        /* 图片绿色滤镜（可选，增加氛围） */
+        .img-filter {
+            filter: grayscale(100%) sepia(100%) hue-rotate(50deg) saturate(300%);
+            transition: filter 0.3s;
+        }
+        .group:hover .img-filter {
+            filter: none;
+        }
+
+        /* 细线样式 */
+        .border-acid {
+            border-color: #CCFF00;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col selection:bg-[#CCFF00] selection:text-black">
 
-    <div class="container">
-        <header>
-            <div class="brand">CHARLES // v5.0</div>
-            <nav class="nav-links">
-                <a href="index.html">[ < BACK_TO_HOME ]</a>
-                <a href="https://github.com/KINGSTON-115" target="_blank">[ SRC_CODE ]</a>
-            </nav>
+    <!-- 顶部导航 -->
+    <nav class="w-full px-6 py-6 flex justify-between items-start border-b border-acid sticky top-0 bg-black/95 backdrop-blur-sm z-50">
+        <div class="flex flex-col">
+            <a href="index.html" class="text-lg font-bold tracking-tighter hover:text-white transition-colors glow-text">
+                CHARLES // v5.0
+            </a>
+            <span class="text-xs opacity-70 mt-1">SYSTEM_STATUS: <span class="animate-pulse text-white">ONLINE</span></span>
+        </div>
+
+        <div class="flex gap-6 text-sm font-bold">
+            <!-- 返回按钮 -->
+            <a href="index.html" class="group flex items-center gap-2 hover:text-white transition-colors">
+                <span class="opacity-0 group-hover:opacity-100 transition-opacity text-acid">[</span>
+                RETURN_ROOT
+                <span class="opacity-0 group-hover:opacity-100 transition-opacity text-acid">]</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="flex-grow px-6 py-12 max-w-7xl mx-auto w-full">
+        
+        <!-- 页面标题区域 -->
+        <header class="mb-20">
+            <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-tighter text-acid">
+                ARCHIVES <span class="animate-blink text-white">_</span>
+            </h1>
+            <!-- 左侧酸绿粗边框 -->
+            <div class="border-l-4 border-acid pl-6 mt-8 py-2 bg-acid-dim">
+                <p class="opacity-80 max-w-2xl text-sm md:text-base leading-relaxed font-medium">
+                    // 这里的每一行代码都是记忆的快照。<br>
+                    // 这里存放着我在 模拟电路 与 生成式 AI 边缘的思考碎片。<br>
+                    // DATA_RETRIEVAL_INITIATED...
+                </p>
+            </div>
         </header>
 
-        <section class="archive-header">
-            <span class="system-status">SYSTEM_STATUS: DATA_RETRIEVAL_ACTIVE</span>
-            <h1>ARCHIVES<span class="blink">_</span></h1>
-            <div class="intro-text">
-                <p>// 个人思考碎片与技术文档归档。</p>
-                <p>// Access Level: PUBLIC. Last update: 2025.11.20</p>
-            </div>
-        </section>
+        <!-- 过滤器 -->
+        <div class="mb-12 flex flex-wrap gap-3 items-center text-sm border-y border-acid py-4 font-bold">
+            <span class="mr-2 text-acid opacity-70">>> FILTER:</span>
+            <!-- 默认选中：实心酸绿 -->
+            <button class="px-4 py-1 border border-acid bg-acid text-black transition-all shadow-[0_0_10px_rgba(204,255,0,0.3)]">[ ALL ]</button>
+            <!-- 未选中：空心酸绿 -->
+            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ SYSTEM_LOGS ]</button>
+            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ THOUGHTS ]</button>
+            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ READING_LIST ]</button>
+            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 04</div>
+        </div>
 
-        <div class="article-list">
+        <!-- 文章列表 -->
+        <div class="grid gap-0">
+
+            <!-- Article 01 -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <!-- 日期列 -->
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2025.03.14<br>
+                        <span class="opacity-50 font-normal">ID: LOG_042</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">THOUGHTS</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="#" class="block">当 LLM 遇上边缘计算：延迟与精度的博弈</a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            在 ESP32 这种资源受限的设备上部署轻量级推理模型是极具挑战的。最近在 Nexus 智能时钟项目中，我尝试将部分唤醒词逻辑下放到端侧，这不仅降低了云端 WebSocket 的负载，还将响应延迟控制在 200ms 以内。
+                        </p>
+                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 02 -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2025.01.20<br>
+                        <span class="opacity-50 font-normal">ID: LOG_041</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SYSTEM</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">ROS2</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="#" class="block">ROS2 通讯机制在多机协同中的实践</a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            在北斗水质监测船的项目中，我们使用了多机协同方案。如何保证 DDS 在弱网环境下的可靠性？我重新审视了 QoS 策略的配置，并重写了部分中间件逻辑。
+                        </p>
+                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 03 -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2024.11.05<br>
+                        <span class="opacity-50 font-normal">ID: LOG_039</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">READING</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="#" class="block">书单：黑客与画家 & 控制论</a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            "计算不仅仅是计算，它是关于系统的艺术。" 重读维纳的《控制论》，结合现在的 AIGC 浪潮，产生了一些关于人机回环新的理解。
+                        </p>
+                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
             
-            <article class="article-item">
-                <div class="meta-info">
-                    <span>LOG_ID: 003</span>
-                    <span>DATE: 2025.02.15</span>
-                </div>
-                <a href="#" class="article-title">关于嵌入式系统与 LLM 结合的思考</a>
-                <p class="article-excerpt">
-                    在 Nexus 智能时钟项目的开发过程中，尝试将大语言模型作为后端逻辑处理核心，探索了 WebSocket 在即时通讯中的低延迟优化方案...
-                </p>
-                <div class="tags">
-                    <span class="tag">IoT</span>
-                    <span class="tag">AI</span>
-                    <span class="tag">Architecture</span>
-                </div>
-            </article>
-
-            <article class="article-item">
-                <div class="meta-info">
-                    <span>LOG_ID: 002</span>
-                    <span>DATE: 2024.11.08</span>
-                </div>
-                <a href="#" class="article-title">YOLOv8 在低算力边缘设备上的剪枝实践</a>
-                <p class="article-excerpt">
-                    如何在 Jetson Nano 这种资源受限的设备上跑通高帧率检测？本文记录了对 YOLOv8 模型进行结构化剪枝与量化的全过程...
-                </p>
-                <div class="tags">
-                    <span class="tag">Computer Vision</span>
-                    <span class="tag">Edge AI</span>
-                </div>
-            </article>
-
-            <article class="article-item">
-                <div class="meta-info">
-                    <span>LOG_ID: 001</span>
-                    <span>DATE: 2024.08.20</span>
-                </div>
-                <a href="#" class="article-title">STM32 PID 控制算法调试笔记</a>
-                <p class="article-excerpt">
-                    在北斗水质监测船项目中，路径跟踪的稳定性至关重要。这里总结了 PID 参数整定的一些经验法则和遇到的“坑”。
-                </p>
-                <div class="tags">
-                    <span class="tag">Embedded</span>
-                    <span class="tag">Control Algo</span>
+            <!-- Article 04 - Note Style -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2024.08.12<br>
+                        <span class="opacity-50 font-normal">ID: NOTE_002</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SNIPPET</span>
+                        </div>
+                        <h2 class="text-xl font-bold mb-2 text-white">
+                           #CodeSnippet: Python 图像批处理脚本备份
+                        </h2>
+                        <p class="opacity-50 text-xs italic mb-4 text-acid">
+                            // Quick backup for the script used in the YOLOv8 training data preparation.
+                        </p>
+                        <!-- 代码块：黑底绿字，终端风格 -->
+                        <div class="bg-black p-4 border border-acid/50 text-xs text-acid font-mono overflow-x-auto shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]">
+                            <span class="text-white">def</span> <span class="text-yellow-300">batch_rename</span>(path):<br>
+                            &nbsp;&nbsp;<span class="text-white">for</span> count, filename <span class="text-white">in</span> enumerate(os.listdir(path)):<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;dst = <span class="text-green-500">f"img_{str(count).zfill(4)}.jpg"</span>...
+                        </div>
+                    </div>
                 </div>
             </article>
 
         </div>
 
-        <footer>
-            <div class="footer-content">
-                <div class="contact-block">
-                    <h3>INITIATE CONTACT PROTOCOL:</h3>
-                    <p><a href="mailto:2877616326@qq.com">2877616326@QQ.COM</a></p>
-                    <p>WC: C877616326</p>
-                </div>
-                <div class="social-block">
-                    <p><a href="https://github.com/KINGSTON-115" target="_blank">GITHUB: KINGSTON-115</a></p>
-                    <p><a href="https://space.bilibili.com/26031666" target="_blank">BILIBILI: 26031666</a></p>
-                </div>
-                <div class="copyright">
-                    <p>© 2025 CHARLES // END_OF_LINE</p>
-                </div>
-            </div>
-        </footer>
-    </div>
+        <!-- 底部加载更多 -->
+        <div class="mt-12 text-center">
+            <button class="text-xs font-bold text-acid border border-acid px-6 py-3 hover:bg-acid hover:text-black hover:shadow-[0_0_20px_#CCFF00] transition-all uppercase tracking-widest">
+                [ Load_More_Data ]
+            </button>
+        </div>
 
+    </main>
+
+    <!-- 装饰性跑马灯：酸绿背景，黑字 -->
+    <div class="w-full overflow-hidden bg-acid text-black border-y-2 border-black py-2 select-none">
+        <div class="whitespace-nowrap animate-[marquee_20s_linear_infinite] text-xs font-bold font-mono tracking-widest">
+            SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// 
+        </div>
+    </div>
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+
+    <!-- 页脚 -->
+    <footer class="px-6 py-12 border-t border-acid text-xs text-acid opacity-80 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-black">
+        <div>
+            <p class="mb-2 font-bold text-white">INITIATE CONTACT PROTOCOL:</p>
+            <div class="flex flex-col gap-1">
+                <a href="mailto:2877616326@qq.com" class="hover:text-white hover:underline transition-colors font-medium">[ EMAIL_ENCRYPTED ]</a>
+                <span class="cursor-help hover:text-white transition-colors font-medium" onclick="copyToClipboard('C877616326')">WC: C877616326</span>
+            </div>
+        </div>
+        
+        <div class="text-right">
+            <a href="https://github.com/KINGSTON-115" target="_blank" class="block hover:text-white hover:underline transition-colors font-bold">[ GITHUB ]</a>
+            <a href="https://space.bilibili.com/26031666" target="_blank" class="block hover:text-white hover:underline transition-colors font-bold">[ BILIBILI ]</a>
+            <p class="mt-4 opacity-50">© 2025 CHARLES // SYSTEM_EOF</p>
+        </div>
+    </footer>
+
+    <!-- 交互脚本 -->
+    <script>
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-acid text-black px-6 py-3 text-xs border border-black z-50 font-bold uppercase shadow-[0_0_15px_#CCFF00]';
+            toast.innerText = 'DATA_COPIED_TO_CLIPBOARD';
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+
+        // 过滤器交互
+        const buttons = document.querySelectorAll('button.hover-acid');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.parentElement.classList.contains('flex-wrap')) {
+                     buttons.forEach(b => {
+                        if(b.parentElement.classList.contains('flex-wrap')) {
+                            b.classList.remove('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
+                            b.classList.add('text-acid');
+                        }
+                    });
+                    // 还原第一个ALL按钮
+                    const allBtn = this.parentElement.querySelector('button:first-child');
+                    allBtn.classList.remove('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
+                    allBtn.classList.add('text-acid', 'hover-acid');
+
+                    this.classList.remove('text-acid');
+                    this.classList.add('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
