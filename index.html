@@ -119,14 +119,24 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* 磁吸卡片堆叠效果 */
+        /* 磁吸卡片堆叠效果 - 移动端适配优化 */
         .project-card {
             position: sticky; 
             top: 10vh;
             transform-origin: center top;
             box-shadow: 0 -20px 60px rgba(0,0,0,0.8);
-            background-color: #111; /* 确保有底色 */
+            background-color: #111;
             z-index: 1;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .project-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        /* 移动端不需要过强的3D变换，保持稳固 */
+        @media (max-width: 768px) {
+            .project-card:hover { transform: none; }
         }
 
         /* Glitch Hover Effect */
@@ -165,14 +175,24 @@
         }
 
         /* 摄影水平滚动容器 */
+        .horizontal-scroll-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+            scrollbar-width: none; 
+        }
+        .horizontal-scroll-container::-webkit-scrollbar { display: none; }
+        
         .gallery-track {
-            display: flex;
+            display: inline-flex;
             gap: 2rem;
             padding-left: 5vw;
             padding-right: 5vw;
-            width: max-content;
         }
         
+        /* 移动端照片尺寸适配 */
         .photo-frame {
             width: 60vh;
             height: 40vh;
@@ -182,6 +202,13 @@
             border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.5s ease;
             filter: grayscale(100%) contrast(120%);
+        }
+        
+        @media (max-width: 768px) {
+            .photo-frame {
+                width: 80vw;
+                height: 30vh;
+            }
         }
         
         .photo-frame:hover {
@@ -196,6 +223,41 @@
             object-fit: cover;
         }
 
+        /* 模态框样式 */
+        #projectModal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #projectModal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: translateY(50px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #projectModal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        /* 奖项卡片样式 */
+        .award-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .award-card:hover {
+            background: white;
+            color: black;
+            transform: scale(1.02);
+        }
+        .award-card:hover .text-sm, 
+        .award-card:hover .text-2xl, 
+        .award-card:hover span {
+            color: black !important;
+            border-color: black !important;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -205,56 +267,60 @@
     <canvas id="matrixCanvas"></canvas>
     
     <!-- 顶部状态栏 -->
-    <header class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
+    <header class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
         <div class="flex items-center gap-3">
             <div class="w-3 h-3 bg-acid-green animate-pulse"></div>
-            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v3.8</span></span>
+            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v4.2</span></span>
         </div>
-        <a href="https://github.com/KINGSTON-115" target="_blank" class="font-mono text-xs border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2">
-            <i data-lucide="github" class="w-3 h-3"></i> SRC_CODE
-        </a>
+        <div class="flex gap-4 items-center">
+            <a href="articles.html" class="hidden md:flex font-mono text-xs text-gray-400 hover:text-acid-green transition-colors">
+                [ ARCHIVES ]
+            </a>
+            <a href="https://github.com/KINGSTON-115" target="_blank" class="font-mono text-xs border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2">
+                <i data-lucide="github" class="w-3 h-3"></i> <span class="hidden md:inline">SRC_CODE</span>
+            </a>
+        </div>
     </header>
 
-    <!-- 1. HERO -->
-    <!-- 增加 items-center 实现水平居中 -->
+    <!-- 1. HERO: 绝对居中 (响应式字体) -->
     <section class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0">
             <h1 class="text-[20vw] font-display font-black leading-none text-white">VOID</h1>
         </div>
 
-        <!-- 增加 text-center 让内部文本居中 -->
-        <div class="relative z-10 max-w-5xl text-center w-full">
-            <p class="font-mono text-acid-green mb-6 text-sm md:text-base tracking-[0.5em] uppercase">
+        <div class="relative z-10 max-w-6xl text-center w-full">
+            <p class="font-mono text-acid-green mb-6 text-xs md:text-base tracking-[0.5em] uppercase">
                 &lt; SYSTEM_INITIATED /&gt;
             </p>
             
-            <div class="hero-title-wrapper mb-8">
-                <!-- 稍微调整字体大小适应居中布局 -->
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-[0.9] text-white mix-blend-difference">
-                    ENGINEERING <br> 
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">THE UNSEEN</span>
+            <div class="hero-title-wrapper mb-10">
+                <!-- 响应式字体：移动端 5xl，桌面端 9xl -->
+                <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.0] md:leading-[0.9] text-white mix-blend-difference">
+                    STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">HUNGRY</span><br>
+                    STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">FOOLISH</span>
                 </h1>
             </div>
             
-            <!-- 改为 flex-col 垂直堆叠，items-center 居中 -->
-            <div class="flex flex-col items-center gap-10 hero-content">
-                <!-- 移除左边框，改为 max-w-2xl 限制宽度，居中显示 -->
-                <p class="font-mono text-gray-400 max-w-2xl text-sm md:text-lg leading-relaxed mx-auto">
+            <div class="flex flex-col items-center gap-8 hero-content">
+                <p class="font-mono text-gray-400 max-w-xl text-sm md:text-lg leading-relaxed mx-auto px-4">
                     我是 <strong class="text-white">Charles</strong>。<br>
                     游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
-                    <span class="opacity-70 mt-2 block text-xs">在这里，代码是新的炼金术。</span>
+                    <span class="opacity-70 mt-2 block text-xs tracking-wider">在这里，代码是新的炼金术。</span>
                 </p>
                 
                 <div class="flex gap-4">
-                    <a href="#projects" class="glitch-hover px-10 py-4 bg-white text-black font-bold font-display uppercase text-lg hover:bg-acid-green transition-colors tracking-wider clip-path-button">
+                    <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-base md:text-lg hover:bg-acid-green transition-colors tracking-wider">
                         Deploy_Projects
+                    </a>
+                    <a href="articles.html" class="glitch-hover px-8 py-3 md:px-10 md:py-4 border border-white text-white font-bold font-display uppercase text-base md:text-lg hover:bg-white hover:text-black transition-colors tracking-wider">
+                        Read_Notes
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 w-full border-t border-white/10 py-3 bg-deep-void z-20">
-            <div class="marquee-container font-mono text-xs text-gray-500">
+        <div class="absolute bottom-0 left-0 w-full border-t border-white/10 py-2 md:py-3 bg-deep-void z-20">
+            <div class="marquee-container font-mono text-[10px] md:text-xs text-gray-500">
                 <div class="marquee-content">
                     EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT ///
                 </div>
@@ -262,182 +328,173 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED PROJECTS -->
+    <!-- 2. SELECTED PROJECTS (Sticky Stack) -->
     <section id="projects" class="relative pb-40">
         <div class="px-6 md:px-12 py-20">
-            <h2 class="text-4xl md:text-6xl font-display font-bold mb-20 border-b border-white/20 pb-8 mix-blend-difference">
+            <h2 class="text-3xl md:text-6xl font-display font-bold mb-20 border-b border-white/20 pb-8 mix-blend-difference text-center md:text-left">
                 CASE_STUDIES <span class="text-sm font-mono text-acid-green align-top">(06)</span>
             </h2>
             
             <div class="flex flex-col gap-20">
 
                 <!-- 01: Nexus Clock -->
-                <article class="project-card h-[80vh] bg-panel-gray border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray">
+                <!-- min-h-[600px] for mobile, h-[80vh] for desktop to ensure content fits -->
+                <article class="project-card min-h-[600px] md:h-[80vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                         <div>
                             <div class="font-mono text-acid-green text-xs mb-4">01 // AI + IOT</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">Nexus 智能时钟</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                我设计并实现了一个桌面智能终端，它不仅仅是时间显示器。通过与大型语言模型（LLM）后端集成，并利用 WebSocket 进行实时双向通讯，该设备能够理解自然语言指令，执行复杂任务，并提供智能语音交互体验。它能作为您的私人 AI 助手，提供天气预报、日程提醒，甚至进行闲聊。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">Nexus 智能时钟</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                桌面智能终端，通过 LLM 后端集成与 WebSocket 实时通讯，理解自然语言指令，提供智能语音交互体验。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">ESP32</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">WebSockets</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">ESP32-S3</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">WebSocket</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LLM</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">语音识别</span>
                             </div>
                         </div>
-                        <a href="#" class="inline-flex items-center gap-2 text-white hover:text-acid-green mt-8 font-mono group">
-                            查看源代码 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                        <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-64 h-64 rounded-full border-2 border-blue-500/30 flex items-center justify-center animate-pulse">
-                                <span class="font-mono text-4xl font-bold">12:00</span>
+                            <div class="w-48 h-48 md:w-64 md:h-64 rounded-full border-2 border-blue-500/30 flex items-center justify-center animate-pulse">
+                                <span class="font-mono text-3xl md:text-4xl font-bold">12:00</span>
                             </div>
                         </div>
                     </div>
                 </article>
 
                 <!-- 02: Drone Hive -->
-                <article class="project-card h-[80vh] bg-[#0f0f0f] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f]">
+                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;" onclick="openModal('drone')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
                         <div>
                             <div class="font-mono text-electric-blue text-xs mb-4">02 // FULL STACK + IOT</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">共享无人机柜系统</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                作为核心开发者，我负责从前端到后端的全栈开发，以及与物联网硬件的对接。该系统包含一个微信小程序作为用户界面，用户可扫码租赁无人机；后端服务处理订单、支付和设备状态管理；物联网模块则负责柜体的自动开锁、充电控制及无人机管理。实现了从租赁到归还的全自动化流程，大大提升了无人机共享的便捷性。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">共享无人机柜</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                低空经济全栈方案。前端微信小程序，后端 Spring Boot，自研 IoT 协议实现云端监控与自动归还检测。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">WeChat MiniApp</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Node.js/Java</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT Protocol</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">全栈开发</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">MiniApp</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Java</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT</span>
                             </div>
                         </div>
-                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-electric-blue mt-8 font-mono group">
-                            查看代码 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-blue-800/40 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-800/40 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                         <div class="absolute inset-0 flex items-center justify-center">
-                             <i data-lucide="box" class="w-32 h-32 text-blue-500/60"></i>
-                             <i data-lucide="plane" class="w-16 h-16 text-white absolute -translate-y-12 animate-bounce"></i>
+                             <i data-lucide="box" class="w-24 h-24 md:w-32 md:h-32 text-blue-500/60"></i>
+                             <i data-lucide="plane" class="w-12 h-12 md:w-16 md:h-16 text-white absolute -translate-y-12 animate-bounce"></i>
                         </div>
                     </div>
                 </article>
 
                 <!-- 03: Laser Weeder -->
-                <article class="project-card h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a]">
+                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;" onclick="openModal('laser')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
                             <div class="font-mono text-purple-400 text-xs mb-4">03 // COMPUTER VISION</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">精准激光除草机</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                这个项目将计算机视觉与精密硬件控制相结合，实现农业领域的自动化除草。我利用 OpenCV 进行实时图像采集与处理，并通过深度学习算法（如 YOLO 或自定义 CNN 模型）精准识别田间杂草的位置和种类。识别出的杂草坐标被传输给高功率激光器，实现毫米级的定点清除，有效减少农药使用，提升农业效率。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">精准激光除草机</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                搭载 Jetson Nano 运行 YOLOv8 剪枝模型，配合二自由度云台控制高能激光束，实现亚毫米级精度的杂草清除。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">OpenCV</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Python</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">硬件集成</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">深度学习</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">YOLOv8</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Laser</span>
                             </div>
                         </div>
-                        <a href="#" class="inline-flex items-center gap-2 text-white hover:text-purple-400 mt-8 font-mono group">
-                            查看源代码 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                        <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-purple-900/50 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-purple-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                          <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="crosshair" class="w-40 h-40 text-purple-500/50"></i>
-                            <div class="absolute w-full h-[1px] bg-purple-500 top-1/2"></div>
-                            <div class="absolute h-full w-[1px] bg-purple-500 left-1/2"></div>
+                            <i data-lucide="crosshair" class="w-32 h-32 md:w-40 md:h-40 text-purple-500/50"></i>
                         </div>
                     </div>
                 </article>
 
                 <!-- 04: BeiDou Ship -->
-                <article class="project-card h-[80vh] bg-[#111] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111]">
+                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;" onclick="openModal('ship')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
                             <div class="font-mono text-electric-blue text-xs mb-4">04 // GPS & HARDWARE</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">北斗无人船水质监测</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                致力于海洋环境保护。我参与开发了一款集成北斗定位系统的无人船，能够根据预设路径自主巡航，并实时采集水质数据（如 pH 值、溶解氧、浊度等）。核心控制采用 STM32 单片机，通过 LoRa 模块实现远距离数据传输，确保数据及时回传到监控中心，为水质监测和污染溯源提供精准数据支持。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">北斗水质监测船</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                自主巡航监测平台。集成北斗/GPS 双模定位模块，结合 PID 算法实现高精度路径跟踪。利用 LoRa 实现远距离数据遥测。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">STM32</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">STM32F4</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">BeiDou</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRa</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">传感器融合</span>
                             </div>
                         </div>
-                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-electric-blue mt-8 font-mono group">
-                            查看源代码 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                         <div class="absolute inset-0 flex items-center justify-center">
-                             <div class="w-40 h-40 border-2 border-dashed border-electric-blue rounded-full animate-[spin_10s_linear_infinite]"></div>
-                             <i data-lucide="navigation" class="absolute w-16 h-16 text-white"></i>
+                             <i data-lucide="navigation" class="w-12 h-12 md:w-16 md:h-16 text-white"></i>
                         </div>
                     </div>
                 </article>
 
                  <!-- 05: Li Culture -->
-                 <article class="project-card h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a]">
+                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;" onclick="openModal('culture')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
                             <div class="font-mono text-pink-500 text-xs mb-4">05 // GENERATIVE ART</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">黎族文化 AIGC 传承</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                运用前沿的生成式人工智能技术，赋能非物质文化遗产的数字化保护与传承。我利用 Stable Diffusion 模型，并结合 LoRA (Low-Rank Adaptation) 技术，在大量黎族传统纹样和服饰数据上进行训练，成功生成了独具风格的黎族艺术作品和现代服饰设计图。这不仅展示了 AI 在文化创意领域的潜力，也为传统文化的创新表达提供了新的途径。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">黎族文化 AIGC</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                利用 Stable Diffusion 模型，结合 LoRA 技术，在大量黎族传统纹样数据上进行训练，生成独具风格的艺术作品。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Stable Diffusion</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">SD</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRA</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">AI 艺术</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">文化传承</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">AI Art</span>
                             </div>
                         </div>
-                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-pink-500 mt-8 font-mono group">
-                            查看结果 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-pink-900/50 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-pink-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                         <div class="absolute inset-0 flex items-center justify-center">
-                             <i data-lucide="sparkles" class="w-32 h-32 text-pink-500/80"></i>
+                             <i data-lucide="sparkles" class="w-24 h-24 md:w-32 md:h-32 text-pink-500/80"></i>
                         </div>
                     </div>
                 </article>
 
                  <!-- 06: Micro Piano -->
-                 <article class="project-card h-[80vh] bg-[#111] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111]">
+                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;" onclick="openModal('piano')">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
                             <div class="font-mono text-yellow-400 text-xs mb-4">06 // EMBEDDED CLASSIC</div>
-                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">51 单片机微型电子琴</h3>
-                            <p class="text-gray-400 font-sans text-lg leading-relaxed mb-8">
-                                一次对嵌入式经典设计的致敬。这个项目基于 51 单片机实现，使用 C51 语言进行底层编程。通过精心设计的矩阵键盘扫描算法，实时捕捉按键输入；利用 PWM (脉冲宽度调制) 技术精确控制蜂鸣器的发声频率和占空比，模拟出八个音阶的音色，实现一个功能完整的微型电子琴。
+                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">51 单片机电子琴</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+                                纯 C 语言底层驱动。矩阵键盘扫描 + PWM 频率控制，模拟八音阶音色。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">C51</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">PWM</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">单片机</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">矩阵键盘</span>
                             </div>
                         </div>
-                         <a href="#" class="inline-flex items-center gap-2 text-white hover:text-yellow-400 mt-8 font-mono group">
-                            查看代码 <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
-                        </a>
+                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
+                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <div class="md:w-1/2 bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden">
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
                         <div class="absolute inset-0 flex items-center justify-center gap-4">
-                             <div class="w-8 h-40 bg-white/20"></div>
-                             <div class="w-8 h-40 bg-white/20"></div>
-                             <div class="w-8 h-40 bg-white/20"></div>
-                             <div class="w-8 h-40 bg-yellow-500/50"></div>
+                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
+                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
+                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
+                             <div class="w-6 h-32 md:w-8 md:h-40 bg-yellow-500/50"></div>
                         </div>
                     </div>
                 </article>
@@ -448,120 +505,138 @@
 
     <!-- 3. AWARDS -->
     <section class="py-32 px-6 md:px-12 bg-deep-void text-white">
-        <h2 class="text-4xl md:text-6xl font-display font-bold mb-16 text-center outline-text">HONORS_LOG</h2>
+        <h2 class="text-3xl md:text-6xl font-display font-bold mb-16 text-center outline-text">HONORS_LOG</h2>
         
         <div class="max-w-4xl mx-auto">
-            <div class="grid grid-cols-1 gap-8">
+            <div class="grid grid-cols-1 gap-6 md:gap-8">
                 
-                <!-- Robocom -->
-                <div class="border border-white/20 p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-default">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-sm tracking-wider">2025 / REGIONAL</span>
-                        <span class="font-display font-bold text-4xl">2ND PLACE</span>
+                <!-- Robocom 2025 -->
+                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('robocom2025')">
+                    <div class="flex justify-between items-start mb-4 pointer-events-none">
+                        <span class="font-mono text-xs md:text-sm tracking-wider">2025 / REGIONAL</span>
+                        <span class="font-display font-bold text-2xl md:text-4xl">2ND PLACE</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">睿抗机器人魔力元宝 · 海南赛区</h3>
-                    <div class="flex justify-between items-end">
-                        <p class="text-sm opacity-60 group-hover:opacity-100">Robocom 机器人开发者大赛</p>
-                        <span class="font-mono text-xs px-2 py-1 border border-current rounded">ROBOTICS</span>
-                    </div>
-                </div>
-
-                <div class="border border-white/20 p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-default">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-sm tracking-wider">2024 / REGIONAL</span>
-                        <span class="font-display font-bold text-4xl">3RD PLACE</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">睿抗机器人魔力元宝 · 海南赛区</h3>
-                    <div class="flex justify-between items-end">
-                        <p class="text-sm opacity-60 group-hover:opacity-100">Robocom 机器人开发者大赛</p>
-                        <span class="font-mono text-xs px-2 py-1 border border-current rounded">AI_CONTROL</span>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">ROBOTICS</span>
                     </div>
                 </div>
 
-                <!-- Smart Car -->
-                <div class="border border-white/20 p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-default">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-sm tracking-wider">2024 / NATIONAL</span>
-                        <span class="font-display font-bold text-4xl">1ST PLACE</span>
+                <!-- Robocom 2024 -->
+                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('robocom2024')">
+                    <div class="flex justify-between items-start mb-4 pointer-events-none">
+                        <span class="font-mono text-xs md:text-sm tracking-wider">2024 / REGIONAL</span>
+                        <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">第十九届全国大学生智能车竞赛</h3>
-                    <div class="flex justify-between items-end">
-                        <p class="text-sm opacity-60 group-hover:opacity-100">摄像头组 STC 赛道</p>
-                        <span class="font-mono text-xs px-2 py-1 border border-current rounded">VISUAL_ALGO</span>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">AI_CONTROL</span>
                     </div>
                 </div>
 
-                 <div class="border border-white/20 p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-default">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-sm tracking-wider">2025 / NATIONAL</span>
-                        <span class="font-display font-bold text-4xl">3RD PLACE</span>
+                <!-- Smart Car 2024 -->
+                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('smartcar2024')">
+                    <div class="flex justify-between items-start mb-4 pointer-events-none">
+                        <span class="font-mono text-xs md:text-sm tracking-wider">2024 / NATIONAL</span>
+                        <span class="font-display font-bold text-2xl md:text-4xl">1ST PLACE</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">第二十届全国大学生智能车竞赛</h3>
-                    <div class="flex justify-between items-end">
-                        <p class="text-sm opacity-60 group-hover:opacity-100">电磁组微缩车模赛道</p>
-                        <span class="font-mono text-xs px-2 py-1 border border-current rounded">HARDWARE_DESIGN</span>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第十九届全国大学生智能车竞赛</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">摄像头组 STC 赛道</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">VISUAL_ALGO</span>
+                    </div>
+                </div>
+
+                <!-- Smart Car 2025 -->
+                 <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
+                    <div class="flex justify-between items-start mb-4 pointer-events-none">
+                        <span class="font-mono text-xs md:text-sm tracking-wider">2025 / NATIONAL</span>
+                        <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第二十届全国大学生智能车竞赛</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">电磁组微缩车模赛道</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">HARDWARE_DESIGN</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. OPTICAL_DATA -->
+    <!-- 4. ARTICLES ENTRY (New Section) -->
+    <section class="py-32 px-6 md:px-12 border-t border-white/10 bg-[#080808]">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div>
+                <h2 class="text-4xl md:text-6xl font-display font-bold mb-4">THOUGHTS_LOG</h2>
+                <p class="text-gray-400 font-mono text-sm max-w-sm">
+                    记录技术探索、阅读思考与碎片化的灵感。这是我的数字花园。
+                </p>
+            </div>
+            <a href="articles.html" class="group inline-flex items-center gap-4 text-xl md:text-2xl font-mono hover:text-acid-green transition-colors">
+                ENTER_ARCHIVES 
+                <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-2 transition-transform"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 5. OPTICAL_DATA -->
     <section class="py-32 bg-[#080808] overflow-hidden border-t border-white/10">
         <div class="px-6 md:px-12 mb-12 flex items-end justify-between">
-            <h2 class="text-4xl md:text-6xl font-display font-bold outline-text">OPTICAL_DATA</h2>
+            <h2 class="text-3xl md:text-6xl font-display font-bold outline-text">OPTICAL_DATA</h2>
             <p class="font-mono text-xs text-gray-500 hidden md:block">SCROLL >></p>
         </div>
         
-        <div class="overflow-x-auto pb-8 hide-scroll">
-            <div class="gallery-track" id="galleryTrack">
+        <div class="horizontal-scroll-container" id="galleryContainer">
+            <div class="gallery-track">
                 <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&q=80" alt="Photography">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_001.RAW</div>
                 </div>
                 <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80" alt="Photography">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_002.RAW</div>
                 </div>
                 <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80" alt="Photography">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_003.RAW</div>
                 </div>
                 <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" alt="Photography">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_004.RAW</div>
                 </div>
                  <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80" alt="Photography Work">
+                    <img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80" alt="Photography">
                     <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_005.RAW</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. FOOTER -->
+    <!-- 6. FOOTER -->
     <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
         <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4">
             <span>Status: Open to work</span>
             <span>Location: Earth</span>
         </div>
 
-        <div class="space-y-8 my-auto">
+        <div class="space-y-6 md:space-y-8 my-auto">
             <p class="font-mono text-sm mb-4">INITIATE CONTACT PROTOCOL:</p>
             
-            <a href="mailto:2877616326@qq.com" class="block giant-link text-[8vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
+            <a href="mailto:2877616326@qq.com" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
                 2877616326@QQ.COM
             </a>
             
-            <div class="cursor-pointer giant-link text-[8vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="navigator.clipboard.writeText('c877616326'); alert('WeChat ID Copied')">
+            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="navigator.clipboard.writeText('c877616326'); alert('WeChat ID Copied')">
                 WC: C877616326
             </div>
             
-            <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[8vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
+            <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
                 GITHUB: KINGSTON-115
             </a>
 
-            <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[8vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
+            <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
                 BILIBILI: 26031666
             </a>
         </div>
@@ -572,9 +647,34 @@
         </div>
     </footer>
 
+    <!-- 详情模态框 -->
+    <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col">
+            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="p-6 md:p-12">
+                <div id="modalHeader" class="border-b border-white/10 pb-6 mb-8">
+                    <h2 id="modalTitle" class="text-3xl md:text-5xl font-display font-bold mb-4 text-white">Project Title</h2>
+                    <div id="modalTags" class="flex flex-wrap gap-2 font-mono text-xs text-gray-400"></div>
+                </div>
+
+                <div id="modalImages" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <!-- Images -->
+                </div>
+
+                <div id="modalBody" class="prose prose-invert prose-lg font-sans text-gray-300 leading-relaxed max-w-none">
+                    <!-- Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
 
+        // ... (Lenis, Canvas, GSAP scripts same as before) ...
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -590,99 +690,138 @@
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-
         class Symbol {
             constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 20 + 10;
-                this.speedX = (Math.random() - 0.5) * 1;
-                this.speedY = (Math.random() - 0.5) * 1;
-                this.opacity = Math.random() * 0.5;
+                this.x = Math.random() * width; this.y = Math.random() * height;
+                this.size = Math.random() * 20 + 10; this.speedX = (Math.random() - 0.5) * 1; this.speedY = (Math.random() - 0.5) * 1; this.opacity = Math.random() * 0.5;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > width) this.x = 0;
-                if (this.x < 0) this.x = width;
-                if (this.y > height) this.y = 0;
-                if (this.y < 0) this.y = height;
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > width) this.x = 0; if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0; if (this.y < 0) this.y = height;
             }
-            draw() {
-                ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`;
-                ctx.lineWidth = 1;
-                ctx.strokeRect(this.x, this.y, this.size, this.size);
-            }
+            draw() { ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`; ctx.lineWidth = 1; ctx.strokeRect(this.x, this.y, this.size, this.size); }
         }
         for(let i=0; i<30; i++) particles.push(new Symbol());
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateCanvas);
-        }
+        function animateCanvas() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateCanvas); }
         animateCanvas();
 
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.to(".hero-title-wrapper", {
-            y: -150, 
-            opacity: 0,
-            scrollTrigger: {
-                trigger: ".hero-section",
-                start: "top top",
-                end: "bottom center",
-                scrub: true
-            }
-        });
-        
-        gsap.to(".hero-content", {
-            y: -100,
-            opacity: 0,
-            scrollTrigger: {
-                trigger: ".hero-section",
-                start: "top top",
-                end: "bottom center",
-                scrub: true
-            }
-        });
+        gsap.to(".hero-title-wrapper", { y: -150, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
+        gsap.to(".hero-content", { y: -100, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
 
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, index) => {
             if (index === cards.length - 1) return;
-
-            // 修正：延迟触发 + 提高最低亮度 + 平滑过渡
-            gsap.fromTo(card, 
-                { scale: 1, filter: "brightness(1)" },
-                {
-                    scale: 0.92, 
-                    filter: "brightness(0.6)", // 保持最低亮度，绝不全黑
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top -20%", // 延迟触发，等卡片划走一点后再变黑
-                        end: "bottom -100%", 
-                        scrub: 0.5, // 增加阻尼感
-                    }
-                }
-            );
+            gsap.fromTo(card, { scale: 1, filter: "brightness(1)" }, { scale: 0.92, filter: "brightness(0.6)", ease: "none", scrollTrigger: { trigger: card, start: "top -20%", end: "bottom -100%", scrub: 0.5 } });
         });
 
-        const galleryTrack = document.getElementById('galleryTrack');
-        gsap.to(galleryTrack, {
-            x: -100,
-            scrollTrigger: {
-                trigger: "#galleryTrack",
-                start: "top center",
-                scrub: true
+        const galleryContainer = document.getElementById('galleryContainer');
+        galleryContainer.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0) {
+                const isAtStart = galleryContainer.scrollLeft === 0;
+                const isAtEnd = galleryContainer.scrollLeft + galleryContainer.clientWidth >= galleryContainer.scrollWidth;
+                if (!isAtStart && !isAtEnd) { e.preventDefault(); } else if (isAtStart && e.deltaY > 0) { e.preventDefault(); } else if (isAtEnd && e.deltaY < 0) { e.preventDefault(); } else { return; }
+                galleryContainer.scrollLeft += e.deltaY;
             }
         });
+
+        // --- Modal Logic ---
+        const modalData = {
+            nexus: {
+                title: "Nexus 智能时钟",
+                tags: ["ESP32-S3", "WebSocket", "LLM", "LVGL"],
+                images: ["https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>核心技术：ESP32-S3 + LLM。通过 WebSocket 实现实时语音交互。</p>`
+            },
+            drone: {
+                title: "共享无人机柜系统",
+                tags: ["WeChat MiniApp", "Spring Boot", "IoT", "MQTT"],
+                images: ["https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>全栈开发：小程序前端 + SpringBoot 后端 + IoT 协议。</p>`
+            },
+            laser: {
+                title: "精准激光除草机",
+                tags: ["OpenCV", "YOLOv8", "Jetson Nano"],
+                images: ["https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>机器视觉：YOLOv8 模型识别杂草，激光定点清除。</p>`
+            },
+            ship: {
+                title: "北斗水质监测船",
+                tags: ["STM32F4", "BeiDou/GPS", "LoRa"],
+                images: ["https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>自主巡航：北斗定位 + PID 控制。</p>`
+            },
+            culture: {
+                title: "黎族文化 AIGC",
+                tags: ["Stable Diffusion", "LoRA"],
+                images: ["https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>AI 艺术：训练 LoRA 模型生成传统纹样。</p>`
+            },
+            piano: {
+                title: "51 单片机电子琴",
+                tags: ["C51", "PWM"],
+                images: ["https://images.unsplash.com/photo-1550063873-ab792950096b?auto=format&fit=crop&w=800&q=80"],
+                content: `<p>嵌入式基础：PWM 控制蜂鸣器。</p>`
+            },
+            robocom2025: {
+                title: "2025 睿抗机器人 - 二等奖",
+                tags: ["Robocom", "海南赛区"],
+                images: ["https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"],
+                content: "<p>机器人底盘控制与抓取算法优化。</p>"
+            },
+            robocom2024: {
+                title: "2024 睿抗机器人 - 三等奖",
+                tags: ["Robocom", "海南赛区"],
+                images: ["https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"],
+                content: "<p>视觉识别模块调试。</p>"
+            },
+            smartcar2024: {
+                title: "第十九届智能车 - 一等奖",
+                tags: ["摄像头组", "华南赛区"],
+                images: ["https://images.unsplash.com/photo-1535378437-d6d20029e809?auto=format&fit=crop&w=800&q=80"],
+                content: "<p>赛道边缘提取算法优化。</p>"
+            },
+            smartcar2025: {
+                title: "第二十届智能车 - 三等奖",
+                tags: ["电磁组", "华南赛区"],
+                images: ["https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80"],
+                content: "<p>电磁信号处理与硬件设计。</p>"
+            }
+        };
+
+        const modalEl = document.getElementById('projectModal');
+        const mTitle = document.getElementById('modalTitle');
+        const mTags = document.getElementById('modalTags');
+        const mBody = document.getElementById('modalBody');
+        const mImages = document.getElementById('modalImages');
+
+        function openModal(id) {
+            const d = modalData[id];
+            if(!d) return;
+            mTitle.innerText = d.title;
+            mTags.innerHTML = d.tags.map(t => `<span class="border border-white/30 px-2 py-1 rounded">${t}</span>`).join('');
+            mBody.innerHTML = d.content;
+            mImages.innerHTML = '';
+            if(d.images) {
+                d.images.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.className = 'w-full h-64 object-cover rounded-lg border border-white/10';
+                    mImages.appendChild(img);
+                });
+            }
+            modalEl.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            modalEl.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     </script>
 </body>
 </html>
