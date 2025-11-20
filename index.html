@@ -38,6 +38,15 @@
                     },
                     backgroundImage: {
                         'grid-pattern': "linear-gradient(to right, #222 1px, transparent 1px), linear-gradient(to bottom, #222 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'marquee-infinite': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
                     }
                 }
             }
@@ -55,10 +64,9 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
-            cursor: crosshair; /* 全局十字光标 */
+            cursor: crosshair;
         }
         
-        /* 选中文本样式 */
         ::selection {
             background-color: var(--accent-color);
             color: black;
@@ -66,52 +74,123 @@
 
         ::-webkit-scrollbar { width: 0; }
 
-        /* 1. 噪点纹理层 (New Polish Detail) */
+        /* 1. 噪点纹理层 */
         .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9998;
-            opacity: 0.05;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9998; opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* 2. 顶部滚动进度条 (New Polish Detail) */
+        /* 2. 滚动进度条 */
         .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 2px;
-            background: var(--accent-color);
-            width: 0%;
-            z-index: 10000;
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: var(--accent-color); width: 0%; z-index: 10000;
             transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px var(--accent-color);
         }
 
         /* 3D 网格背景 */
         .perspective-grid {
-            position: fixed;
-            width: 200vw;
-            height: 200vh;
-            left: -50%;
-            top: -50%;
+            position: fixed; width: 200vw; height: 200vh; left: -50%; top: -50%;
             background-image: var(--backgroundImage-grid-pattern, linear-gradient(to right, #1a1a1a 1px, transparent 1px), linear-gradient(to bottom, #1a1a1a 1px, transparent 1px));
             background-size: 100px 100px;
             transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
             animation: grid-move 20s linear infinite;
-            z-index: -2;
-            pointer-events: none;
-            opacity: 0.5;
+            z-index: -2; pointer-events: none; opacity: 0.5;
         }
         @keyframes grid-move {
             0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
             100% { transform: perspective(500px) rotateX(60deg) translateY(100px) translateZ(-200px); }
         }
 
-        /* 背景 Canvas */
+        /* 磁吸卡片堆叠效果 */
+        .project-card {
+            position: sticky; 
+            top: 10vh;
+            transform-origin: center top;
+            box-shadow: 0 -30px 80px rgba(0,0,0,0.9);
+            background-color: #0f0f0f;
+            z-index: 1;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        .project-card:hover {
+            border-color: rgba(204, 255, 0, 0.5);
+            box-shadow: 0 -30px 80px rgba(204, 255, 0, 0.1);
+        }
+
+        /* 奖项图标动画 */
+        .award-icon-wrapper {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .award-card:hover .award-icon-wrapper {
+            transform: scale(1.2) rotate(-5deg);
+        }
+        .award-card:hover .award-icon-trophy {
+            animation: swing 1s ease-in-out infinite;
+        }
+        .award-card:hover .award-icon-zap {
+            animation: pulse-fast 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes swing { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+        @keyframes pulse-fast { from { filter: drop-shadow(0 0 2px #ccff00); opacity: 0.7; } to { filter: drop-shadow(0 0 8px #ccff00); opacity: 1; } }
+
+        /* Glitch Hover */
+        .glitch-hover { position: relative; overflow: hidden; }
+        .glitch-hover::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.8), transparent);
+            transform: skewX(-20deg); transition: left 0.5s; z-index: 1;
+        }
+        .glitch-hover:hover::before { left: 100%; transition: left 0.5s; }
+
+        /* Horizontal Scroll */
+        .horizontal-scroll-container {
+            overflow-x: auto; overflow-y: hidden; white-space: nowrap;
+            -webkit-overflow-scrolling: touch; cursor: grab; scrollbar-width: none; 
+        }
+        .horizontal-scroll-container::-webkit-scrollbar { display: none; }
+        .gallery-track { display: inline-flex; gap: 2rem; padding-left: 5vw; padding-right: 5vw; }
+        
+        .photo-frame {
+            width: 60vh; height: 40vh; flex-shrink: 0; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2); transition: all 0.5s ease;
+            filter: grayscale(100%) contrast(120%);
+        }
+        @media (max-width: 768px) { .photo-frame { width: 80vw; height: 30vh; } }
+        .photo-frame:hover { filter: grayscale(0%) contrast(100%); border-color: var(--accent-color); transform: scale(1.02); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Modal */
+        #projectModal { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        #projectModal.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: translateY(50px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #projectModal.active .modal-content { transform: translateY(0); }
+        
+        /* Giant Link */
+        .giant-link { transition: all 0.3s ease; }
+        .giant-link:hover { color: #ffffff; letter-spacing: 0.05em; }
+
+        /* Loader - Fixed Duration */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 10001;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        #loader.loaded { opacity: 0; pointer-events: none; }
+
+        /* Toast */
+        #toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--accent-color); color: black;
+            padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+            transform: translateY(100px); transition: transform 0.3s; z-index: 10001;
+        }
+        #toast.show { transform: translateY(0); }
+        
+        /* Background Canvas */
         #matrixCanvas {
             position: fixed;
             top: 0;
@@ -122,277 +201,80 @@
             pointer-events: none;
             opacity: 0.4;
         }
-
-        /* 巨大的描边文字 */
-        .outline-text {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-            color: transparent;
-            transition: all 0.3s ease;
-        }
-        .outline-text:hover {
-            color: var(--accent-color);
-            -webkit-text-stroke: 0px;
-        }
-
-        /* 跑马灯 */
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* 磁吸卡片堆叠效果 */
-        .project-card {
-            position: sticky; 
-            top: 10vh;
-            transform-origin: center top;
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.8);
-            background-color: #111;
-            z-index: 1;
-            cursor: pointer;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-        .project-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-        @media (max-width: 768px) {
-            .project-card:hover { transform: none; }
-        }
-
-        /* Glitch Hover Effect */
-        .glitch-hover {
-            position: relative;
-            overflow: hidden;
-        }
-        .glitch-hover::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.8), transparent);
-            transform: skewX(-20deg);
-            transition: left 0.5s;
-            z-index: 1;
-        }
-        .glitch-hover:hover::before {
-            left: 100%;
-            transition: left 0.5s;
-        }
-
-        /* 巨型链接悬停效果 */
-        .giant-link {
-            transition: all 0.3s ease;
-        }
-        .giant-link:hover {
-            color: #ffffff;
-            letter-spacing: 0.05em;
-        }
-
-        /* 摄影水平滚动容器 */
-        .horizontal-scroll-container {
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            cursor: grab;
-            scrollbar-width: none; 
-        }
-        .horizontal-scroll-container::-webkit-scrollbar { display: none; }
         
-        .gallery-track {
-            display: inline-flex;
-            gap: 2rem;
-            padding-left: 5vw;
-            padding-right: 5vw;
+        /* Text Glow */
+        .hero-text-glow {
+            text-shadow: 0 0 30px rgba(43, 96, 255, 0.3);
         }
         
-        .photo-frame {
-            width: 60vh;
-            height: 40vh;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.5s ease;
-            filter: grayscale(100%) contrast(120%);
-        }
-        
-        @media (max-width: 768px) {
-            .photo-frame {
-                width: 80vw;
-                height: 30vh;
-            }
-        }
-        
-        .photo-frame:hover {
-            filter: grayscale(0%) contrast(100%);
-            border-color: var(--accent-color);
-            transform: scale(1.02);
-        }
-        
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 模态框样式 */
-        #projectModal {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        #projectModal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal-content {
-            transform: translateY(50px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #projectModal.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        /* 奖项卡片样式 */
-        .award-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .award-card:hover {
-            background: white;
-            color: black;
-            transform: scale(1.02);
-        }
-        .award-card:hover .text-sm, 
-        .award-card:hover .text-2xl, 
-        .award-card:hover span {
-            color: black !important;
-            border-color: black !important;
-        }
-
-        /* Toast Notification */
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--accent-color);
-            color: black;
-            padding: 10px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            transform: translateY(100px);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10001;
-        }
-        #toast.show {
-            transform: translateY(0);
-        }
-
-        /* Loader */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10001;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-        #loader.loaded {
-            opacity: 0;
-            pointer-events: none;
-        }
-
+        /* Prose Customization for Technical Specs */
+        .prose h3 { color: #fff; margin-top: 2rem; font-family: 'Syne', sans-serif; border-left: 3px solid var(--accent-color); padding-left: 1rem; }
+        .prose p { color: #aaa; margin-bottom: 1rem; line-height: 1.8; }
+        .prose ul { list-style-type: none; padding: 0; }
+        .prose li { margin-bottom: 0.5rem; color: #ccc; position: relative; padding-left: 1.5rem; }
+        .prose li::before { content: '>'; color: var(--accent-color); position: absolute; left: 0; font-family: monospace; }
+        .prose strong { color: #fff; font-weight: 700; }
+        .tech-tag { display: inline-block; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; margin-right: 5px; color: var(--accent-color); }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- 预加载器 -->
-    <div id="loader">
-        <div class="font-mono text-acid-green animate-pulse">SYSTEM_BOOTING...</div>
-    </div>
-
-    <!-- 滚动进度条 -->
+    <!-- Loader -->
+    <div id="loader"><div class="font-mono text-acid-green animate-pulse">SYSTEM_BOOTING...</div></div>
+    
+    <!-- Progress -->
     <div class="progress-bar" id="progressBar"></div>
-
-    <!-- 噪点纹理 -->
+    <!-- Noise -->
     <div class="noise-overlay"></div>
-
-    <!-- 动态背景层 -->
+    <!-- BG -->
     <div class="perspective-grid"></div>
     <canvas id="matrixCanvas"></canvas>
     
-    <!-- 顶部状态栏 -->
+    <!-- Nav -->
     <header class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
         <div class="flex items-center gap-3">
             <div class="w-3 h-3 bg-acid-green animate-pulse"></div>
-            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v5.0</span></span>
+            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v6.0</span></span>
         </div>
         <div class="flex gap-4 items-center">
-            <a href="articles.html" class="hidden md:flex font-mono text-xs text-gray-400 hover:text-acid-green transition-colors">
-                [ ARCHIVES ]
-            </a>
+            <a href="articles.html" class="hidden md:flex font-mono text-xs text-gray-400 hover:text-acid-green transition-colors">[ ARCHIVES ]</a>
             <a href="https://github.com/KINGSTON-115" target="_blank" class="font-mono text-xs border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2">
                 <i data-lucide="github" class="w-3 h-3"></i> <span class="hidden md:inline">SRC_CODE</span>
             </a>
         </div>
     </header>
 
-    <!-- 1. HERO: 中轴对称 + 标语分行 -->
+    <!-- 1. HERO -->
     <section class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0">
-            <h1 class="text-[20vw] font-display font-black leading-none text-white">VOID</h1>
-        </div>
-
         <div class="relative z-10 max-w-6xl text-center w-full">
-            <p class="font-mono text-acid-green mb-6 text-xs md:text-base tracking-[0.5em] uppercase">
-                &lt; SYSTEM_INITIATED /&gt;
-            </p>
+            <p class="font-mono text-acid-green mb-6 text-xs md:text-base tracking-[0.5em] uppercase">&lt; SYSTEM_INITIATED /&gt;</p>
             
-            <div class="hero-title-wrapper mb-10 flex flex-col items-center">
-                <!-- 强制两行，每行一个块 -->
-                <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.1] md:leading-[0.95] text-white mix-blend-difference">
+            <div class="hero-title-wrapper mb-12 flex flex-col items-center">
+                <!-- 标题 -->
+                <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.1] md:leading-[0.95] text-white hero-text-glow">
                     <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">HUNGRY</span></span>
                     <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">FOOLISH</span></span>
                 </h1>
             </div>
             
-            <div class="flex flex-col items-center gap-8 hero-content">
+            <div class="flex flex-col items-center gap-10 hero-content">
                 <p class="font-mono text-gray-400 max-w-xl text-sm md:text-lg leading-relaxed mx-auto px-4 text-center">
-                    我是 <strong class="text-white">Charles</strong>。<br>
-                    游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
+                    我是 <strong class="text-white">Charles</strong>。游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
                     <span class="opacity-70 mt-2 block text-xs tracking-wider">在这里，代码是新的炼金术。</span>
                 </p>
-                
                 <div class="flex flex-col md:flex-row gap-4">
-                    <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-base md:text-lg hover:bg-acid-green transition-colors tracking-wider">
-                        Deploy_Projects
-                    </a>
-                    <a href="articles.html" class="glitch-hover px-8 py-3 md:px-10 md:py-4 border border-white text-white font-bold font-display uppercase text-base md:text-lg hover:bg-white hover:text-black transition-colors tracking-wider">
-                        Read_Notes
-                    </a>
+                    <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-base md:text-lg hover:bg-acid-green transition-colors tracking-wider">Deploy_Projects</a>
+                    <a href="articles.html" class="glitch-hover px-8 py-3 md:px-10 md:py-4 border border-white text-white font-bold font-display uppercase text-base md:text-lg hover:bg-white hover:text-black transition-colors tracking-wider">Read_Notes</a>
                 </div>
             </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 w-full border-t border-white/10 py-2 md:py-3 bg-deep-void z-20">
-            <div class="marquee-container font-mono text-[10px] md:text-xs text-gray-500">
-                <div class="marquee-content">
-                    EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT ///
-                </div>
+        <div class="absolute bottom-0 left-0 w-full border-t border-white/10 py-2 md:py-3 bg-deep-void z-20 overflow-hidden flex">
+            <div class="whitespace-nowrap animate-marquee-infinite font-mono text-[10px] md:text-xs text-gray-500 flex-shrink-0 px-4">
+                EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// 
+            </div>
+            <div class="whitespace-nowrap animate-marquee-infinite font-mono text-[10px] md:text-xs text-gray-500 flex-shrink-0 px-4">
+                EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// EMBEDDED SYSTEMS /// SIGNAL PROCESSING /// GENERATIVE AI /// FULL STACK /// ESP32 /// ROS2 /// PYTHON /// REACT /// 
             </div>
         </div>
     </section>
@@ -404,168 +286,164 @@
                 CASE_STUDIES <span class="text-sm font-mono text-acid-green align-top">(06)</span>
             </h2>
             
-            <div class="flex flex-col gap-20">
+            <div class="flex flex-col gap-24">
                 <!-- 01 -->
-                <article class="project-card min-h-[600px] md:h-[80vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
+                <article class="project-card min-h-[650px] md:h-[85vh] bg-panel-gray border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                         <div>
-                            <div class="font-mono text-acid-green text-xs mb-4">01 // AI + IOT</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">Nexus 智能时钟</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                桌面智能终端，通过 LLM 后端集成与 WebSocket 实时通讯，理解自然语言指令，提供智能语音交互体验。
+                            <div class="font-mono text-acid-green text-xs mb-4 tracking-widest">01 // AI + IOT + EMBEDDED</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">Nexus 智能时钟</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                一款重新定义桌面的智能终端。基于 <span class="text-white">ESP32-S3</span> 高性能芯片，深度集成通义千问/ChatGPT 等 LLM 后端。通过 <span class="text-white">WebSocket</span> 建立长连接，实现毫秒级语音交互延迟。不仅是时钟，更是您的私人 AI 助手。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">ESP32-S3</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">WebSocket</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LLM</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">LVGL</span>
                             </div>
                         </div>
-                        <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-acid-green transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-48 h-48 md:w-64 md:h-64 rounded-full border-2 border-blue-500/30 flex items-center justify-center animate-pulse">
-                                <span class="font-mono text-3xl md:text-4xl font-bold">12:00</span>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                        <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                            <div class="w-64 h-64 rounded-full border-4 border-blue-500/30 flex items-center justify-center animate-pulse relative">
+                                <div class="absolute inset-0 rounded-full border border-blue-400/50 animate-ping opacity-20"></div>
+                                <span class="font-mono text-5xl font-bold text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]">12:00</span>
                             </div>
                         </div>
                     </div>
                 </article>
-
                 <!-- 02 -->
-                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;" onclick="openModal('drone')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
+                <article class="project-card min-h-[650px] md:h-[85vh] bg-[#0f0f0f] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;" onclick="openModal('drone')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
                         <div>
-                            <div class="font-mono text-electric-blue text-xs mb-4">02 // FULL STACK + IOT</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">共享无人机柜</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                低空经济全栈方案。前端微信小程序，后端 Spring Boot，自研 IoT 协议实现云端监控与自动归还检测。
+                            <div class="font-mono text-electric-blue text-xs mb-4 tracking-widest">02 // FULL STACK + IOT</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">共享无人机柜系统</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                针对低空经济场景设计的全栈解决方案。前端基于 <span class="text-white">微信小程序</span> 原生开发，后端采用 <span class="text-white">Spring Boot</span> 微服务架构。核心亮点在于自研 IoT 网关协议，实现云端对无人机柜的远程监控、自动归还检测及智能充电管理。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">MiniApp</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Java</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT</span>
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                                <span class="px-3 py-1 border border-white/20 rounded-full">WeChat MiniApp</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Java Spring</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT Protocol</span>
                             </div>
                         </div>
-                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                         <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-electric-blue transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-800/40 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                             <i data-lucide="box" class="w-24 h-24 md:w-32 md:h-32 text-blue-500/60"></i>
-                             <i data-lucide="plane" class="w-12 h-12 md:w-16 md:h-16 text-white absolute -translate-y-12 animate-bounce"></i>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-800/40 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                        <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                             <i data-lucide="box" class="w-40 h-40 text-blue-500/60"></i>
+                             <i data-lucide="plane" class="w-20 h-20 text-white absolute -translate-y-16 animate-bounce drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"></i>
                         </div>
                     </div>
                 </article>
-
                 <!-- 03 -->
-                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;" onclick="openModal('laser')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
+                <article class="project-card min-h-[650px] md:h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;" onclick="openModal('laser')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
-                            <div class="font-mono text-purple-400 text-xs mb-4">03 // COMPUTER VISION</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">精准激光除草机</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                搭载 Jetson Nano 运行 YOLOv8 剪枝模型，配合二自由度云台控制高能激光束，实现亚毫米级精度的杂草清除。
+                            <div class="font-mono text-purple-400 text-xs mb-4 tracking-widest">03 // COMPUTER VISION</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">精准激光除草机</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                融合边缘计算与精密光学的智慧农业机器人。搭载 <span class="text-white">Jetson Nano</span> 运行 <span class="text-white">YOLOv8</span> 剪枝模型，对作物与杂草进行实时分割。配合二自由度云台控制高能激光束，实现亚毫米级精度的物理除草。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">OpenCV</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">YOLOv8</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">Laser</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Jetson Nano</span>
                             </div>
                         </div>
-                        <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-purple-400 transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-purple-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                         <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="crosshair" class="w-32 h-32 md:w-40 md:h-40 text-purple-500/50"></i>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-purple-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                         <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                            <i data-lucide="crosshair" class="w-48 h-48 text-purple-500/50"></i>
                         </div>
                     </div>
                 </article>
-
                 <!-- 04 -->
-                <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;" onclick="openModal('ship')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
+                <article class="project-card min-h-[650px] md:h-[85vh] bg-[#111] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;" onclick="openModal('ship')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
-                            <div class="font-mono text-electric-blue text-xs mb-4">04 // GPS & HARDWARE</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">北斗水质监测船</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                自主巡航监测平台。集成北斗/GPS 双模定位模块，结合 PID 算法实现高精度路径跟踪。利用 LoRa 实现远距离数据遥测。
+                            <div class="font-mono text-electric-blue text-xs mb-4 tracking-widest">04 // GPS & HARDWARE</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">北斗水质监测船</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                面向复杂水域的自主巡航监测平台。主控采用 <span class="text-white">STM32F4</span> 系列，集成北斗/GPS 双模定位模块。结合 PID 算法实现高精度路径跟踪，利用 <span class="text-white">LoRa</span> 扩频技术在无公网环境下实现 5km+ 远距离水质数据遥测。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">STM32F4</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">BeiDou</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRa</span>
                             </div>
                         </div>
-                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                         <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-electric-blue transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                             <i data-lucide="navigation" class="w-12 h-12 md:w-16 md:h-16 text-white"></i>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-blue-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                        <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                             <i data-lucide="navigation" class="w-32 h-32 text-white drop-shadow-[0_0_20px_rgba(41,151,255,0.6)]"></i>
                         </div>
                     </div>
                 </article>
-
                  <!-- 05 -->
-                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;" onclick="openModal('culture')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
+                 <article class="project-card min-h-[650px] md:h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;" onclick="openModal('culture')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
-                            <div class="font-mono text-pink-500 text-xs mb-4">05 // GENERATIVE ART</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">黎族文化 AIGC</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                利用 Stable Diffusion 模型，结合 LoRA 技术，在大量黎族传统纹样数据上进行训练，生成独具风格的艺术作品。
+                            <div class="font-mono text-pink-500 text-xs mb-4 tracking-widest">05 // GENERATIVE ART</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">黎族文化 AIGC 传承</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                探索 AI 技术在非遗保护中的创新应用。收集整理上千张黎族传统纺染织绣图片构建数据集，训练专用的 <span class="text-white">Stable Diffusion LoRA</span> 模型。精准还原黎族图腾特征，并将其融入现代服饰设计中，让传统纹样焕发新生。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">SD</span>
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Stable Diffusion</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">LoRA</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">AI Art</span>
                             </div>
                         </div>
-                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                         <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-pink-500 transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-pink-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                             <i data-lucide="sparkles" class="w-24 h-24 md:w-32 md:h-32 text-pink-500/80"></i>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-pink-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                        <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                             <i data-lucide="sparkles" class="w-40 h-40 text-pink-500/80"></i>
                         </div>
                     </div>
                 </article>
-
                  <!-- 06 -->
-                 <article class="project-card min-h-[600px] md:h-[80vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;" onclick="openModal('piano')">
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
+                 <article class="project-card min-h-[650px] md:h-[85vh] bg-[#111] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;" onclick="openModal('piano')">
+                    <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
-                            <div class="font-mono text-yellow-400 text-xs mb-4">06 // EMBEDDED CLASSIC</div>
-                            <h3 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6">51 单片机电子琴</h3>
-                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                                纯 C 语言底层驱动。矩阵键盘扫描 + PWM 频率控制，模拟八音阶音色。
+                            <div class="font-mono text-yellow-400 text-xs mb-4 tracking-widest">06 // EMBEDDED CLASSIC</div>
+                            <h3 class="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight">51 单片机微型电子琴</h3>
+                            <p class="text-gray-400 font-sans text-base md:text-lg leading-relaxed mb-8">
+                                回归嵌入式初心。基于 <span class="text-white">STC89C52</span>，纯 C 语言底层驱动。设计矩阵键盘扫描算法，利用定时器中断生成精确 <span class="text-white">PWM</span> 波形驱动蜂鸣器。
                             </p>
-                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                 <span class="px-3 py-1 border border-white/20 rounded-full">C51</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">PWM</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">Interrupts</span>
                             </div>
                         </div>
-                         <div class="inline-flex items-center gap-2 text-white font-mono mt-8">
-                            [ 点击查看图文详情 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                         <div class="inline-flex items-center gap-3 text-white font-mono mt-8 group-hover:text-yellow-400 transition-colors">
+                            [ 点击查看完整技术文档 ] <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                         </div>
                     </div>
-                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10">
-                        <div class="absolute inset-0 flex items-center justify-center gap-4">
-                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
-                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
-                             <div class="w-6 h-32 md:w-8 md:h-40 bg-white/20"></div>
-                             <div class="w-6 h-32 md:w-8 md:h-40 bg-yellow-500/50"></div>
+                    <div class="md:w-1/2 h-64 md:h-auto bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                        <div class="absolute inset-0 flex items-center justify-center gap-6 parallax-content">
+                             <div class="w-8 h-48 bg-white/20 rounded-t"></div>
+                             <div class="w-8 h-48 bg-white/20 rounded-t"></div>
+                             <div class="w-8 h-48 bg-yellow-500/50 rounded-t animate-bounce"></div>
                         </div>
                     </div>
                 </article>
-
             </div>
         </div>
     </section>
@@ -573,14 +451,15 @@
     <!-- 3. AWARDS -->
     <section class="py-32 px-6 md:px-12 bg-deep-void text-white">
         <h2 class="text-3xl md:text-6xl font-display font-bold mb-16 text-center outline-text">HONORS_LOG</h2>
-        
         <div class="max-w-4xl mx-auto">
             <div class="grid grid-cols-1 gap-6 md:gap-8">
-                
                 <!-- Robocom 2025 -->
-                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('robocom2025')">
+                <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('robocom2025')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
-                        <span class="font-mono text-xs md:text-sm tracking-wider">2025 / REGIONAL</span>
+                        <div class="flex items-center gap-3">
+                             <div class="award-icon-wrapper"><i data-lucide="bot" class="w-8 h-8 text-acid-green group-hover:text-black"></i></div>
+                             <span class="font-mono text-xs md:text-sm tracking-wider opacity-70">2025 / REGIONAL</span>
+                        </div>
                         <span class="font-display font-bold text-2xl md:text-4xl">2ND PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
@@ -589,11 +468,13 @@
                         <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">ROBOTICS</span>
                     </div>
                 </div>
-
                 <!-- Robocom 2024 -->
-                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('robocom2024')">
+                <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('robocom2024')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
-                        <span class="font-mono text-xs md:text-sm tracking-wider">2024 / REGIONAL</span>
+                        <div class="flex items-center gap-3">
+                             <div class="award-icon-wrapper"><i data-lucide="cpu" class="w-8 h-8 text-purple-400 group-hover:text-black"></i></div>
+                             <span class="font-mono text-xs md:text-sm tracking-wider opacity-70">2024 / REGIONAL</span>
+                        </div>
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
@@ -602,11 +483,13 @@
                         <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">AI_CONTROL</span>
                     </div>
                 </div>
-
                 <!-- Smart Car 2024 -->
-                <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('smartcar2024')">
+                <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2024')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
-                        <span class="font-mono text-xs md:text-sm tracking-wider">2024 / NATIONAL</span>
+                        <div class="flex items-center gap-3">
+                             <div class="award-icon-wrapper"><i data-lucide="trophy" class="award-icon-trophy w-8 h-8 text-yellow-400 group-hover:text-black"></i></div>
+                             <span class="font-mono text-xs md:text-sm tracking-wider opacity-70">2024 / NATIONAL</span>
+                        </div>
                         <span class="font-display font-bold text-2xl md:text-4xl">1ST PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第十九届全国大学生智能车竞赛</h3>
@@ -615,259 +498,243 @@
                         <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">VISUAL_ALGO</span>
                     </div>
                 </div>
-
                 <!-- Smart Car 2025 -->
-                 <div class="award-card border border-white/20 p-6 md:p-8 hover:bg-white hover:text-black transition-colors duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
+                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
-                        <span class="font-mono text-xs md:text-sm tracking-wider">2025 / NATIONAL</span>
+                        <div class="flex items-center gap-3">
+                             <div class="award-icon-wrapper"><i data-lucide="zap" class="award-icon-zap w-8 h-8 text-blue-400 group-hover:text-black"></i></div>
+                             <span class="font-mono text-xs md:text-sm tracking-wider opacity-70">2025 / NATIONAL</span>
+                        </div>
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第二十届全国大学生智能车竞赛</h3>
                     <div class="flex justify-between items-end pointer-events-none">
                         <p class="text-xs md:text-sm opacity-60">电磁组微缩车模赛道</p>
-                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">HARDWARE_DESIGN</span>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">HARDWARE</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. OPTICAL_DATA (Horizontal Scroll) -->
+    <!-- 4. OPTICAL_DATA -->
     <section class="py-32 bg-[#080808] overflow-hidden border-t border-white/10">
         <div class="px-6 md:px-12 mb-12 flex items-end justify-between">
             <h2 class="text-3xl md:text-6xl font-display font-bold outline-text">OPTICAL_DATA</h2>
             <p class="font-mono text-xs text-gray-500 hidden md:block">SCROLL >></p>
         </div>
-        
         <div class="horizontal-scroll-container" id="galleryContainer">
             <div class="gallery-track">
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&q=80" alt="Photography">
-                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_001.RAW</div>
-                </div>
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80" alt="Photography">
-                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_002.RAW</div>
-                </div>
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80" alt="Photography">
-                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_003.RAW</div>
-                </div>
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" alt="Photography">
-                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_004.RAW</div>
-                </div>
-                 <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80" alt="Photography">
-                    <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_005.RAW</div>
-                </div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_001.RAW</div></div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_002.RAW</div></div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_003.RAW</div></div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_004.RAW</div></div>
+                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_005.RAW</div></div>
             </div>
         </div>
     </section>
 
     <!-- 5. FOOTER -->
     <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
-        <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4">
-            <span>Status: Open to work</span>
-            <span>Location: Earth</span>
-        </div>
-
+        <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4"><span>Status: Open to work</span><span>Location: Earth</span></div>
         <div class="space-y-6 md:space-y-8 my-auto">
             <p class="font-mono text-sm mb-4">INITIATE CONTACT PROTOCOL:</p>
-            
-            <a href="mailto:2877616326@qq.com" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
-                2877616326@QQ.COM
-            </a>
-            
-            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="copyToClipboard('c877616326')">
-                WC: C877616326
-            </div>
-            
-            <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
-                GITHUB: KINGSTON-115
-            </a>
-
-            <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">
-                BILIBILI: 26031666
-            </a>
+            <a href="mailto:2877616326@qq.com" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">2877616326@QQ.COM</a>
+            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="copyToClipboard('c877616326')">VX: C877616326</div>
+            <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">GITHUB: KINGSTON-115</a>
+            <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">BILIBILI: 26031666</a>
         </div>
-
-        <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20">
-            <div>© 2025 CHARLES</div>
-            <div>SCROLL_END</div>
-        </div>
+        <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20"><div>© 2025 CHARLES</div><div>SCROLL_END</div></div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast">COPIED TO CLIPBOARD_</div>
-
-    <!-- 详情模态框 -->
+    <!-- Modals -->
     <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col">
-            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
+            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
             <div class="p-6 md:p-12">
-                <div id="modalHeader" class="border-b border-white/10 pb-6 mb-8">
-                    <h2 id="modalTitle" class="text-3xl md:text-5xl font-display font-bold mb-4 text-white">Project Title</h2>
-                    <div id="modalTags" class="flex flex-wrap gap-2 font-mono text-xs text-gray-400"></div>
-                </div>
-
-                <div id="modalImages" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <!-- Images -->
-                </div>
-
-                <div id="modalBody" class="prose prose-invert prose-lg font-sans text-gray-300 leading-relaxed max-w-none">
-                    <!-- Content -->
-                </div>
+                <div id="modalHeader" class="border-b border-white/10 pb-6 mb-8"><h2 id="modalTitle" class="text-3xl md:text-5xl font-display font-bold mb-4 text-white"></h2><div id="modalTags" class="flex flex-wrap gap-2 font-mono text-xs text-gray-400"></div></div>
+                <div id="modalImages" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
+                <div id="modalBody" class="prose prose-invert prose-lg font-sans text-gray-300 leading-relaxed max-w-none"></div>
             </div>
         </div>
     </div>
+    <div id="toast">COPIED TO CLIPBOARD_</div>
 
     <script>
         lucide.createIcons();
-
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true,
-        });
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
-
+        
         const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-        class Symbol {
-            constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.size = Math.random() * 20 + 10; this.speedX = (Math.random() - 0.5) * 1; this.speedY = (Math.random() - 0.5) * 1; this.opacity = Math.random() * 0.5;
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width, height, particles = [];
+            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+            class Symbol {
+                constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.size = Math.random() * 20 + 10; this.speedX = (Math.random() - 0.5) * 1; this.speedY = (Math.random() - 0.5) * 1; this.opacity = Math.random() * 0.5; }
+                update() { this.x += this.speedX; this.y += this.speedY; if (this.x > width) this.x = 0; if (this.x < 0) this.x = width; if (this.y > height) this.y = 0; if (this.y < 0) this.y = height; }
+                draw() { ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`; ctx.lineWidth = 1; ctx.strokeRect(this.x, this.y, this.size, this.size); }
             }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > width) this.x = 0; if (this.x < 0) this.x = width;
-                if (this.y > height) this.y = 0; if (this.y < 0) this.y = height;
-            }
-            draw() { ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`; ctx.lineWidth = 1; ctx.strokeRect(this.x, this.y, this.size, this.size); }
+            for(let i=0; i<30; i++) particles.push(new Symbol());
+            function animateCanvas() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateCanvas); }
+            animateCanvas();
         }
-        for(let i=0; i<30; i++) particles.push(new Symbol());
-        function animateCanvas() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateCanvas); }
-        animateCanvas();
 
         gsap.registerPlugin(ScrollTrigger);
-
         gsap.to(".hero-title-wrapper", { y: -150, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
         gsap.to(".hero-content", { y: -100, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
 
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, index) => {
             if (index === cards.length - 1) return;
+            gsap.to(card.querySelector('.project-visual .parallax-content'), { y: "20%", ease: "none", scrollTrigger: { trigger: card, start: "top center", end: "bottom top", scrub: true } });
             gsap.fromTo(card, { scale: 1, filter: "brightness(1)" }, { scale: 0.92, filter: "brightness(0.6)", ease: "none", scrollTrigger: { trigger: card, start: "top -20%", end: "bottom -100%", scrub: 0.5 } });
         });
 
         const galleryContainer = document.getElementById('galleryContainer');
-        galleryContainer.addEventListener('wheel', (e) => {
-            if (e.deltaY !== 0) {
-                const isAtStart = galleryContainer.scrollLeft === 0;
-                const isAtEnd = galleryContainer.scrollLeft + galleryContainer.clientWidth >= galleryContainer.scrollWidth;
-                if (!isAtStart && !isAtEnd) { e.preventDefault(); } else if (isAtStart && e.deltaY > 0) { e.preventDefault(); } else if (isAtEnd && e.deltaY < 0) { e.preventDefault(); } else { return; }
-                galleryContainer.scrollLeft += e.deltaY;
-            }
-        });
-
-        // Scroll Progress Bar
-        // Loader Logic - Optimized for Mobile
-        function hideLoader() {
-            const loader = document.getElementById('loader');
-            if (loader && !loader.classList.contains('loaded')) {
-                loader.classList.add('loaded');
-                // 允许页面滚动
-                document.body.style.overflow = '';
-            }
+        if (galleryContainer) {
+            galleryContainer.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    const isAtStart = galleryContainer.scrollLeft === 0;
+                    const isAtEnd = galleryContainer.scrollLeft + galleryContainer.clientWidth >= galleryContainer.scrollWidth;
+                    if (!isAtStart && !isAtEnd) { e.preventDefault(); } else if (isAtStart && e.deltaY > 0) { e.preventDefault(); } else if (isAtEnd && e.deltaY < 0) { e.preventDefault(); } else { return; }
+                    galleryContainer.scrollLeft += e.deltaY;
+                }
+            });
         }
-
-        // 1. 正常情况：所有资源加载完毕后 0.8秒 移除
-        window.addEventListener('load', () => {
-            setTimeout(hideLoader, 800);
-        });
-
-        // 2. 兜底机制：不管有没有加载完，3.5秒后强制移除 (防止手机端卡死)
-        setTimeout(hideLoader, 3500);
-
-        // 3. 备选方案：如果 DOM 结构加载完了但图片还在转圈，也尝试移除
-        document.addEventListener('DOMContentLoaded', () => {
-             setTimeout(hideLoader, 2000); // DOM 就绪后2秒尝试移除
-        });
         
-        // --- Modal Logic ---
+        function hideLoader() { const l = document.getElementById('loader'); if (l && !l.classList.contains('loaded')) { l.classList.add('loaded'); document.body.style.overflow = ''; } }
+        window.addEventListener('load', () => setTimeout(hideLoader, 800));
+        setTimeout(hideLoader, 2000); 
+        window.addEventListener('scroll', () => {
+            const st = document.documentElement.scrollTop || document.body.scrollTop;
+            const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progressBar').style.width = (st / sh) * 100 + "%";
+        });
+        function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => { const toast = document.getElementById('toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
+
+        // Modal Data
         const modalData = {
             nexus: {
                 title: "Nexus 智能时钟",
                 tags: ["ESP32-S3", "WebSocket", "LLM", "LVGL"],
                 images: ["https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>核心技术：ESP32-S3 + LLM。通过 WebSocket 实现实时语音交互。</p>`
+                content: `
+                    <h3>1. 项目背景</h3>
+                    <p>传统桌面时钟功能单一，而智能音箱往往受限于厂商生态。本项目旨在构建一个开源、可高度定制的桌面智能终端，作为连接物理世界与 AI 数字世界的桥梁。</p>
+                    <h3>2. 硬件架构</h3>
+                    <p>核心采用 <strong>ESP32-S3</strong> 双核芯片，主频 240MHz，具备强大的 AI 算力与 Wi-Fi/蓝牙通信能力。外设包括：</p>
+                    <ul>
+                        <li><strong>显示：</strong>1.28 英寸圆形 TFT LCD (GC9A01)，240x240 分辨率。</li>
+                        <li><strong>音频：</strong>I2S 全向麦克风 (INMP441) + MAX98357A 功放。</li>
+                        <li><strong>电源：</strong>TP4056 锂电池充电管理 + 稳压电路。</li>
+                    </ul>
+                    <h3>3. 软件与算法</h3>
+                    <p>基于 <strong>FreeRTOS</strong> 实时操作系统架构，分为 UI 任务、网络任务与音频处理任务。</p>
+                    <ul>
+                        <li><strong>UI 框架：</strong>移植 LVGL 8.3，设计了高帧率动态表盘与交互界面。</li>
+                        <li><strong>AI 通信：</strong>通过 WebSocket 协议与后端服务器建立长连接。后端集成 OpenAI/通义千问 API，将语音转文字 (STT) -> 大模型推理 -> 文字转语音 (TTS) 的全流程延迟压缩至 2秒以内。</li>
+                    </ul>
+                    <h3>4. 核心难点</h3>
+                    <p>在 ESP32 有限的 RAM (512KB) 中同时运行 LVGL 图形栈与 Wi-Fi 协议栈是最大挑战。通过优化 DMA 传输缓冲区与内存复用机制，成功解决了内存溢出问题，保持了系统稳定性。</p>
+                `
             },
             drone: {
                 title: "共享无人机柜系统",
                 tags: ["WeChat MiniApp", "Spring Boot", "IoT", "MQTT"],
                 images: ["https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>全栈开发：小程序前端 + SpringBoot 后端 + IoT 协议。</p>`
+                content: `
+                    <h3>1. 项目概述</h3>
+                    <p>针对校园及景区场景下的无人机租赁需求，开发了一套完整的软硬件解决方案。用户通过微信小程序即可完成实名认证、扫码开柜、电池租赁及飞行记录查看。</p>
+                    <h3>2. 技术栈</h3>
+                    <ul>
+                        <li><strong>前端：</strong>微信小程序原生开发，使用 Canvas 绘制飞行轨迹。</li>
+                        <li><strong>后端：</strong>Java Spring Boot 微服务架构，集成微信支付接口，使用 Redis 处理高并发下的柜门状态锁。</li>
+                        <li><strong>物联网：</strong>柜体主控通过 4G 模块接入 MQTT Broker，实现了毫秒级的开锁响应与心跳监测。</li>
+                    </ul>
+                    <h3>3. 核心功能</h3>
+                    <p>系统具备<strong>自动归还检测</strong>功能：通过柜内的 RFID 读写器与红外传感器，自动识别归还的无人机型号及配件完整性，并触发自动结算流程。</p>
+                `
             },
             laser: {
                 title: "精准激光除草机",
-                tags: ["OpenCV", "YOLOv8", "Jetson Nano"],
+                tags: ["OpenCV", "YOLOv8", "Jetson Nano", "Laser"],
                 images: ["https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>机器视觉：YOLOv8 模型识别杂草，激光定点清除。</p>`
+                content: `
+                    <h3>1. 研发背景</h3>
+                    <p>传统化学除草不仅污染土壤，还可能导致作物药害。物理激光除草作为一种绿色方案，对视觉识别的实时性与光束控制的精度提出了极高要求。</p>
+                    <h3>2. 视觉识别算法</h3>
+                    <p>采用 <strong>YOLOv8n</strong> 轻量级模型，针对 Jetson Nano 边缘设备进行了 TensorRT 加速。针对田间复杂光照，引入了 HSV 色彩空间过滤与直方图均衡化预处理，使杂草识别准确率提升至 95% 以上。</p>
+                    <h3>3. 伺服控制系统</h3>
+                    <p>设计了二自由度云台，通过坐标变换算法将图像像素坐标映射为物理空间角度。利用增量式 PID 算法控制舵机，快速响应目标移动，实现“指哪打哪”的动态追踪。</p>
+                `
             },
             ship: {
                 title: "北斗水质监测船",
-                tags: ["STM32F4", "BeiDou/GPS", "LoRa"],
+                tags: ["STM32F4", "BeiDou/GPS", "LoRa", "PID"],
                 images: ["https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>自主巡航：北斗定位 + PID 控制。</p>`
+                content: `
+                    <h3>1. 系统构成</h3>
+                    <p>该无人船由船体结构、动力系统、主控单元及水质检测模块组成。主控芯片选用 STM32F407，因其丰富的外设接口（UART, I2C, ADC）足以应对多传感器数据并发。</p>
+                    <h3>2. 导航与控制</h3>
+                    <p>集成北斗/GPS 双模定位模块，结合电子罗盘获取航向角。通过计算目标航点与当前位置的偏差，利用 PID 算法调节双电机差速，实现高精度的路径跟踪与自主巡航。</p>
+                    <h3>3. 通信链路</h3>
+                    <p>针对野外无公网环境，设计了基于 <strong>LoRa (SX1278)</strong> 的私有通信协议。实现了 433MHz 频段下的数据透传，有效传输距离覆盖半径 5km，确保岸基上位机能实时接收 pH、浑浊度等水质数据。</p>
+                `
             },
             culture: {
-                title: "黎族文化 AIGC",
-                tags: ["Stable Diffusion", "LoRA"],
+                title: "黎族文化 AIGC 传承",
+                tags: ["Stable Diffusion", "LoRA", "Dataset", "AI Art"],
                 images: ["https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>AI 艺术：训练 LoRA 模型生成传统纹样。</p>`
+                content: `
+                    <h3>1. 项目意义</h3>
+                    <p>黎族传统纺染织绣技艺是世界级非物质文化遗产，但面临纹样数字化程度低、创新应用少的困境。本项目利用 AIGC 技术为传统文化注入数字生命力。</p>
+                    <h3>2. 模型训练</h3>
+                    <p>实地采集并清洗了 2000+ 张高质量黎族纹样图片，进行人工打标（Captioning）。基于 Stable Diffusion 1.5 底模，训练了专属的 <strong>LoRA (Low-Rank Adaptation)</strong> 模型。该模型能够精准理解“大力神纹”、“甘工鸟”等特定文化符号。</p>
+                    <h3>3. 落地应用</h3>
+                    <p>搭建了 Web 端生成工具，设计师只需输入简单的提示词，即可生成融合黎族元素的现代服饰设计草图，大幅降低了文创设计的门槛。</p>
+                `
             },
             piano: {
-                title: "51 单片机电子琴",
-                tags: ["C51", "PWM"],
+                title: "51 单片机微型电子琴",
+                tags: ["C51", "PWM", "Hardware"],
                 images: ["https://images.unsplash.com/photo-1550063873-ab792950096b?auto=format&fit=crop&w=800&q=80"],
-                content: `<p>嵌入式基础：PWM 控制蜂鸣器。</p>`
+                content: `
+                    <h3>1. 开发理念</h3>
+                    <p>在这个高级语言横行的时代，通过纯 C 语言操作寄存器，回归计算机科学的底层逻辑。这是一个关于中断、时序与频率的极客实验。</p>
+                    <h3>2. 核心实现</h3>
+                    <ul>
+                        <li><strong>音调生成：</strong>利用定时器 T0 产生不同频率的中断，翻转 I/O 口电平输出方波，驱动无源蜂鸣器。频率计算基于十二平均律标准音高。</li>
+                        <li><strong>按键扫描：</strong>设计了非阻塞式的 4x4 矩阵键盘扫描算法，配合状态机去抖动，即使在快速连弹下也能准确识别按键。</li>
+                        <li><strong>存储回放：</strong>利用单片机内部 EEPROM 实现了简易的乐曲录制与掉电保存功能。</li>
+                    </ul>
+                `
             },
             robocom2025: {
                 title: "2025 睿抗机器人 - 二等奖",
                 tags: ["Robocom", "海南赛区"],
                 images: ["https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"],
-                content: "<p>机器人底盘控制与抓取算法优化。</p>"
+                content: "<p>在复杂地形越野项目中，我主要负责机器人底盘的运动学解算与姿态控制算法。通过引入卡尔曼滤波融合 IMU 数据，显著提升了机器人在高速行驶中的稳定性。</p>"
             },
             robocom2024: {
                 title: "2024 睿抗机器人 - 三等奖",
                 tags: ["Robocom", "海南赛区"],
                 images: ["https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"],
-                content: "<p>视觉识别模块调试。</p>"
+                content: "<p>负责视觉抓取模块的调试。利用 OpenCV 进行色块识别与定位，配合机械臂逆运动学解算，完成了目标物体的自动分拣任务。</p>"
             },
             smartcar2024: {
                 title: "第十九届智能车 - 一等奖",
                 tags: ["摄像头组", "华南赛区"],
                 images: ["https://images.unsplash.com/photo-1535378437-d6d20029e809?auto=format&fit=crop&w=800&q=80"],
-                content: "<p>赛道边缘提取算法优化。</p>"
+                content: "<p>作为算法负责人，我设计了基于动态阈值的赛道边缘提取算法（大津法改进版），并实现了逆透视变换（IPM）以消除图像畸变。极大地提高了赛车在光照剧烈变化环境下的鲁棒性。</p>"
             },
             smartcar2025: {
                 title: "第二十届智能车 - 三等奖",
                 tags: ["电磁组", "华南赛区"],
                 images: ["https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80"],
-                content: "<p>电磁信号处理与硬件设计。</p>"
+                content: "<p>负责电磁信号采集电路的设计与 PCB 绘制。采用了多级运放放大微弱的电磁感应信号，并通过软件滤波算法有效滤除了电机干扰噪声。</p>"
             }
         };
 
@@ -881,7 +748,7 @@
             const d = modalData[id];
             if(!d) return;
             mTitle.innerText = d.title;
-            mTags.innerHTML = d.tags.map(t => `<span class="border border-white/30 px-2 py-1 rounded">${t}</span>`).join('');
+            mTags.innerHTML = d.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
             mBody.innerHTML = d.content;
             mImages.innerHTML = '';
             if(d.images) {
@@ -899,6 +766,7 @@
             modalEl.classList.remove('active');
             document.body.style.overflow = '';
         }
+        if(modalEl) modalEl.addEventListener('click', (e) => { if(e.target === modalEl) closeModal(); });
     </script>
 </body>
 </html>
