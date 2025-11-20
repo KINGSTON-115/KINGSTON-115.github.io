@@ -784,29 +784,29 @@
         });
 
         // Scroll Progress Bar
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (scrollTop / scrollHeight) * 100;
-            document.getElementById('progressBar').style.width = scrolled + "%";
-        });
-
-        // Toast Copy
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
-            });
+        // Loader Logic - Optimized for Mobile
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            if (loader && !loader.classList.contains('loaded')) {
+                loader.classList.add('loaded');
+                // 允许页面滚动
+                document.body.style.overflow = '';
+            }
         }
 
-        // Loader Fade Out
+        // 1. 正常情况：所有资源加载完毕后 0.8秒 移除
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('loaded');
-            }, 800);
+            setTimeout(hideLoader, 800);
         });
 
+        // 2. 兜底机制：不管有没有加载完，3.5秒后强制移除 (防止手机端卡死)
+        setTimeout(hideLoader, 3500);
+
+        // 3. 备选方案：如果 DOM 结构加载完了但图片还在转圈，也尝试移除
+        document.addEventListener('DOMContentLoaded', () => {
+             setTimeout(hideLoader, 2000); // DOM 就绪后2秒尝试移除
+        });
+        
         // --- Modal Logic ---
         const modalData = {
             nexus: {
