@@ -143,46 +143,98 @@
             <!-- 未选中：空心酸绿 -->
             <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ SYSTEM_LOGS ]</button>
             <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ THOUGHTS ]</button>
-            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ READING_LIST ]</button>
-            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 04</div>
+            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ HARDWARE ]</button>
+            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 06</div>
         </div>
 
         <!-- 文章列表 -->
         <div class="grid gap-0">
 
-            <!-- Article 01 -->
+            <!-- Article 01: LLM (Real Link: Hugging Face) -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <!-- 日期列 -->
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
-                        2025.03.14<br>
-                        <span class="opacity-50 font-normal">ID: LOG_042</span>
+                        2022.08.17<br>
+                        <span class="opacity-50 font-normal">ID: EXT_001</span>
                     </div>
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">THOUGHTS</span>
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">LLM</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">QUANTIZATION</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
-                            <a href="#" class="block">当 LLM 遇上边缘计算：延迟与精度的博弈</a>
+                            <!-- 真实跳转：Hugging Face 博客 -->
+                            <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" class="block">
+                                LLM.int8()：Transformers 大规模 8 位矩阵乘法
+                            </a>
                         </h2>
                         <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
-                            在 ESP32 这种资源受限的设备上部署轻量级推理模型是极具挑战的。最近在 Nexus 智能时钟项目中，我尝试将部分唤醒词逻辑下放到端侧，这不仅降低了云端 WebSocket 的负载，还将响应延迟控制在 200ms 以内。
+                            Tim Dettmers 与 Hugging Face 的这篇经典合作文章详细介绍了如何将大模型显存占用减半而不损失精度。其核心在于混合精度分解：将绝大多数参数进行 int8 量化，而对异常值（Outliers）保留 fp16 计算。这对我们在边缘端部署小参数模型极具参考价值。
                         </p>
-                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        <!-- 精华内容：终端风格代码块 -->
+                        <div class="bg-black p-3 border-l-2 border-acid mb-6 max-w-2xl font-mono text-xs opacity-90">
+                            <span class="text-gray-500">// Key Takeaway: Memory Saving</span><br>
+                            BLOOM-176B (FP16): <span class="text-red-400">~350GB VRAM</span><br>
+                            BLOOM-176B (INT8): <span class="text-acid">~175GB VRAM</span><br>
+                            Performance Degradation: <span class="text-acid">0.0%</span>
+                        </div>
+
+                        <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
             </article>
 
-            <!-- Article 02 -->
+            <!-- Article 02: PCB (Real Link: Altium) -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
-                        2025.01.20<br>
-                        <span class="opacity-50 font-normal">ID: LOG_041</span>
+                        2023.11.15<br>
+                        <span class="opacity-50 font-normal">ID: EXT_002</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">HARDWARE</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">PCB</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <!-- 真实跳转：Altium 资源中心 -->
+                            <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" class="block">
+                                DDR3/DDR4 走线指南：Fly-by 拓扑设计规范
+                            </a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            Altium 官方关于 Fly-by 拓扑的深度解析。相比于 DDR2 时代的 T 型拓扑，Fly-by 利用菊花链结构减少了桩线（Stubs）反射，极大提升了信号完整性，但代价是引入了必须通过 Write Leveling 解决的时钟偏斜。这是绘制 V3s 或 RK3588 核心板的必读材料。
+                        </p>
+                         <!-- 精华内容：参数高亮 -->
+                        <div class="flex gap-4 mb-6 text-xs font-mono">
+                            <div class="bg-acid-dark px-3 py-2 border border-acid/30">
+                                <span class="text-gray-400">Topology Type:</span><br>
+                                <span class="text-white">Daisy Chain (Fly-by)</span>
+                            </div>
+                             <div class="bg-acid-dark px-3 py-2 border border-acid/30">
+                                <span class="text-gray-400">Required Termination:</span><br>
+                                <span class="text-white">VTT at End of Chain</span>
+                            </div>
+                        </div>
+
+                        <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 03: ROS2 (Real Link: ROS Docs) -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2024.05.20<br>
+                        <span class="opacity-50 font-normal">ID: EXT_003</span>
                     </div>
                     
                     <div class="flex-grow">
@@ -191,35 +243,48 @@
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">ROS2</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
-                            <a href="#" class="block">ROS2 通讯机制在多机协同中的实践</a>
+                            <!-- 真实跳转：ROS 2 官方文档 -->
+                            <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" class="block">
+                                ROS 2 DDS 调优指南：处理高延迟与丢包
+                            </a>
                         </h2>
                         <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
-                            在北斗水质监测船的项目中，我们使用了多机协同方案。如何保证 DDS 在弱网环境下的可靠性？我重新审视了 QoS 策略的配置，并重写了部分中间件逻辑。
+                            当在 WiFi 环境下运行 ROS 2 时，默认的 DDS 配置往往会导致通信卡顿。官方指南详细列出了 Fast DDS 和 Cyclone DDS 的 OS 缓冲区调整策略。对于水质监测船这种远距离 WiFi 图传场景，增加 `rmem_max` 和 `wmem_max` 是救命稻草。
                         </p>
-                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        
+                        <!-- 精华内容：XML 配置片段 -->
+                        <div class="bg-black p-3 border border-gray-800 mb-6 max-w-2xl font-mono text-xs opacity-80 overflow-hidden">
+                            <span class="text-gray-500"># Linux Kernel Tuning (sysctl)</span><br>
+                            net.core.rmem_max = <span class="text-acid">2147483647</span><br>
+                            net.core.rmem_default = <span class="text-acid">2147483647</span><br>
+                            <span class="text-gray-500"># Important for Image Transport over WiFi</span>
+                        </div>
+
+                        <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
             </article>
 
-            <!-- Article 03 -->
+            <!-- Article 04: Local LoRA Training (Placeholder) -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
-                        2024.11.05<br>
+                        2024.12.05<br>
                         <span class="opacity-50 font-normal">ID: LOG_039</span>
                     </div>
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">READING</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI_ART</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SD</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
-                            <a href="#" class="block">书单：黑客与画家 & 控制论</a>
+                            <a href="#" class="block">训练黎族图腾 LoRA：从数据集清洗到过拟合测试</a>
                         </h2>
                         <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
-                            "计算不仅仅是计算，它是关于系统的艺术。" 重读维纳的《控制论》，结合现在的 AIGC 浪潮，产生了一些关于人机回环新的理解。
+                            尝试训练一个专门生成黎族传统织锦纹样的 LoRA 模型。发现最大的坑不在参数，而在数据集的 tag 标注。使用了 DeepDanbooru 进行自动标注，但对于抽象几何纹样，人工修正仍然必不可少。
                         </p>
                         <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
@@ -228,7 +293,7 @@
                 </div>
             </article>
             
-            <!-- Article 04 - Note Style -->
+            <!-- Article 05 - Snippet Style (Placeholder) -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
@@ -241,16 +306,22 @@
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SNIPPET</span>
                         </div>
                         <h2 class="text-xl font-bold mb-2 text-white">
-                           #CodeSnippet: Python 图像批处理脚本备份
+                           <a href="#">#Snippet: 增量式 PID 算法 C 语言实现</a>
                         </h2>
                         <p class="opacity-50 text-xs italic mb-4 text-acid">
-                            // Quick backup for the script used in the YOLOv8 training data preparation.
+                            // Quick copy-paste ready code for STM32 motor control tasks.
                         </p>
                         <!-- 代码块：黑底绿字，终端风格 -->
                         <div class="bg-black p-4 border border-acid/50 text-xs text-acid font-mono overflow-x-auto shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]">
-                            <span class="text-white">def</span> <span class="text-yellow-300">batch_rename</span>(path):<br>
-                            &nbsp;&nbsp;<span class="text-white">for</span> count, filename <span class="text-white">in</span> enumerate(os.listdir(path)):<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;dst = <span class="text-green-500">f"img_{str(count).zfill(4)}.jpg"</span>...
+                            <span class="text-gray-500">// Calculates increment value</span><br>
+                            <span class="text-white">float</span> <span class="text-yellow-300">PID_Calc</span>(PID_TypeDef *pid, <span class="text-white">float</span> target, <span class="text-white">float</span> current) {<br>
+                            &nbsp;&nbsp;pid->error = target - current;<br>
+                            &nbsp;&nbsp;<span class="text-white">float</span> p_out = pid->Kp * (pid->error - pid->last_error);<br>
+                            &nbsp;&nbsp;<span class="text-white">float</span> i_out = pid->Ki * pid->error;<br>
+                            &nbsp;&nbsp;<span class="text-green-500">... return output;</span>
+                        </div>
+                        <div class="mt-4">
+                             <a href="#" class="text-xs hover:underline decoration-acid underline-offset-4 text-gray-400 hover:text-white transition-colors">>> View Raw Gist</a>
                         </div>
                     </div>
                 </div>
