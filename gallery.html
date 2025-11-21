@@ -70,6 +70,7 @@
         .gallery-item img {
             filter: grayscale(100%) contrast(110%);
             transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, filter;
         }
         .gallery-item:hover img {
             filter: grayscale(0%) contrast(100%);
@@ -127,7 +128,7 @@
 
         <!-- Loading State (Visible initially) -->
         <div id="loading-indicator" class="text-center py-20 font-mono text-xs text-acid-green animate-pulse">
-            > ACCESSING_DATABASE... /photo/gallery_code.txt
+            > ACCESSING_DATABASE... /photos/gallery_code.txt
         </div>
 
         <!-- Error State (Hidden by default) -->
@@ -170,7 +171,9 @@
         lucide.createIcons();
 
         // --- Configuration ---
-        const DATA_SOURCE = '/photo/gallery_code.txt'; 
+        // Ensure this path is correct relative to where gallery.html is located
+        const DATA_SOURCE = '/photos/gallery_code.txt'; 
+        
         const GALLERY_GRID = document.getElementById('gallery-grid');
         const LOADING_INDICATOR = document.getElementById('loading-indicator');
         const ERROR_MESSAGE = document.getElementById('error-message');
@@ -212,25 +215,38 @@
             paths.forEach((path, index) => {
                 // 1. Extract Filename for display (e.g., "photo.jpg" -> "PHOTO.JPG")
                 const filename = path.split('/').pop().toUpperCase();
-
-                // 2. Auto-assign category based on keywords in filename, or random fallback
-                let category = categories[Math.floor(Math.random() * categories.length)]; // Default random
                 const lowerPath = path.toLowerCase();
-                
+
+                // 2. Assign Category
+                // First, try to find keywords in the filename
+                let category = null;
                 if (lowerPath.includes('landscape') || lowerPath.includes('scenery') || lowerPath.includes('mountain')) category = 'scenery';
                 else if (lowerPath.includes('portrait') || lowerPath.includes('person') || lowerPath.includes('face')) category = 'portrait';
                 else if (lowerPath.includes('street') || lowerPath.includes('city') || lowerPath.includes('urban')) category = 'street';
                 else if (lowerPath.includes('abstract') || lowerPath.includes('texture') || lowerPath.includes('art')) category = 'abstract';
+                
+                // If no keyword match (likely for "IMG_123.JPG"), assign DETERMINISTICALLY based on string hash
+                // This ensures the same image always gets the same category on refresh
+                if (!category) {
+                    const charCodeSum = filename.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                    category = categories[charCodeSum % categories.length];
+                }
 
                 // 3. Create HTML Element
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'gallery-item group relative cursor-zoom-in mb-4 break-inside-avoid';
                 itemDiv.setAttribute('data-category', category);
                 
-                // Using innerHTML for template simplicity
+                // Using innerHTML. Added onerror handler to hide broken links gracefully.
                 itemDiv.innerHTML = `
-                    <div class="bg-[#0a0a0a] w-full overflow-hidden">
-                        <img src="${path}" loading="lazy" alt="${filename}" class="w-full h-auto block transition-transform duration-700 group-hover:scale-105">
+                    <div class="bg-[#0a0a0a] w-full overflow-hidden min-h-[100px] relative">
+                        <img 
+                            src="${path}" 
+                            loading="lazy" 
+                            alt="${filename}" 
+                            class="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
+                            onerror="this.parentElement.parentElement.style.display='none'; console.warn('Image failed to load:', '${path}');"
+                        >
                         <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent pointer-events-none">
                             <p class="text-acid-green text-[9px] tracking-wider font-mono">> ${filename}</p>
                         </div>
@@ -253,7 +269,7 @@
         window.addEventListener('DOMContentLoaded', loadGalleryData);
 
 
-        // --- Filter Logic (Updated to work with dynamic content) ---
+        // --- Filter Logic ---
         const filterBtns = document.querySelectorAll('.filter-btn');
         
         filterBtns.forEach(btn => {
@@ -268,22 +284,26 @@
 
                 // Filter Action
                 const filter = btn.getAttribute('data-filter');
-                // Re-query DOM for items as they are dynamic now
                 const currentItems = document.querySelectorAll('.gallery-item');
                 
                 currentItems.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                        setTimeout(() => item.style.opacity = '1', 10);
+                    // Only toggle display if the item hasn't been hidden by error handler (style.display === 'none')
+                    if (item.style.display === 'none' && !item.hasAttribute('data-loaded')) {
+                        // It might be a broken image hidden by onerror, leave it hidden
                     } else {
-                        item.style.display = 'none';
-                        item.style.opacity = '0';
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                            setTimeout(() => item.style.opacity = '1', 10);
+                        } else {
+                            item.style.display = 'none';
+                            item.style.opacity = '0';
+                        }
                     }
                 });
             });
         });
 
-        // --- Lightbox Logic (Updated to be a function) ---
+        // --- Lightbox Logic ---
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxMeta = document.getElementById('lightbox-meta');
@@ -291,10 +311,13 @@
 
         function attachLightboxEvents() {
             document.querySelectorAll('.gallery-item').forEach(item => {
+                // Mark item as loaded successfully to help filter logic
+                const img = item.querySelector('img');
+                img.onload = () => item.setAttribute('data-loaded', 'true');
+
                 item.addEventListener('click', () => {
-                    const img = item.querySelector('img');
-                    // Safety check
-                    if (!img) return;
+                    // Don't open if image is broken
+                    if (img.naturalWidth === 0) return;
                     
                     const meta = item.querySelector('p') ? item.querySelector('p').textContent : 'UNKNOWN_DATA';
                     
