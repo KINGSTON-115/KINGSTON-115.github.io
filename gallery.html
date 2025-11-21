@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALLERY_VIEW // KINGSTON-115</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'acid-green': '#ccff00',
+                        'dark-bg': '#050505',
+                        'panel-bg': '#0a0a0a',
+                        'border-gray': '#222',
+                    },
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Oswald"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Aesthetic Overrides */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Background Grid */
+        .bg-tech-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+
+        /* Scrollbar minimal */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ccff00;
+        }
+
+        /* Image Hover Effect - Subtle Zoom & Color */
+        .gallery-item {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .gallery-item img {
+            filter: grayscale(100%) contrast(110%);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .gallery-item:hover img {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        /* Hide elements initially for fade-in */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-acid-green selection:text-black">
+
+    <!-- Background Mesh -->
+    <div class="fixed inset-0 z-0 pointer-events-none bg-tech-grid h-screen"></div>
+
+    <!-- Minimal Back Button (Fixed) -->
+    <a href="javascript:history.back()" class="fixed top-6 left-6 z-50 group flex items-center gap-2 text-[10px] tracking-widest text-gray-500 hover:text-acid-green transition-colors mix-blend-difference">
+        <span class="group-hover:-translate-x-1 transition-transform">&lt;</span> BACK_TO_BASE
+    </a>
+
+    <!-- Main Content Wrapper -->
+    <main class="relative z-10 pt-24 pb-20 px-4 md:px-8 max-w-[1920px] mx-auto">
+
+        <!-- Minimal Header -->
+        <header class="mb-12 fade-in flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
+            <div>
+                <div class="text-acid-green text-[10px] tracking-[0.3em] mb-1">
+                    ARCHIVE // 03
+                </div>
+                <h1 class="font-sans text-4xl md:text-5xl font-bold uppercase tracking-tight text-white">
+                    Visual_Records
+                </h1>
+            </div>
+            
+            <!-- Simple Category Filter -->
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-mono text-gray-600">
+                <button class="filter-btn hover:text-white transition-colors text-acid-green" data-filter="all">[ALL]</button>
+                <button class="filter-btn hover:text-white transition-colors" data-filter="scenery">/ LANDSCAPE</button>
+                <button class="filter-btn hover:text-white transition-colors" data-filter="portrait">/ PORTRAIT</button>
+                <button class="filter-btn hover:text-white transition-colors" data-filter="street">/ STREET</button>
+                <button class="filter-btn hover:text-white transition-colors" data-filter="abstract">/ ABSTRACT</button>
+            </div>
+        </header>
+
+        <!-- Masonry Gallery Grid -->
+        <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4 fade-in delay-200" id="gallery-grid">
+            
+            <!-- IMG 01 -->
+            <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="scenery">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1200&auto=format&fit=crop" loading="lazy" alt="Foggy Forest" class="w-full h-auto block">
+                    <!-- Minimal Overlay -->
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">RAW_001.DNG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMG 02 (Portrait) -->
+            <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="portrait">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="Portrait" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">RAW_002.DNG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMG 03 (Abstract) -->
+            <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="abstract">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="Abstract Light" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">GLITCH_03.PNG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMG 04 (Street) -->
+            <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="street">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="City Night" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">TOKYO_04.JPG</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMG 05 (Scenery) -->
+            <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="scenery">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=1200&auto=format&fit=crop" loading="lazy" alt="Dark Mountain" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">MIST_05.DNG</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- IMG 06 (Abstract) -->
+             <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="abstract">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="Dark Texture" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">NOISE_06.TIFF</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- IMG 07 (Portrait) -->
+             <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="portrait">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="Face" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">FACE_07.JPG</p>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- IMG 08 (Street) -->
+             <div class="gallery-item group relative cursor-zoom-in mb-4" data-category="street">
+                <div class="bg-[#0a0a0a] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1555685812-4b943f3e9943?q=80&w=1000&auto=format&fit=crop" loading="lazy" alt="Neon Street" class="w-full h-auto block">
+                    <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-acid-green text-[9px] tracking-wider">NEON_08.RAW</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Minimal Footer -->
+        <div class="mt-20 border-t border-white/5 pt-6 text-center">
+            <p class="text-[9px] text-gray-700 font-mono tracking-widest">END OF STREAM // SYSTEM STANDBY</p>
+        </div>
+
+    </main>
+
+    <!-- Lightbox (Full Screen Focus) -->
+    <div id="lightbox" class="fixed inset-0 z-[999] bg-black hidden opacity-0 transition-opacity duration-300 flex items-center justify-center">
+        
+        <!-- Close Button -->
+        <button id="lightbox-close" class="absolute top-6 right-6 text-gray-400 hover:text-acid-green transition-colors z-[1000]">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        
+        <!-- Image Container -->
+        <div class="w-full h-full p-4 md:p-10 flex items-center justify-center">
+            <img id="lightbox-img" src="" class="max-h-full max-w-full object-contain shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+        </div>
+
+        <!-- Minimal Meta Info (Bottom Left) -->
+        <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 pointer-events-none">
+             <p id="lightbox-meta" class="text-acid-green text-xs font-mono tracking-widest mb-1">FILENAME</p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Style Update
+                filterBtns.forEach(b => {
+                    b.classList.remove('text-acid-green');
+                    if(b.textContent.startsWith('[')) b.textContent = b.textContent.replace('[', '').replace(']', '');
+                });
+                btn.classList.add('text-acid-green');
+                btn.textContent = `[${btn.textContent.replace('/ ', '')}]`;
+
+                // Filter Action
+                const filter = btn.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => item.style.opacity = '1', 10);
+                    } else {
+                        item.style.display = 'none';
+                        item.style.opacity = '0';
+                    }
+                });
+            });
+        });
+
+        // Lightbox Logic
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxMeta = document.getElementById('lightbox-meta');
+        const closeBtn = document.getElementById('lightbox-close');
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const meta = item.querySelector('p').textContent;
+                
+                lightboxImg.src = img.src;
+                lightboxMeta.textContent = meta;
+                
+                lightbox.classList.remove('hidden');
+                setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if(e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
