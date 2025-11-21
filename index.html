@@ -309,19 +309,25 @@
     <div class="perspective-grid"></div>
     <canvas id="matrixCanvas"></canvas>
     
-    <!-- Nav -->
-    <header class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center bg-deep-void/80 backdrop-blur-md border-b border-white/10">
-        <div class="flex items-center gap-3">
-            <div class="w-3 h-3 bg-acid-green animate-pulse"></div>
-            <span class="font-mono text-sm font-bold tracking-tighter">CHARLES <span class="text-gray-500">// v7.9</span></span>
-        </div>
-        <div class="flex gap-4 items-center">
-            <a href="articles.html" class="hidden md:flex font-mono text-xs text-gray-400 hover:text-acid-green transition-colors">[ ARCHIVES ]</a>
-            <a href="https://github.com/KINGSTON-115" target="_blank" class="font-mono text-xs border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2">
-                <i data-lucide="github" class="w-3 h-3"></i> <span class="hidden md:inline">SRC_CODE</span>
+    <!-- 灵动岛导航栏 (Dynamic Island Nav) - 恢复 -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw]">
+        <div class="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-full pl-6 pr-2 py-2 flex items-center gap-6 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-acid-green/30">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-acid-green rounded-full animate-pulse"></div>
+                <span class="font-mono text-xs font-bold tracking-widest text-white">CHARLES</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-mono text-[10px] text-gray-400 tracking-wide">
+                <a href="#about" class="hover:text-white transition-colors">HOME</a>
+                <a href="#projects" class="hover:text-white transition-colors">WORK</a>
+                <a href="#awards" class="hover:text-white transition-colors">HONORS</a>
+                <a href="gallery.html" class="hover:text-acid-green transition-colors">GALLERY</a>
+                <a href="articles.html" class="hover:text-acid-green transition-colors">NOTES</a>
+            </div>
+            <a href="https://github.com/KINGSTON-115" target="_blank" class="bg-white text-black rounded-full px-4 py-2 font-mono text-[10px] font-bold hover:bg-acid-green transition-colors flex items-center gap-2">
+                <i data-lucide="github" class="w-3 h-3"></i> SRC
             </a>
         </div>
-    </header>
+    </nav>
 
     <!-- 1. HERO -->
     <section id="about" class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
