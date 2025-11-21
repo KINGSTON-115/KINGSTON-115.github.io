@@ -1,93 +1,23 @@
-
-        <div class="photo-card">
-            <img src="photos/1000040315.jpeg" loading="lazy" alt="1000040315.jpeg">
-            <div class="overlay">1000040315.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040316.jpeg" loading="lazy" alt="1000040316.jpeg">
-            <div class="overlay">1000040316.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040317.jpeg" loading="lazy" alt="1000040317.jpeg">
-            <div class="overlay">1000040317.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040318.jpeg" loading="lazy" alt="1000040318.jpeg">
-            <div class="overlay">1000040318.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040319.jpeg" loading="lazy" alt="1000040319.jpeg">
-            <div class="overlay">1000040319.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040321.jpeg" loading="lazy" alt="1000040321.jpeg">
-            <div class="overlay">1000040321.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040324.jpeg" loading="lazy" alt="1000040324.jpeg">
-            <div class="overlay">1000040324.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040325.jpeg" loading="lazy" alt="1000040325.jpeg">
-            <div class="overlay">1000040325.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040327.jpeg" loading="lazy" alt="1000040327.jpeg">
-            <div class="overlay">1000040327.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040328.jpeg" loading="lazy" alt="1000040328.jpeg">
-            <div class="overlay">1000040328.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040329.jpeg" loading="lazy" alt="1000040329.jpeg">
-            <div class="overlay">1000040329.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040332.jpeg" loading="lazy" alt="1000040332.jpeg">
-            <div class="overlay">1000040332.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040333.jpeg" loading="lazy" alt="1000040333.jpeg">
-            <div class="overlay">1000040333.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040334.jpeg" loading="lazy" alt="1000040334.jpeg">
-            <div class="overlay">1000040334.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040335.jpeg" loading="lazy" alt="1000040335.jpeg">
-            <div class="overlay">1000040335.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040336.jpeg" loading="lazy" alt="1000040336.jpeg">
-            <div class="overlay">1000040336.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040337.jpeg" loading="lazy" alt="1000040337.jpeg">
-            <div class="overlay">1000040337.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000040338.jpeg" loading="lazy" alt="1000040338.jpeg">
-            <div class="overlay">1000040338.jpeg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/1000041037.jpg" loading="lazy" alt="1000041037.jpg">
-            <div class="overlay">1000041037.jpg</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/IMG_3898.JPG" loading="lazy" alt="IMG_3898.JPG">
-            <div class="overlay">IMG_3898.JPG</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/IMG_7292.JPG" loading="lazy" alt="IMG_7292.JPG">
-            <div class="overlay">IMG_7292.JPG</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/IMG_7422.JPG" loading="lazy" alt="IMG_7422.JPG">
-            <div class="overlay">IMG_7422.JPG</div>
-        </div>
-        <div class="photo-card">
-            <img src="photos/Snapseed.JPG" loading="lazy" alt="Snapseed.JPG">
-            <div class="overlay">Snapseed.JPG</div>
-        </div>
+photos/1000040315.jpeg
+photos/1000040316.jpeg
+photos/1000040317.jpeg
+photos/1000040318.jpeg
+photos/1000040319.jpeg
+photos/1000040321.jpeg
+photos/1000040324.jpeg
+photos/1000040325.jpeg
+photos/1000040327.jpeg
+photos/1000040328.jpeg
+photos/1000040329.jpeg
+photos/1000040332.jpeg
+photos/1000040333.jpeg
+photos/1000040334.jpeg
+photos/1000040335.jpeg
+photos/1000040336.jpeg
+photos/1000040337.jpeg
+photos/1000040338.jpeg
+photos/1000041037.jpg
+photos/IMG_3898.JPG
+photos/IMG_7292.JPG
+photos/IMG_7422.JPG
+photos/Snapseed.JPG
