@@ -143,7 +143,7 @@
             overflow-x: auto; 
             overflow-y: hidden; 
             white-space: nowrap;
-            cursor: grab;
+            cursor: grab; 
             scrollbar-width: none;
             position: relative;
             z-index: 10;
@@ -309,7 +309,7 @@
     <div class="perspective-grid"></div>
     <canvas id="matrixCanvas"></canvas>
     
-    <!-- 灵动岛导航栏 (Dynamic Island Nav) - 恢复 -->
+    <!-- 灵动岛导航栏 -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw]">
         <div class="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-full pl-6 pr-2 py-2 flex items-center gap-6 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-acid-green/30">
             <div class="flex items-center gap-2">
@@ -380,7 +380,7 @@
                 <span class="num">01 // PROJECTS</span>
                 <div class="line"></div>
             </div>
-            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center md:text-left relative z-10 flex flex-col md:flex-row items-baseline justify-center gap-4">
+            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center md:text-left relative z-10 flex flex-col md:flex-row items-baseline gap-4">
                 <span class="outline-text">CASE_STUDIES</span>
                 <span class="solid-cn-text text-xl md:text-3xl">项目经历 <span class="text-sm font-mono text-acid-green align-top pointer-events-none">(06)</span></span>
             </h2>
@@ -637,7 +637,7 @@
                 <div class="line"></div>
             </div>
             
-            <div class="flex items-end justify-between">
+            <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 md:gap-0">
                 <h2 class="text-3xl md:text-6xl font-display font-bold outline-text relative z-10 flex flex-col md:flex-row items-baseline gap-4">
                     <span>PERSONAL_GALLERY</span>
                     <span class="solid-cn-text text-xl md:text-3xl">个人摄影作品</span>
@@ -650,14 +650,13 @@
         
         <div class="horizontal-scroll-container" id="galleryContainer">
             <div class="gallery-track">
-                <!-- Dynamic Loading from JS -->
+                <!-- Injected by JS -->
             </div>
         </div>
     </section>
 
     <!-- 5. FOOTER -->
     <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
-        <div class="tech-crosshair bottom-10 right-10 bg-black"></div>
         <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4"><span>Status: Open to work</span><span>Location: Earth</span></div>
         <div class="space-y-6 md:space-y-8 my-auto">
             <p class="font-mono text-sm mb-4">INITIATE CONTACT PROTOCOL:</p>
@@ -669,7 +668,7 @@
         <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20"><div>© 2025 CHARLES</div><div>SCROLL_END</div></div>
     </footer>
 
-    <!-- Modals & Scripts (JavaScript Logic) -->
+    <!-- Modals & Scripts -->
     <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col">
             <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -924,8 +923,9 @@
         const mImages = document.getElementById('modalImages');
 
         function openModal(id) {
-            const d = modalData[id];
-            if(!d) return;
+            // For demo purposes, using placeholder if data missing
+            const d = modalData[id] || { title: "Project Detail", tags: ["TECH"], content: "<p>Detailed content goes here...</p>", images: []}; 
+            
             mTitle.innerText = d.title;
             mTags.innerHTML = d.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
             mBody.innerHTML = d.content;
