@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALLERY_VIEW // KINGSTON-115</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Removed Lucide external script to fix ReferenceError -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
@@ -24,6 +23,15 @@
                     },
                     backgroundImage: {
                         'grid-pattern': "linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
                     }
                 }
             }
@@ -39,18 +47,31 @@
             overflow-x: hidden;
         }
 
+        /* Film Grain / Digital Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 40;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
         /* Subtle Background Grid */
         .bg-tech-grid {
             background-size: 40px 40px;
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
         }
 
         /* Scrollbar minimal */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         ::-webkit-scrollbar-track {
             background: #050505;
@@ -62,25 +83,30 @@
             background: #ccff00;
         }
 
-        /* Image Hover Effect - Subtle Zoom & Color */
+        /* Gallery Item Styling */
         .gallery-item {
             page-break-inside: avoid;
             break-inside: avoid;
+            transition: transform 0.3s ease;
         }
+        
         .gallery-item img {
-            filter: grayscale(100%) contrast(110%);
-            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: grayscale(100%) contrast(120%) brightness(0.9);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, filter;
         }
+        
+        /* Hover State: Color + Subtle Border Glow */
         .gallery-item:hover img {
-            filter: grayscale(0%) contrast(100%);
+            filter: grayscale(0%) contrast(100%) brightness(1);
+            box-shadow: 0 0 0 1px #ccff00;
         }
 
         /* Hide elements initially for fade-in */
         .fade-in {
             opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.8s ease-out forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
         @keyframes fadeInUp {
@@ -90,91 +116,134 @@
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
+        
+        /* Massive Watermark Text */
+        .watermark-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+            color: transparent;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body class="min-h-screen selection:bg-acid-green selection:text-black">
 
+    <!-- Decorative Noise Layer -->
+    <div class="noise-overlay"></div>
+
     <!-- Background Mesh -->
     <div class="fixed inset-0 z-0 pointer-events-none bg-tech-grid h-screen"></div>
+    
+    <!-- Massive Background Decor (Artistic Touch) -->
+    <div class="fixed top-20 right-0 z-0 pointer-events-none overflow-hidden">
+        <h1 class="watermark-text font-sans text-[20vw] leading-none font-bold opacity-50 translate-x-1/4">
+            RAW_VISION
+        </h1>
+    </div>
 
     <!-- Minimal Back Button (Fixed) -->
-    <a href="javascript:history.back()" class="fixed top-6 left-6 z-50 group flex items-center gap-2 text-[10px] tracking-widest text-gray-500 hover:text-acid-green transition-colors mix-blend-difference">
-        <span class="group-hover:-translate-x-1 transition-transform">&lt;</span> BACK_TO_BASE
-    </a>
+    <div class="fixed top-0 left-0 z-50 w-full p-6 pointer-events-none flex justify-between items-start">
+        <a href="javascript:history.back()" class="pointer-events-auto group flex items-center gap-3 text-[10px] tracking-[0.2em] text-gray-500 hover:text-acid-green transition-colors mix-blend-screen">
+            <span class="w-2 h-2 border border-current group-hover:bg-acid-green transition-colors"></span>
+            <span>// SYSTEM_EXIT</span>
+        </a>
+        
+        <!-- Status Indicator -->
+        <div class="text-[10px] font-mono text-acid-green animate-pulse hidden md:block">
+            ● LIVE_FEED
+        </div>
+    </div>
 
     <!-- Main Content Wrapper -->
-    <main class="relative z-10 pt-24 pb-20 px-4 md:px-8 max-w-[1920px] mx-auto">
+    <main class="relative z-10 pt-32 pb-32 px-4 md:px-12 max-w-[1920px] mx-auto">
 
-        <!-- Minimal Header -->
-        <header class="mb-12 fade-in flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
-            <div>
-                <div class="text-acid-green text-[10px] tracking-[0.3em] mb-1">
-                    ARCHIVE // 03
+        <!-- Artistic Header -->
+        <header class="mb-20 fade-in relative">
+            <div class="absolute -left-4 top-0 w-1 h-full bg-acid-green opacity-0 md:opacity-100"></div>
+            <div class="pl-0 md:pl-8">
+                <div class="flex items-center gap-4 mb-2 opacity-60">
+                    <span class="h-[1px] w-12 bg-white"></span>
+                    <span class="text-[10px] tracking-[0.4em] text-white font-mono">VISUAL_ARCHIVE_03</span>
                 </div>
-                <h1 class="font-sans text-4xl md:text-5xl font-bold uppercase tracking-tight text-white">
-                    Visual_Records
+                <h1 class="font-sans text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white leading-[0.9]">
+                    Captured<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-800">Moments</span>.
                 </h1>
             </div>
             
-            <!-- Simple Category Filter -->
-            <div class="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-mono text-gray-600">
-                <button class="filter-btn hover:text-white transition-colors text-acid-green" data-filter="all">[ALL]</button>
-                <button class="filter-btn hover:text-white transition-colors" data-filter="scenery">/ LANDSCAPE</button>
-                <button class="filter-btn hover:text-white transition-colors" data-filter="portrait">/ PORTRAIT</button>
-                <button class="filter-btn hover:text-white transition-colors" data-filter="street">/ STREET</button>
-                <button class="filter-btn hover:text-white transition-colors" data-filter="abstract">/ ABSTRACT</button>
+            <!-- Filter Bar (Floating) -->
+            <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 text-[11px] font-mono text-gray-600 uppercase tracking-wider border-t border-white/10 pt-6 max-w-2xl">
+                <span class="text-gray-800 select-none">FILTER_PROTOCOL ::</span>
+                <button class="filter-btn hover:text-acid-green transition-colors text-acid-green relative group" data-filter="all">
+                    [ ALL_DATA ]
+                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-100 transition-transform origin-left"></span>
+                </button>
+                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="scenery">
+                    LANDSCAPE
+                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </button>
+                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="portrait">
+                    PORTRAIT
+                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </button>
+                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="street">
+                    STREET
+                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </button>
+                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="abstract">
+                    ABSTRACT
+                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </button>
             </div>
         </header>
 
-        <!-- Loading State (Visible initially) -->
-        <div id="loading-indicator" class="text-center py-20 font-mono text-xs text-acid-green animate-pulse">
-            > ACCESSING_DATABASE... /photos/gallery_code.txt
+        <!-- Loading State -->
+        <div id="loading-indicator" class="h-40 flex flex-col items-center justify-center font-mono text-xs text-acid-green gap-4">
+            <div class="w-32 h-[2px] bg-gray-800 relative overflow-hidden">
+                <div class="absolute inset-0 bg-acid-green w-1/2 animate-[scanline_1s_linear_infinite] translate-x-[-100%]"></div>
+            </div>
+            <span class="animate-pulse">> INITIALIZING_IMAGE_BUFFER...</span>
         </div>
 
-        <!-- Error State (Hidden by default) -->
-        <div id="error-message" class="hidden text-center py-20 font-mono text-xs text-red-500">
-            > ERROR: DATA_CORRUPTION_DETECTED // FILE_NOT_FOUND
+        <!-- Error State -->
+        <div id="error-message" class="hidden text-center py-20 font-mono text-xs text-red-500 border border-red-900/30 bg-red-900/10 p-4 max-w-md mx-auto">
+            > CRITICAL ERROR: DATA_PATH_INVALID <br>
+            > CHECK CONNECTION TO /photos/gallery_code.txt
         </div>
 
         <!-- Masonry Gallery Grid -->
-        <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4 fade-in delay-200 min-h-[50vh]" id="gallery-grid">
-            <!-- Content will be injected here by JavaScript -->
+        <!-- Adjusted gap and columns for a more 'gallery' feel -->
+        <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-3 gap-8 space-y-8 fade-in delay-200 min-h-[50vh]" id="gallery-grid">
+            <!-- Content injected via JS -->
         </div>
 
         <!-- Minimal Footer -->
-        <div class="mt-20 border-t border-white/5 pt-6 text-center">
-            <p class="text-[9px] text-gray-700 font-mono tracking-widest">END OF STREAM // SYSTEM STANDBY</p>
+        <div class="mt-32 flex items-center justify-between border-t border-white/10 pt-6 text-[9px] text-gray-600 font-mono uppercase tracking-widest">
+            <div>KINGSTON-115 // VISUAL_ARTS</div>
+            <div>END_OF_STREAM</div>
         </div>
 
     </main>
 
-    <!-- Lightbox (Full Screen Focus) -->
-    <div id="lightbox" class="fixed inset-0 z-[999] bg-black hidden opacity-0 transition-opacity duration-300 flex items-center justify-center">
+    <!-- Ultra-Minimal Lightbox (Pure Focus) -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black hidden opacity-0 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
         
-        <!-- Close Button (Replaced Lucide Icon with Inline SVG) -->
-        <button id="lightbox-close" class="absolute top-6 right-6 text-gray-400 hover:text-acid-green transition-colors z-[1000]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+        <!-- Close Button -->
+        <button id="lightbox-close" class="absolute top-8 right-8 text-white/50 hover:text-acid-green transition-colors z-[101] mix-blend-difference transform hover:rotate-90 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
         
         <!-- Image Container -->
-        <div class="w-full h-full p-4 md:p-10 flex items-center justify-center">
-            <img id="lightbox-img" src="" class="max-h-full max-w-full object-contain shadow-[0_0_30px_rgba(0,0,0,0.8)]">
-        </div>
-
-        <!-- Minimal Meta Info (Bottom Left) -->
-        <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 pointer-events-none">
-             <p id="lightbox-meta" class="text-acid-green text-xs font-mono tracking-widest mb-1">FILENAME</p>
+        <div class="w-full h-full p-0 md:p-12 flex items-center justify-center cursor-zoom-out" id="lightbox-backdrop">
+            <img id="lightbox-img" src="" class="max-h-full max-w-full object-contain shadow-2xl select-none">
         </div>
     </div>
 
     <script>
-        // Removed lucide.createIcons() to fix ReferenceError
-
         // --- Configuration ---
-        // Ensure this path is correct relative to where gallery.html is located
         const DATA_SOURCE = '/photos/gallery_code.txt'; 
         
         const GALLERY_GRID = document.getElementById('gallery-grid');
@@ -185,22 +254,14 @@
         async function loadGalleryData() {
             try {
                 const response = await fetch(DATA_SOURCE);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const text = await response.text();
-                // Split by newlines, trim whitespace, and filter out empty lines
                 const imagePaths = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-
                 renderGallery(imagePaths);
-
             } catch (error) {
-                console.error("System Failure:", error);
+                console.error("Gallery Load Error:", error);
                 LOADING_INDICATOR.style.display = 'none';
                 ERROR_MESSAGE.classList.remove('hidden');
-                ERROR_MESSAGE.innerHTML = `> SYSTEM_FAILURE: ${error.message}<br>> PLEASE_VERIFY_PATH: ${DATA_SOURCE}`;
             }
         }
 
@@ -209,98 +270,85 @@
             LOADING_INDICATOR.style.display = 'none';
             
             if (paths.length === 0) {
-                GALLERY_GRID.innerHTML = '<p class="text-gray-600 font-mono text-xs col-span-full text-center">> NO_DATA_FOUND</p>';
+                GALLERY_GRID.innerHTML = '<div class="col-span-full text-center pt-20 text-gray-600 font-mono text-xs border-t border-white/10">> DATABASE_EMPTY</div>';
                 return;
             }
 
             const categories = ['scenery', 'portrait', 'street', 'abstract'];
 
-            paths.forEach((path, index) => {
-                // 1. Extract Filename for display (e.g., "photo.jpg" -> "PHOTO.JPG")
-                const filename = path.split('/').pop().toUpperCase();
+            paths.forEach((path) => {
+                // 1. Category Logic (Keep deterministic)
+                const filename = path.split('/').pop();
                 const lowerPath = path.toLowerCase();
-
-                // 2. Assign Category
-                // First, try to find keywords in the filename
                 let category = null;
-                if (lowerPath.includes('landscape') || lowerPath.includes('scenery') || lowerPath.includes('mountain')) category = 'scenery';
-                else if (lowerPath.includes('portrait') || lowerPath.includes('person') || lowerPath.includes('face')) category = 'portrait';
-                else if (lowerPath.includes('street') || lowerPath.includes('city') || lowerPath.includes('urban')) category = 'street';
-                else if (lowerPath.includes('abstract') || lowerPath.includes('texture') || lowerPath.includes('art')) category = 'abstract';
                 
-                // If no keyword match (likely for "IMG_123.JPG"), assign DETERMINISTICALLY based on string hash
-                // This ensures the same image always gets the same category on refresh
+                if (lowerPath.includes('landscape') || lowerPath.includes('scenery')) category = 'scenery';
+                else if (lowerPath.includes('portrait') || lowerPath.includes('person')) category = 'portrait';
+                else if (lowerPath.includes('street') || lowerPath.includes('urban')) category = 'street';
+                else if (lowerPath.includes('abstract')) category = 'abstract';
+                
                 if (!category) {
                     const charCodeSum = filename.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                     category = categories[charCodeSum % categories.length];
                 }
 
-                // 3. Create HTML Element
+                // 2. Create Element (CLEAN - NO TEXT)
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'gallery-item group relative cursor-zoom-in mb-4 break-inside-avoid';
+                itemDiv.className = 'gallery-item group relative cursor-zoom-in mb-8 break-inside-avoid';
                 itemDiv.setAttribute('data-category', category);
                 
-                // Using innerHTML. Added onerror handler to hide broken links gracefully.
+                // Pure image container
                 itemDiv.innerHTML = `
-                    <div class="bg-[#0a0a0a] w-full overflow-hidden min-h-[100px] relative">
+                    <div class="bg-[#0a0a0a] w-full overflow-hidden relative">
                         <img 
                             src="${path}" 
                             loading="lazy" 
-                            alt="${filename}" 
-                            class="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
-                            onerror="this.parentElement.parentElement.style.display='none'; console.warn('Image failed to load:', '${path}');"
+                            class="w-full h-auto block"
+                            onerror="this.parentElement.parentElement.style.display='none';"
                         >
-                        <div class="absolute bottom-0 left-0 w-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/90 to-transparent pointer-events-none">
-                            <p class="text-acid-green text-[9px] tracking-wider font-mono">> ${filename}</p>
-                        </div>
+                        <!-- Subtle scanline overlay on hover only -->
+                        <div class="absolute inset-0 bg-acid-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none mix-blend-overlay"></div>
                     </div>
                 `;
 
                 GALLERY_GRID.appendChild(itemDiv);
             });
 
-            // Re-attach event listeners to new elements
             attachLightboxEvents();
             
-            // Trigger simple fade-in
+            // Fade in grid
             setTimeout(() => {
                 GALLERY_GRID.style.opacity = 1;
             }, 100);
         }
 
-        // --- Initialize ---
         window.addEventListener('DOMContentLoaded', loadGalleryData);
-
 
         // --- Filter Logic ---
         const filterBtns = document.querySelectorAll('.filter-btn');
-        
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 // Style Update
                 filterBtns.forEach(b => {
                     b.classList.remove('text-acid-green');
-                    if(b.textContent.startsWith('[')) b.textContent = b.textContent.replace('[', '').replace(']', '');
+                    b.classList.add('hover:text-white');
                 });
                 btn.classList.add('text-acid-green');
-                btn.textContent = `[${btn.textContent.replace('/ ', '')}]`;
-
-                // Filter Action
+                btn.classList.remove('hover:text-white');
+                
                 const filter = btn.getAttribute('data-filter');
                 const currentItems = document.querySelectorAll('.gallery-item');
                 
                 currentItems.forEach(item => {
-                    // Only toggle display if the item hasn't been hidden by error handler (style.display === 'none')
-                    if (item.style.display === 'none' && !item.hasAttribute('data-loaded')) {
-                        // It might be a broken image hidden by onerror, leave it hidden
+                    if (item.style.display === 'none' && !item.hasAttribute('data-loaded')) return; // Skip broken images
+                    
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        // Small delay for layout reflow
+                        setTimeout(() => item.style.opacity = '1', 50);
                     } else {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                            setTimeout(() => item.style.opacity = '1', 10);
-                        } else {
-                            item.style.display = 'none';
-                            item.style.opacity = '0';
-                        }
+                        item.style.display = 'none';
+                        item.style.opacity = '0';
                     }
                 });
             });
@@ -309,24 +357,18 @@
         // --- Lightbox Logic ---
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxMeta = document.getElementById('lightbox-meta');
         const closeBtn = document.getElementById('lightbox-close');
+        const backdrop = document.getElementById('lightbox-backdrop');
 
         function attachLightboxEvents() {
             document.querySelectorAll('.gallery-item').forEach(item => {
-                // Mark item as loaded successfully to help filter logic
                 const img = item.querySelector('img');
                 img.onload = () => item.setAttribute('data-loaded', 'true');
 
                 item.addEventListener('click', () => {
-                    // Don't open if image is broken
                     if (img.naturalWidth === 0) return;
                     
-                    const meta = item.querySelector('p') ? item.querySelector('p').textContent : 'UNKNOWN_DATA';
-                    
                     lightboxImg.src = img.src;
-                    lightboxMeta.textContent = meta;
-                    
                     lightbox.classList.remove('hidden');
                     // Force reflow
                     void lightbox.offsetWidth; 
@@ -341,12 +383,13 @@
             setTimeout(() => {
                 lightbox.classList.add('hidden');
                 document.body.style.overflow = 'auto';
-            }, 300);
+            }, 500);
         };
 
         closeBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if(e.target === lightbox) closeLightbox();
+        backdrop.addEventListener('click', (e) => {
+            // Close if clicking outside the image
+            if(e.target === backdrop) closeLightbox();
         });
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape') closeLightbox();
