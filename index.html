@@ -103,7 +103,7 @@
             100% { transform: perspective(500px) rotateX(60deg) translateY(100px) translateZ(-200px); }
         }
 
-        /* 磁吸卡片堆叠效果 */
+        /* 磁吸卡片堆叠效果 - 尺寸优化 (50vh) */
         .project-card {
             position: sticky; 
             top: 20vh; 
@@ -137,52 +137,65 @@
         }
         .glitch-hover:hover::before { left: 100%; transition: left 0.5s; }
 
-        /* Gallery Grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+        /* Gallery Grid (Updated for Seamless Horizontal Flow) */
+        .horizontal-scroll-container {
+            overflow-x: auto; 
+            overflow-y: hidden; 
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch; 
+            cursor: grab; 
+            scrollbar-width: none;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 40px; /* Space for hover effects */
         }
-        @media (min-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-auto-rows: 300px;
-                padding-left: 5vw;
-                padding-right: 5vw;
-            }
+        .horizontal-scroll-container::-webkit-scrollbar { display: none; }
+        .horizontal-scroll-container:active { cursor: grabbing; }
+
+        .gallery-track { 
+            display: inline-flex; 
+            gap: 3rem; /* 增加间距，减少拥挤感 */
+            padding-left: 5vw; 
+            padding-right: 5vw; 
+            align-items: center; /* 垂直居中 */
+            height: 55vh; /* 轨道高度 */
         }
         
+        /* 优化后的照片框：高度固定，宽度自适应 */
         .photo-frame {
+            height: 50vh; /* 占据屏幕高度的一半，非常大气 */
+            width: auto;  /* 宽度自适应图片比例，拒绝裁剪 */
+            flex-shrink: 0;
             position: relative;
             overflow: hidden;
+            /* 极简边框，默认半透明 */
             border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             filter: grayscale(100%) contrast(110%);
-            background: #111;
-            border-radius: 4px;
+            background: #000;
         }
-        @media (min-width: 768px) {
-            .photo-frame:first-child {
-                grid-column: span 2;
-            }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) { 
+            .gallery-track { height: 45vh; gap: 1.5rem; }
+            .photo-frame { height: 40vh; } 
         }
         
         .photo-frame:hover {
             filter: grayscale(0%) contrast(100%);
-            border-color: var(--accent-color);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(204, 255, 0, 0.2);
-            z-index: 10;
+            border-color: var(--accent-color); /* 悬停时边框变绿 */
+            box-shadow: 0 20px 50px -10px rgba(204, 255, 0, 0.15);
+            transform: scale(1.02);
+            z-index: 20;
         }
+        
         .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
+            height: 100%; /* 填满高度 */
+            width: auto;  /* 宽度自然伸展 */
+            max-width: none; /* 防止被父容器限制 */
+            display: block;
+            object-fit: contain; /* 确保完整显示 */
         }
-        .photo-frame:hover img { transform: scale(1.05); }
 
         /* Modal */
         #projectModal { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -227,7 +240,7 @@
         /* Text Glow */
         .hero-text-glow { text-shadow: 0 0 30px rgba(43, 96, 255, 0.3); }
 
-        /* 描边文字 (英文标题) */
+        /* 描边文字 */
         .outline-text {
             -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent; transition: all 0.3s ease;
             position: relative; z-index: 10; cursor: default;
@@ -236,7 +249,7 @@
             color: var(--accent-color); -webkit-text-stroke: 0px; text-shadow: 0 0 20px rgba(204, 255, 0, 0.4);
         }
 
-        /* 实心文字 (中文标题 - 增加 Hover 效果) */
+        /* 实心文字 */
         .solid-cn-text {
             font-family: 'Noto Sans SC', sans-serif;
             font-weight: 900;
@@ -391,8 +404,8 @@
                 <span class="num">01 // PROJECTS</span>
                 <div class="line"></div>
             </div>
-            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center md:text-left relative z-10 flex flex-col md:flex-row items-baseline gap-4">
-                <span class="outline-text">CASE_STUDIES</span>
+            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center outline-text relative z-10 flex flex-col md:flex-row items-baseline justify-center gap-4">
+                <span>CASE_STUDIES</span>
                 <span class="solid-cn-text text-xl md:text-3xl">项目经历 <span class="text-sm font-mono text-acid-green align-top pointer-events-none">(06)</span></span>
             </h2>
             
@@ -437,9 +450,9 @@
                                 低空经济全栈方案。前端微信小程序，后端 Spring Boot，自研 <span class="text-white">IoT 协议</span> 实现云端对无人机柜的远程监控与自动归还检测。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">MiniApp</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">WeChat MiniApp</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">Java Spring</span>
-                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">IoT Protocol</span>
                             </div>
                         </div>
                          <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-electric-blue transition-colors">
@@ -660,7 +673,7 @@
             </div>
         </div>
         
-        <div class="gallery-grid" id="homeGalleryGrid">
+        <div class="gallery-track" id="homeGalleryGrid">
             <!-- Injected by JS -->
         </div>
     </section>
@@ -734,24 +747,19 @@
         });
         function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => { const toast = document.getElementById('toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
 
-        // Random Photo Preview Logic (Client-side only simulation for now, can replace with txt fetch later)
+        // Random Photo Preview Logic
         const photoIds = ["1518791841217-8f162f1e1131", "1492691527719-9d1e07e534b4", "1470071459604-3b5ec3a7fe05", "1550745165-9bc0b252726f", "1535132011086-b8818f0161dd", "1618005182384-a83a8bd57fbe"];
         const homeGrid = document.getElementById('homeGalleryGrid');
         
         async function loadGalleryPreview() {
             try {
-                // Try fetching local txt file first
                 const response = await fetch('photos/gallery_code.txt');
                 if (!response.ok) throw new Error("Local file not found");
                 const text = await response.text();
                 const urls = text.split('\n').filter(line => line.trim() !== '');
-                
-                // Shuffle and pick 5
                 const selected = urls.sort(() => 0.5 - Math.random()).slice(0, 5);
                 renderGrid(selected);
             } catch (e) {
-                console.warn("Falling back to Unsplash images:", e);
-                // Fallback to Unsplash IDs
                 const fallbackUrls = photoIds.map(id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80`);
                 const selected = fallbackUrls.sort(() => 0.5 - Math.random()).slice(0, 5);
                 renderGrid(selected);
@@ -763,8 +771,7 @@
             homeGrid.innerHTML = '';
             urls.forEach((url, index) => {
                 const div = document.createElement('div');
-                // First image is large
-                div.className = index === 0 ? 'photo-frame large' : 'photo-frame';
+                div.className = 'photo-frame';
                 div.innerHTML = `<img src="${url}"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs">IMG_00${index+1}.RAW</div>`;
                 homeGrid.appendChild(div);
             });
@@ -902,8 +909,9 @@
         const mImages = document.getElementById('modalImages');
 
         function openModal(id) {
-            const d = modalData[id];
-            if(!d) return;
+            // For demo purposes, using placeholder if data missing
+            const d = modalData[id] || { title: "Project Detail", tags: ["TECH"], content: "<p>Detailed content goes here...</p>", images: []}; 
+            
             mTitle.innerText = d.title;
             mTags.innerHTML = d.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
             mBody.innerHTML = d.content;
