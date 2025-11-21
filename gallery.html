@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALLERY_VIEW // KINGSTON-115</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <!-- Removed Lucide external script to fix ReferenceError -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
@@ -151,9 +151,12 @@
     <!-- Lightbox (Full Screen Focus) -->
     <div id="lightbox" class="fixed inset-0 z-[999] bg-black hidden opacity-0 transition-opacity duration-300 flex items-center justify-center">
         
-        <!-- Close Button -->
+        <!-- Close Button (Replaced Lucide Icon with Inline SVG) -->
         <button id="lightbox-close" class="absolute top-6 right-6 text-gray-400 hover:text-acid-green transition-colors z-[1000]">
-            <i data-lucide="x" class="w-8 h-8"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
         </button>
         
         <!-- Image Container -->
@@ -168,7 +171,7 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        // Removed lucide.createIcons() to fix ReferenceError
 
         // --- Configuration ---
         // Ensure this path is correct relative to where gallery.html is located
