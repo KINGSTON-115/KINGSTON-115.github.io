@@ -150,9 +150,7 @@
             padding-bottom: 60px;
             user-select: none;
         }
-        .horizontal-scroll-container.active {
-            cursor: grabbing;
-        }
+        .horizontal-scroll-container.active { cursor: grabbing; }
         .horizontal-scroll-container::-webkit-scrollbar { display: none; }
         
         .gallery-track { 
@@ -162,32 +160,34 @@
             padding-right: 10vw; 
         }
         
-        .photo-frame-wrapper {
-            transition: transform 0.4s ease;
-        }
-        .photo-frame-wrapper:hover {
-            transform: scale(1.02);
-            z-index: 20;
-        }
-
+        .photo-frame-wrapper { transition: transform 0.4s ease; }
+        .photo-frame-wrapper:hover { transform: scale(1.02); z-index: 20; }
         .photo-frame {
             width: 65vh; height: 45vh; flex-shrink: 0; position: relative; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.15); transition: all 0.5s ease;
-            filter: grayscale(100%) contrast(110%);
-            background: #111;
-            pointer-events: none;
+            filter: grayscale(100%) contrast(110%); background: #111; pointer-events: none;
         }
         @media (max-width: 768px) { .photo-frame { width: 85vw; height: 35vh; } }
-        
         .photo-frame-wrapper:hover .photo-frame {
-            filter: grayscale(0%) contrast(100%);
-            border-color: var(--accent-color);
+            filter: grayscale(0%) contrast(100%); border-color: var(--accent-color);
             box-shadow: 0 20px 50px -10px rgba(204, 255, 0, 0.15);
         }
-        
-        .photo-frame img {
-            width: 100%; height: 100%; object-fit: cover;
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* More Card */
+        .more-card {
+            width: 30vh; height: 45vh; flex-shrink: 0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2);
+            transition: all 0.3s ease; text-decoration: none;
         }
+        @media (max-width: 768px) { .more-card { width: 40vw; height: 35vh; } }
+        .more-card:hover {
+            background: rgba(204, 255, 0, 0.1); border-color: var(--accent-color); border-style: solid;
+            transform: scale(1.05);
+        }
+        .more-card:hover span { color: #fff; }
+        .more-card:hover svg { stroke: var(--accent-color); transform: translateX(5px); }
 
         /* Modal */
         #projectModal { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -195,8 +195,7 @@
         .modal-content { 
             transform: translateY(50px); 
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-color) #111;
+            scrollbar-width: thin; scrollbar-color: var(--accent-color) #111;
         }
         .modal-content::-webkit-scrollbar { width: 6px; }
         .modal-content::-webkit-scrollbar-track { background: #111; }
@@ -232,6 +231,27 @@
         /* Text Glow */
         .hero-text-glow { text-shadow: 0 0 30px rgba(43, 96, 255, 0.3); }
 
+        /* --- Asymmetric Text Animations (Updated) --- */
+        
+        /* Unified Animation Keyframes */
+        @keyframes gradientFlowSlow {
+            0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+            100% { background-position: 100% 50%; filter: hue-rotate(30deg); }
+        }
+
+        /* Slow & Deep (Standard) - for FOOLISH */
+        .animate-gradient-slow {
+            background-size: 200% 200%;
+            animation: gradientFlowSlow 4s ease-in-out infinite alternate;
+        }
+
+        /* Slow & Deep (Reverse) - for HUNGRY */
+        /* 速度一致 (4s)，但起始状态相反 (alternate-reverse) */
+        .animate-gradient-slow-reverse {
+            background-size: 200% 200%;
+            animation: gradientFlowSlow 4s ease-in-out infinite alternate-reverse;
+        }
+
         /* Outline Text */
         .outline-text {
             -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent; transition: all 0.3s ease;
@@ -257,21 +277,13 @@
         .section-divider .line { flex: 1; height: 1px; background: linear-gradient(90deg, #333, transparent); }
         .section-divider .num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-color); }
         
-        /* Decorative Elements - NEW */
-        .deco-cross {
-            position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 0;
-        }
+        /* Decorative Elements */
+        .deco-cross { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 0; }
         .deco-cross::before, .deco-cross::after { content: ''; position: absolute; background: rgba(255,255,255,0.2); }
         .deco-cross::before { width: 100%; height: 1px; top: 50%; left: 0; }
         .deco-cross::after { width: 1px; height: 100%; left: 50%; top: 0; }
-
-        .deco-data {
-            position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent-color); opacity: 0.4; pointer-events: none;
-        }
-
-        .deco-line-v {
-            position: absolute; width: 1px; height: 100px; background: linear-gradient(to bottom, transparent, var(--accent-color), transparent); opacity: 0.3; pointer-events: none;
-        }
+        .deco-data { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent-color); opacity: 0.4; pointer-events: none; }
+        .deco-line-v { position: absolute; width: 1px; height: 100px; background: linear-gradient(to bottom, transparent, var(--accent-color), transparent); opacity: 0.3; pointer-events: none; }
 
         /* Prose */
         .prose h3 { color: #fff; margin-top: 2rem; font-family: 'Noto Sans SC', sans-serif; font-weight: 700; border-left: 3px solid var(--accent-color); padding-left: 1rem; }
@@ -328,7 +340,7 @@
             </a>
         </div>
     </nav>
-
+<!-- ... inside <body> ... -->
     <!-- 1. HERO -->
     <section id="about" class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
         <!-- Decos -->
@@ -342,12 +354,14 @@
         </div>
 
         <div class="relative z-10 max-w-6xl text-center w-full">
-            <p class="font-mono text-acid-green mb-6 text-xs md:text-base tracking-[0.5em] uppercase opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">&lt; SYSTEM_INITIATED /&gt;</p>
+            <p class="font-mono text-acid-green mb-6 text-xs md:text-base tracking-[0.5em] uppercase">&lt; SYSTEM_INITIATED /&gt;</p>
             
             <div class="hero-title-wrapper mb-12 flex flex-col items-center">
                 <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.1] md:leading-[0.95] text-white hero-text-glow">
-                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">HUNGRY</span></span>
-                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green">FOOLISH</span></span>
+                    <!-- 修改：HUNGRY 使用 animate-gradient-slow-reverse -->
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow-reverse scramble-text">HUNGRY</span></span>
+                    <!-- 保持：FOOLISH 使用 animate-gradient-slow -->
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow scramble-text">FOOLISH</span></span>
                 </h1>
             </div>
             
@@ -373,21 +387,22 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED PROJECTS -->
+    <!-- 2. SELECTED PROJECTS (Layout Fixed to Center) -->
     <section id="projects" class="relative pb-40 pt-20">
         <div class="px-6 md:px-12">
             <div class="section-divider">
                 <span class="num">01 // PROJECTS</span>
                 <div class="line"></div>
             </div>
-            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center md:text-left relative z-10 flex flex-col md:flex-row items-baseline gap-4">
+            
+            <!-- Layout Fixed: Centered Title Block -->
+            <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center relative z-10 flex flex-col md:flex-row items-baseline justify-center gap-4">
                 <span class="outline-text">CASE_STUDIES</span>
                 <span class="solid-cn-text text-xl md:text-3xl">项目经历 <span class="text-sm font-mono text-acid-green align-top pointer-events-none">(06)</span></span>
             </h2>
             
             <div class="flex flex-col gap-32">
-                
-                <!-- 01: Nexus -->
+                <!-- Projects content (Full data preserved) -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                         <div>
@@ -416,7 +431,6 @@
                     </div>
                 </article>
 
-                <!-- 02: Drone -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh;" onclick="openModal('drone')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
                         <div>
@@ -426,7 +440,7 @@
                                 低空经济全栈方案。前端微信小程序，后端 Spring Boot，自研 <span class="text-white">IoT 协议</span> 实现云端对无人机柜的远程监控与自动归还检测。
                             </p>
                             <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
-                                <span class="px-3 py-1 border border-white/20 rounded-full">MiniApp</span>
+                                <span class="px-3 py-1 border border-white/20 rounded-full">WeChat MiniApp</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">Java Spring</span>
                                 <span class="px-3 py-1 border border-white/20 rounded-full">IoT Protocol</span>
                             </div>
@@ -443,7 +457,6 @@
                     </div>
                 </article>
 
-                <!-- 03: Laser -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh;" onclick="openModal('laser')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
@@ -469,7 +482,6 @@
                     </div>
                 </article>
 
-                <!-- 04: Ship -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh;" onclick="openModal('ship')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
@@ -495,7 +507,6 @@
                     </div>
                 </article>
 
-                <!-- 05: Culture -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh;" onclick="openModal('culture')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                         <div>
@@ -521,7 +532,6 @@
                     </div>
                 </article>
 
-                <!-- 06: Piano -->
                 <article class="project-card min-h-[450px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh;" onclick="openModal('piano')">
                     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                         <div>
@@ -565,7 +575,7 @@
                 <span class="solid-cn-text text-xl md:text-3xl">荣誉记录</span>
             </h2>
             <div class="grid grid-cols-1 gap-6 md:gap-8">
-                <!-- Robocom 2025 -->
+                <!-- Awards Cards -->
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('robocom2025')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
                         <div class="flex items-center gap-3">
@@ -575,12 +585,7 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">2ND PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
-                    <div class="flex justify-between items-end pointer-events-none">
-                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
-                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">ROBOTICS</span>
-                    </div>
                 </div>
-                <!-- Robocom 2024 -->
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('robocom2024')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
                         <div class="flex items-center gap-3">
@@ -590,12 +595,7 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
-                    <div class="flex justify-between items-end pointer-events-none">
-                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
-                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">AI_CONTROL</span>
-                    </div>
                 </div>
-                <!-- Smart Car 2024 -->
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2024')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
                         <div class="flex items-center gap-3">
@@ -605,13 +605,8 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">1ST PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第十九届全国大学生智能车竞赛</h3>
-                    <div class="flex justify-between items-end pointer-events-none">
-                        <p class="text-xs md:text-sm opacity-60">摄像头组 STC 赛道</p>
-                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">VISUAL_ALGO</span>
-                    </div>
                 </div>
-                <!-- Smart Car 2025 -->
-                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
+                <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
                         <div class="flex items-center gap-3">
                              <div class="award-icon-wrapper"><i data-lucide="zap" class="award-icon-zap w-8 h-8 text-blue-400 group-hover:text-black"></i></div>
@@ -620,10 +615,6 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第二十届全国大学生智能车竞赛</h3>
-                    <div class="flex justify-between items-end pointer-events-none">
-                        <p class="text-xs md:text-sm opacity-60">电磁组微缩车模赛道</p>
-                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">HARDWARE</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -636,8 +627,7 @@
                 <span class="num">03 // GALLERY</span>
                 <div class="line"></div>
             </div>
-            
-            <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 md:gap-0">
+            <div class="flex items-end justify-between">
                 <h2 class="text-3xl md:text-6xl font-display font-bold outline-text relative z-10 flex flex-col md:flex-row items-baseline gap-4">
                     <span>PERSONAL_GALLERY</span>
                     <span class="solid-cn-text text-xl md:text-3xl">个人摄影作品</span>
@@ -647,16 +637,24 @@
                 </a>
             </div>
         </div>
-        
         <div class="horizontal-scroll-container" id="galleryContainer">
             <div class="gallery-track">
-                <!-- Injected by JS -->
+                <div class="photo-frame-wrapper"><div class="photo-frame"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_001.RAW</div></div></div>
+                <div class="photo-frame-wrapper"><div class="photo-frame"><img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_002.RAW</div></div></div>
+                <div class="photo-frame-wrapper"><div class="photo-frame"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_003.RAW</div></div></div>
+                <div class="photo-frame-wrapper"><div class="photo-frame"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_004.RAW</div></div></div>
+                <div class="photo-frame-wrapper"><div class="photo-frame"><img src="https://images.unsplash.com/photo-1535132011086-b8818f0161dd?auto=format&fit=crop&q=80"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_005.RAW</div></div></div>
+                <a href="gallery.html" class="more-card group">
+                    <i data-lucide="arrow-right" class="w-8 h-8 text-gray-500 group-hover:text-acid-green transition-colors mb-2"></i>
+                    <span class="font-mono text-xs text-gray-500 group-hover:text-white tracking-widest">VIEW_ALL //</span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- 5. FOOTER -->
     <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
+        <div class="tech-crosshair bottom-10 right-10 bg-black"></div>
         <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4"><span>Status: Open to work</span><span>Location: Earth</span></div>
         <div class="space-y-6 md:space-y-8 my-auto">
             <p class="font-mono text-sm mb-4">INITIATE CONTACT PROTOCOL:</p>
@@ -668,7 +666,7 @@
         <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20"><div>© 2025 CHARLES</div><div>SCROLL_END</div></div>
     </footer>
 
-    <!-- Modals & Scripts -->
+    <!-- Modals -->
     <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col">
             <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -714,41 +712,14 @@
             gsap.fromTo(card, { scale: 1, filter: "brightness(1)" }, { scale: 0.92, filter: "brightness(0.6)", ease: "none", scrollTrigger: { trigger: card, start: "top -20%", end: "bottom -100%", scrub: 0.5 } });
         });
 
-        // New Drag to Scroll Logic (Integrated)
         const galleryContainer = document.getElementById('galleryContainer');
         if (galleryContainer) {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            galleryContainer.addEventListener('mousedown', (e) => {
-                isDown = true;
-                galleryContainer.classList.add('active');
-                startX = e.pageX - galleryContainer.offsetLeft;
-                scrollLeft = galleryContainer.scrollLeft;
-            });
-            galleryContainer.addEventListener('mouseleave', () => {
-                isDown = false;
-                galleryContainer.classList.remove('active');
-            });
-            galleryContainer.addEventListener('mouseup', () => {
-                isDown = false;
-                galleryContainer.classList.remove('active');
-            });
-            galleryContainer.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - galleryContainer.offsetLeft;
-                const walk = (x - startX) * 2;
-                galleryContainer.scrollLeft = scrollLeft - walk;
-            });
-             // Wheel to horizontal scroll
-             galleryContainer.addEventListener('wheel', (e) => {
-                if (e.deltaY !== 0) {
-                    e.preventDefault();
-                    galleryContainer.scrollLeft += e.deltaY;
-                }
-            });
+            let isDown = false; let startX; let scrollLeft;
+            galleryContainer.addEventListener('mousedown', (e) => { isDown = true; galleryContainer.classList.add('active'); startX = e.pageX - galleryContainer.offsetLeft; scrollLeft = galleryContainer.scrollLeft; });
+            galleryContainer.addEventListener('mouseleave', () => { isDown = false; galleryContainer.classList.remove('active'); });
+            galleryContainer.addEventListener('mouseup', () => { isDown = false; galleryContainer.classList.remove('active'); });
+            galleryContainer.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - galleryContainer.offsetLeft; const walk = (x - startX) * 2; galleryContainer.scrollLeft = scrollLeft - walk; });
+            galleryContainer.addEventListener('wheel', (e) => { if (e.deltaY !== 0) { e.preventDefault(); galleryContainer.scrollLeft += e.deltaY; } });
         }
         
         function hideLoader() { const l = document.getElementById('loader'); if (l && !l.classList.contains('loaded')) { l.classList.add('loaded'); document.body.style.overflow = ''; } }
@@ -761,39 +732,7 @@
         });
         function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => { const toast = document.getElementById('toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
 
-        // Random Photo Preview Logic
-        const photoIds = ["1518791841217-8f162f1e1131", "1492691527719-9d1e07e534b4", "1470071459604-3b5ec3a7fe05", "1550745165-9bc0b252726f", "1535132011086-b8818f0161dd", "1618005182384-a83a8bd57fbe"];
-        const homeGrid = document.querySelector('#galleryContainer .gallery-track');
-        
-        async function loadGalleryPreview() {
-            try {
-                const response = await fetch('photos/gallery_code.txt');
-                if (!response.ok) throw new Error("Local file not found");
-                const text = await response.text();
-                const urls = text.split('\n').filter(line => line.trim() !== '');
-                const selected = urls.sort(() => 0.5 - Math.random()).slice(0, 5);
-                renderGrid(selected);
-            } catch (e) {
-                const fallbackUrls = photoIds.map(id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80`);
-                const selected = fallbackUrls.sort(() => 0.5 - Math.random()).slice(0, 5);
-                renderGrid(selected);
-            }
-        }
-
-        function renderGrid(urls) {
-            if(!homeGrid) return;
-            homeGrid.innerHTML = '';
-            urls.forEach((url, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'photo-frame-wrapper';
-                wrapper.innerHTML = `<div class="photo-frame"><img src="${url}"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_00${index+1}.RAW</div></div>`;
-                homeGrid.appendChild(wrapper);
-            });
-        }
-        
-        loadGalleryPreview();
-
-        // Modal Data (Full Content Restored)
+        // Modal Data (Full Content)
         const modalData = {
             nexus: {
                 title: "Nexus 智能时钟",
