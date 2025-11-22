@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GALLERY_VIEW // KINGSTON-115 // V2.6</title>
+    <title>GALLERY_VIEW // KINGSTON-115 // V2.9</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     
@@ -109,13 +109,14 @@
             filter: grayscale(100%) contrast(110%) brightness(0.7);
             transition: filter 0.5s ease;
             box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
+            min-height: 200px; /* Ensure visibility even if broken */
+            background: #111;
         }
         .gallery-item:hover img {
             filter: grayscale(0%) contrast(105%) brightness(1);
             box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 20px rgba(204, 255, 0, 0.1);
         }
         
-        /* 3D Depth Layers */
         .item-overlay {
             position: absolute; inset: 0;
             border: 1px solid rgba(204, 255, 0, 0.3);
@@ -207,38 +208,34 @@
 
     </main>
 
-    <!-- ENHANCED LIGHTBOX HUD -->
-    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl hidden flex items-center justify-center opacity-0 transition-all duration-500">
+    <!-- STABLE LIGHTBOX (Reverted to V2.4 Logic with V2.8 Aesthetics) -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
         
-        <!-- Lightbox Background Grid -->
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none"></div>
+        <!-- Background Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-        <!-- HUD Lines (Animated) -->
-        <div class="absolute top-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent opacity-50"></div>
-        <div class="absolute bottom-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent opacity-50"></div>
+        <!-- HUD Lines -->
+        <div class="absolute top-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent"></div>
+        <div class="absolute bottom-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent"></div>
         
         <!-- Close Control -->
-        <button id="lightbox-close" class="interactive-hover absolute top-8 right-8 text-acid-green z-[110] font-mono text-xs tracking-[0.2em] hover:bg-acid-green hover:text-black px-6 py-2 border border-acid-green transition-all group">
-            <span class="mr-2 opacity-50 group-hover:opacity-100">></span>CLOSE_VIEW
+        <button id="lightbox-close" class="interactive-hover absolute top-8 right-8 text-acid-green z-[110] font-mono text-xs tracking-[0.2em] hover:bg-acid-green hover:text-black px-6 py-2 border border-acid-green transition-all cursor-pointer">
+            [ CLOSE_VIEW ]
         </button>
 
-        <!-- Main Image Area Container (Scales on open) -->
-        <div id="lightbox-content" class="relative max-w-[90vw] max-h-[85vh] p-2 border border-acid-green/20 bg-black/40 shadow-[0_0_100px_rgba(204,255,0,0.05)] transform scale-95 transition-transform duration-500 ease-out">
+        <!-- Main Content -->
+        <div class="relative max-w-[90vw] max-h-[85vh] p-1 border border-acid-green/30 bg-black shadow-[0_0_50px_rgba(204,255,0,0.1)]">
             
             <!-- Tech Corners -->
-            <div class="absolute -top-[1px] -left-[1px] w-8 h-8 border-l-2 border-t-2 border-acid-green"></div>
-            <div class="absolute -top-[1px] -right-[1px] w-8 h-8 border-r-2 border-t-2 border-acid-green"></div>
-            <div class="absolute -bottom-[1px] -right-[1px] w-8 h-8 border-r-2 border-b-2 border-acid-green"></div>
-            <div class="absolute -bottom-[1px] -left-[1px] w-8 h-8 border-l-2 border-b-2 border-acid-green"></div>
-            
-            <!-- Center Crosshair Decoration -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-acid-green/10 -z-10 pointer-events-none"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[120%] bg-acid-green/10 -z-10 pointer-events-none"></div>
+            <div class="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-acid-green z-20"></div>
+            <div class="absolute -top-1 -right-1 w-4 h-4 border-r-2 border-t-2 border-acid-green z-20"></div>
+            <div class="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-acid-green z-20"></div>
+            <div class="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-acid-green z-20"></div>
 
-            <img id="lightbox-img" src="" class="max-h-[80vh] max-w-full object-contain block relative z-10 shadow-2xl">
+            <!-- Image: Direct display, no hiding logic -->
+            <img id="lightbox-img" src="" class="max-h-[80vh] max-w-full object-contain block shadow-2xl relative z-10">
             
-            <!-- Metadata Side Panel (Now visible on larger screens) -->
+            <!-- Metadata Side Panel -->
             <div class="absolute -right-24 top-0 bottom-0 w-20 hidden lg:flex flex-col justify-center gap-12 py-8 text-[9px] font-mono text-acid-green/60 text-right pointer-events-none border-r border-acid-green/10 pr-4">
                 <div class="flex flex-col gap-2">
                     <span class="block w-2 h-2 bg-acid-green animate-pulse ml-auto"></span>
@@ -250,7 +247,7 @@
                     <div>SS <span class="text-white">1/250</span></div>
                 </div>
                 <div class="writing-vertical-rl transform rotate-180 tracking-[0.3em] opacity-50">
-                    ENCRYPTED_DATA // 0x4892
+                    ENCRYPTED_DATA
                 </div>
             </div>
         </div>
@@ -261,7 +258,6 @@
                 <span class="w-1 h-1 bg-acid-green"></span>
             </span>
             <span>IMAGE_BUFFER_LOADED</span> 
-            <span id="img-index" class="text-white opacity-50 ml-4">01 / 99</span>
         </div>
     </div>
 
@@ -276,8 +272,7 @@
             grid: document.getElementById('gallery-grid'),
             loader: document.getElementById('loading-bar'),
             lightbox: document.getElementById('lightbox'),
-            lightboxImg: document.getElementById('lightbox-img'),
-            lightboxContent: document.getElementById('lightbox-content')
+            lightboxImg: document.getElementById('lightbox-img')
         };
 
         // --- 3D TILT LOGIC ---
@@ -390,7 +385,12 @@
                             </div>
                             <div class="absolute top-0 left-0 w-2 h-2 border-l border-t border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
                             <div class="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
-                            <img src="${src}" loading="lazy" class="w-full h-auto block transform origin-center z-10 relative" onerror="this.src='https://placehold.co/600x800/111/333?text=CORRUPT_DATA';">
+                            
+                            <!-- Thumbnail with simple error fallback -->
+                            <div class="w-full h-auto bg-gray-800 min-h-[200px] relative overflow-hidden">
+                                <img src="${src}" loading="lazy" class="w-full h-full object-cover block transform origin-center z-10 relative" 
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;absolute inset-0 flex items-center justify-center text-xs font-mono text-gray-500 bg-black&quot;>DATA_CORRUPT</div>';">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -437,19 +437,12 @@
                 attachTiltEffect(card);
                 const img = card.querySelector('img');
                 card.addEventListener('click', () => {
+                    // SIMPLE AND ROBUST LOGIC
                     elements.lightboxImg.src = img.src;
+                    
                     elements.lightbox.classList.remove('hidden');
-                    // Reset scale class
-                    elements.lightboxContent.classList.remove('scale-100');
-                    elements.lightboxContent.classList.add('scale-95');
-                    
-                    // Force reflow
                     void elements.lightbox.offsetWidth;
-                    
-                    // Trigger enter animation
                     elements.lightbox.classList.remove('opacity-0');
-                    elements.lightboxContent.classList.remove('scale-95');
-                    elements.lightboxContent.classList.add('scale-100');
                     
                     document.body.style.overflow = 'hidden';
                 });
@@ -481,13 +474,13 @@
 
         const closeBox = () => {
             elements.lightbox.classList.add('opacity-0');
-            elements.lightboxContent.classList.remove('scale-100');
-            elements.lightboxContent.classList.add('scale-95');
-            setTimeout(() => { elements.lightbox.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 500);
+            setTimeout(() => { 
+                elements.lightbox.classList.add('hidden'); 
+                document.body.style.overflow = 'auto'; 
+            }, 300);
         };
         document.getElementById('lightbox-close').addEventListener('click', closeBox);
         elements.lightbox.addEventListener('click', (e) => { 
-            // Only close if clicking the backdrop, not the image content
             if (e.target === elements.lightbox) closeBox(); 
         });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBox(); });
