@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GALLERY_VIEW // KINGSTON-115</title>
+    <title>GALLERY_VIEW // KINGSTON-115 // V2.6</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -13,24 +13,27 @@
                 extend: {
                     colors: {
                         'acid-green': '#ccff00',
+                        'acid-dim': 'rgba(204, 255, 0, 0.1)',
                         'dark-bg': '#050505',
                         'panel-bg': '#0a0a0a',
-                        'border-gray': '#222',
                     },
                     fontFamily: {
                         mono: ['"JetBrains Mono"', 'monospace'],
                         sans: ['"Oswald"', 'sans-serif'],
                     },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)",
-                    },
                     animation: {
                         'scanline': 'scanline 8s linear infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
                         scanline: {
                             '0%': { transform: 'translateY(-100%)' },
                             '100%': { transform: 'translateY(100%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
@@ -39,361 +42,466 @@
     </script>
 
     <style>
-        /* Global Aesthetic Overrides */
+        /* --- CORE BASE --- */
         body {
             background-color: #050505;
-            color: #ffffff;
+            color: #e5e5e5;
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
+            min-height: 100vh;
+            perspective: 1000px;
         }
 
-        /* Film Grain / Digital Noise Overlay */
-        .noise-overlay {
+        /* --- 3D PERSPECTIVE GRID --- */
+        .perspective-grid-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            perspective: 600px;
+            overflow: hidden;
+            z-index: 0;
             pointer-events: none;
-            z-index: 40;
-            opacity: 0.07;
+        }
+        .perspective-grid {
+            position: absolute;
+            top: 50%; left: -50%; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg) translateY(-100px) translateZ(-200px);
+            transform-origin: 50% 0%;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, transparent 90%);
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 60px; }
+        }
+
+        /* --- NOISE & OVERLAYS --- */
+        .noise-overlay {
+            position: fixed; inset: 0; z-index: 50; opacity: 0.04; pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
-
-        /* Subtle Background Grid */
-        .bg-tech-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+        .scanline-overlay {
+            position: fixed; inset: 0; z-index: 40; pointer-events: none;
+            background-size: 100% 4px; opacity: 0.1;
+            background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
         }
 
-        /* Scrollbar minimal */
-        ::-webkit-scrollbar {
-            width: 4px;
+        /* --- GALLERY ITEMS --- */
+        .gallery-item-wrapper {
+            perspective: 1000px;
+            margin-bottom: 3rem;
         }
-        ::-webkit-scrollbar-track {
-            background: #050505;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ccff00;
-        }
-
-        /* Gallery Item Styling */
         .gallery-item {
-            page-break-inside: avoid;
-            break-inside: avoid;
-            transition: transform 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
-        
+        .gallery-item.idle {
+            animation: float 6s ease-in-out infinite;
+            animation-delay: var(--float-delay, 0s);
+        }
+
         .gallery-item img {
-            filter: grayscale(100%) contrast(120%) brightness(0.9);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform, filter;
+            filter: grayscale(100%) contrast(110%) brightness(0.7);
+            transition: filter 0.5s ease;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
         }
-        
-        /* Hover State: Color + Subtle Border Glow */
         .gallery-item:hover img {
-            filter: grayscale(0%) contrast(100%) brightness(1);
-            box-shadow: 0 0 0 1px #ccff00;
-        }
-
-        /* Hide elements initially for fade-in */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            filter: grayscale(0%) contrast(105%) brightness(1);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 20px rgba(204, 255, 0, 0.1);
         }
         
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        /* 3D Depth Layers */
+        .item-overlay {
+            position: absolute; inset: 0;
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            opacity: 0; transition: opacity 0.3s; pointer-events: none;
+            transform: translateZ(20px);
+        }
+        .gallery-item:hover .item-overlay { opacity: 1; }
+        
+        .meta-floating {
+            transform: translateZ(30px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        
-        /* Massive Watermark Text */
-        .watermark-text {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
-            color: transparent;
-            pointer-events: none;
-            user-select: none;
-        }
+        /* --- UTILS --- */
+        .scramble-text { display: inline-block; min-width: 1ch; }
+        .selection-acid::selection { background-color: #ccff00; color: #000; }
+        .writing-vertical-rl { writing-mode: vertical-rl; }
     </style>
 </head>
-<body class="min-h-screen selection:bg-acid-green selection:text-black">
+<body class="selection-acid">
 
-    <!-- Decorative Noise Layer -->
     <div class="noise-overlay"></div>
+    <div class="scanline-overlay"></div>
 
-    <!-- Background Mesh -->
-    <div class="fixed inset-0 z-0 pointer-events-none bg-tech-grid h-screen"></div>
-    
-    <!-- Massive Background Decor (Artistic Touch) -->
-    <div class="fixed top-20 right-0 z-0 pointer-events-none overflow-hidden">
-        <h1 class="watermark-text font-sans text-[20vw] leading-none font-bold opacity-50 translate-x-1/4">
-            RAW_VISION
-        </h1>
+    <div class="perspective-grid-container">
+        <div class="perspective-grid"></div>
     </div>
 
-    <!-- Minimal Back Button (Fixed) -->
-    <div class="fixed top-0 left-0 z-50 w-full p-6 pointer-events-none flex justify-between items-start">
-        <a href="javascript:history.back()" class="pointer-events-auto group flex items-center gap-3 text-[10px] tracking-[0.2em] text-gray-500 hover:text-acid-green transition-colors mix-blend-screen">
-            <span class="w-2 h-2 border border-current group-hover:bg-acid-green transition-colors"></span>
-            <span>// SYSTEM_EXIT</span>
+    <!-- Fixed UI -->
+    <div class="fixed top-6 left-6 z-50 flex flex-col gap-1 pointer-events-none mix-blend-difference text-acid-green">
+        <div class="text-[10px] tracking-[0.3em] font-bold">SYS.STATUS: ONLINE</div>
+        <div class="text-[10px] opacity-70" id="clock">00:00:00:00</div>
+    </div>
+    <div class="fixed top-6 right-6 z-50">
+        <a href="javascript:history.back()" class="interactive-hover group flex items-center gap-2 text-xs font-mono text-gray-400 hover:text-acid-green transition-colors">
+            <span>[ ESC ]</span>
+            <span class="group-hover:translate-x-1 transition-transform">BACK_TO_ROOT</span>
         </a>
-        
-        <!-- Status Indicator -->
-        <div class="text-[10px] font-mono text-acid-green animate-pulse hidden md:block">
-            ● LIVE_FEED
-        </div>
     </div>
 
-    <!-- Main Content Wrapper -->
     <main class="relative z-10 pt-32 pb-32 px-4 md:px-12 max-w-[1920px] mx-auto">
 
-        <!-- Artistic Header -->
-        <header class="mb-20 fade-in relative">
-            <div class="absolute -left-4 top-0 w-1 h-full bg-acid-green opacity-0 md:opacity-100"></div>
-            <div class="pl-0 md:pl-8">
-                <div class="flex items-center gap-4 mb-2 opacity-60">
-                    <span class="h-[1px] w-12 bg-white"></span>
-                    <span class="text-[10px] tracking-[0.4em] text-white font-mono">VISUAL_ARCHIVE_03</span>
-                </div>
-                <h1 class="font-sans text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white leading-[0.9]">
-                    Captured<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-800">Moments</span>.
-                </h1>
+        <header class="mb-24 relative max-w-4xl" style="transform: translateZ(0);">
+            <div class="absolute -left-6 top-2 bottom-2 w-[1px] bg-gradient-to-b from-acid-green to-transparent"></div>
+            <div class="flex items-center gap-4 mb-4 text-acid-green/80 text-[10px] tracking-[0.2em] font-mono">
+                <span class="w-4 h-4 border border-current flex items-center justify-center text-[8px] animate-pulse">R</span>
+                <span>ARCHIVE_BATCH_115</span>
             </div>
-            
-            <!-- Filter Bar (Floating) -->
-            <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 text-[11px] font-mono text-gray-600 uppercase tracking-wider border-t border-white/10 pt-6 max-w-2xl">
-                <span class="text-gray-800 select-none">FILTER_PROTOCOL ::</span>
-                <button class="filter-btn hover:text-acid-green transition-colors text-acid-green relative group" data-filter="all">
-                    [ ALL_DATA ]
-                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-100 transition-transform origin-left"></span>
-                </button>
-                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="scenery">
-                    LANDSCAPE
-                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                </button>
-                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="portrait">
-                    PORTRAIT
-                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                </button>
-                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="street">
-                    STREET
-                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                </button>
-                <button class="filter-btn hover:text-white transition-colors relative group" data-filter="abstract">
-                    ABSTRACT
-                    <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-acid-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                </button>
+            <h1 class="font-sans text-6xl md:text-8xl font-bold uppercase leading-[0.85] tracking-tight mb-8 text-white drop-shadow-2xl">
+                <span class="block scramble-target" data-value="NEURAL">NEURAL</span>
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white scramble-target" data-value="SNAPSHOTS">SNAPSHOTS</span>
+            </h1>
+            <p class="max-w-xl text-gray-500 text-sm font-mono leading-relaxed border-l border-gray-800 pl-6 ml-1">
+                > ACCESSING VISUAL MEMORY BANKS...<br>
+                > RAW DATA INTERPRETATION.<br>
+                > 3D RENDERING ENGINE: ACTIVE.
+            </p>
+
+            <div class="mt-12 flex flex-wrap gap-6 text-[11px] font-mono uppercase tracking-widest border-t border-dashed border-gray-800 pt-6">
+                <span class="text-acid-green mr-4">Protocol:</span>
+                <button class="interactive-hover filter-btn text-white relative hover:text-acid-green transition-colors" data-filter="all">[ // ALL ]</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="scenery">/ LANDSCAPE</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="portrait">/ HUMAN</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="urban">/ URBAN</button>
             </div>
         </header>
 
-        <!-- Loading State -->
-        <div id="loading-indicator" class="h-40 flex flex-col items-center justify-center font-mono text-xs text-acid-green gap-4">
-            <div class="w-32 h-[2px] bg-gray-800 relative overflow-hidden">
-                <div class="absolute inset-0 bg-acid-green w-1/2 animate-[scanline_1s_linear_infinite] translate-x-[-100%]"></div>
+        <div id="loading-bar" class="w-full max-w-xs h-[1px] bg-gray-800 mb-12 relative overflow-hidden">
+            <div class="absolute inset-0 bg-acid-green animate-[scanline_2s_ease-in-out_infinite] w-1/2"></div>
+        </div>
+
+        <div id="gallery-grid" class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-12 min-h-[50vh] transition-opacity duration-500 opacity-0 perspective-[2000px]">
+            <!-- Items injected via JS -->
+        </div>
+
+        <footer class="mt-40 border-t border-gray-900 pt-8 flex justify-between items-end text-[10px] text-gray-600 font-mono">
+            <div>
+                <div class="mb-2">KINGSTON-115 // TERMINAL</div>
+                <div>COPYRIGHT NULL_VOID © 2025</div>
             </div>
-            <span class="animate-pulse">> INITIALIZING_IMAGE_BUFFER...</span>
-        </div>
-
-        <!-- Error State -->
-        <div id="error-message" class="hidden text-center py-20 font-mono text-xs text-red-500 border border-red-900/30 bg-red-900/10 p-4 max-w-md mx-auto">
-            > CRITICAL ERROR: DATA_PATH_INVALID <br>
-            > CHECK CONNECTION TO /photos/gallery_code.txt
-        </div>
-
-        <!-- Masonry Gallery Grid -->
-        <!-- Adjusted gap and columns for a more 'gallery' feel -->
-        <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-3 gap-8 space-y-8 fade-in delay-200 min-h-[50vh]" id="gallery-grid">
-            <!-- Content injected via JS -->
-        </div>
-
-        <!-- Minimal Footer -->
-        <div class="mt-32 flex items-center justify-between border-t border-white/10 pt-6 text-[9px] text-gray-600 font-mono uppercase tracking-widest">
-            <div>KINGSTON-115 // VISUAL_ARTS</div>
-            <div>END_OF_STREAM</div>
-        </div>
+            <div class="text-right">
+                <div class="w-24 h-8 border border-gray-800 flex items-center justify-center gap-1">
+                    <div class="w-1 h-3 bg-acid-green animate-pulse"></div>
+                    <div class="w-1 h-2 bg-acid-green/50"></div>
+                    <div class="w-1 h-4 bg-acid-green/80"></div>
+                </div>
+            </div>
+        </footer>
 
     </main>
 
-    <!-- Ultra-Minimal Lightbox (Pure Focus) -->
-    <div id="lightbox" class="fixed inset-0 z-[100] bg-black hidden opacity-0 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+    <!-- ENHANCED LIGHTBOX HUD -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl hidden flex items-center justify-center opacity-0 transition-all duration-500">
         
-        <!-- Close Button -->
-        <button id="lightbox-close" class="absolute top-8 right-8 text-white/50 hover:text-acid-green transition-colors z-[101] mix-blend-difference transform hover:rotate-90 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+        <!-- Lightbox Background Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none"></div>
+
+        <!-- HUD Lines (Animated) -->
+        <div class="absolute top-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent opacity-50"></div>
+        <div class="absolute bottom-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent opacity-50"></div>
+        
+        <!-- Close Control -->
+        <button id="lightbox-close" class="interactive-hover absolute top-8 right-8 text-acid-green z-[110] font-mono text-xs tracking-[0.2em] hover:bg-acid-green hover:text-black px-6 py-2 border border-acid-green transition-all group">
+            <span class="mr-2 opacity-50 group-hover:opacity-100">></span>CLOSE_VIEW
         </button>
-        
-        <!-- Image Container -->
-        <div class="w-full h-full p-0 md:p-12 flex items-center justify-center cursor-zoom-out" id="lightbox-backdrop">
-            <img id="lightbox-img" src="" class="max-h-full max-w-full object-contain shadow-2xl select-none">
+
+        <!-- Main Image Area Container (Scales on open) -->
+        <div id="lightbox-content" class="relative max-w-[90vw] max-h-[85vh] p-2 border border-acid-green/20 bg-black/40 shadow-[0_0_100px_rgba(204,255,0,0.05)] transform scale-95 transition-transform duration-500 ease-out">
+            
+            <!-- Tech Corners -->
+            <div class="absolute -top-[1px] -left-[1px] w-8 h-8 border-l-2 border-t-2 border-acid-green"></div>
+            <div class="absolute -top-[1px] -right-[1px] w-8 h-8 border-r-2 border-t-2 border-acid-green"></div>
+            <div class="absolute -bottom-[1px] -right-[1px] w-8 h-8 border-r-2 border-b-2 border-acid-green"></div>
+            <div class="absolute -bottom-[1px] -left-[1px] w-8 h-8 border-l-2 border-b-2 border-acid-green"></div>
+            
+            <!-- Center Crosshair Decoration -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-acid-green/10 -z-10 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[120%] bg-acid-green/10 -z-10 pointer-events-none"></div>
+
+            <img id="lightbox-img" src="" class="max-h-[80vh] max-w-full object-contain block relative z-10 shadow-2xl">
+            
+            <!-- Metadata Side Panel (Now visible on larger screens) -->
+            <div class="absolute -right-24 top-0 bottom-0 w-20 hidden lg:flex flex-col justify-center gap-12 py-8 text-[9px] font-mono text-acid-green/60 text-right pointer-events-none border-r border-acid-green/10 pr-4">
+                <div class="flex flex-col gap-2">
+                    <span class="block w-2 h-2 bg-acid-green animate-pulse ml-auto"></span>
+                    <span>LIVE_FEED</span>
+                </div>
+                <div>
+                    <div class="mb-1">ISO <span class="text-white">800</span></div>
+                    <div class="mb-1">AP <span class="text-white">f/1.8</span></div>
+                    <div>SS <span class="text-white">1/250</span></div>
+                </div>
+                <div class="writing-vertical-rl transform rotate-180 tracking-[0.3em] opacity-50">
+                    ENCRYPTED_DATA // 0x4892
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Info -->
+        <div class="absolute bottom-12 left-12 font-mono text-xs text-acid-green/80 flex items-center gap-4">
+            <span class="w-3 h-3 border border-acid-green flex items-center justify-center">
+                <span class="w-1 h-1 bg-acid-green"></span>
+            </span>
+            <span>IMAGE_BUFFER_LOADED</span> 
+            <span id="img-index" class="text-white opacity-50 ml-4">01 / 99</span>
         </div>
     </div>
 
     <script>
-        // --- Configuration ---
-        const DATA_SOURCE = '/photos/gallery_code.txt'; 
-        
-        const GALLERY_GRID = document.getElementById('gallery-grid');
-        const LOADING_INDICATOR = document.getElementById('loading-indicator');
-        const ERROR_MESSAGE = document.getElementById('error-message');
+        const CONFIG = {
+            dataSource: '/photos/gallery_code.txt',
+            demoMode: true,
+            scrambleSpeed: 30
+        };
 
-        // --- Fetch & Parse Data ---
-        async function loadGalleryData() {
-            try {
-                const response = await fetch(DATA_SOURCE);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const text = await response.text();
-                const imagePaths = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-                renderGallery(imagePaths);
-            } catch (error) {
-                console.error("Gallery Load Error:", error);
-                LOADING_INDICATOR.style.display = 'none';
-                ERROR_MESSAGE.classList.remove('hidden');
-            }
+        const elements = {
+            grid: document.getElementById('gallery-grid'),
+            loader: document.getElementById('loading-bar'),
+            lightbox: document.getElementById('lightbox'),
+            lightboxImg: document.getElementById('lightbox-img'),
+            lightboxContent: document.getElementById('lightbox-content')
+        };
+
+        // --- 3D TILT LOGIC ---
+        function attachTiltEffect(card) {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateY = ((x - centerX) / centerX) * 10;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                card.classList.remove('idle'); 
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `rotateX(0) rotateY(0) scale(1)`;
+                setTimeout(() => card.classList.add('idle'), 500); 
+            });
         }
 
-        // --- Render Logic ---
-        function renderGallery(paths) {
-            LOADING_INDICATOR.style.display = 'none';
-            
-            if (paths.length === 0) {
-                GALLERY_GRID.innerHTML = '<div class="col-span-full text-center pt-20 text-gray-600 font-mono text-xs border-t border-white/10">> DATABASE_EMPTY</div>';
-                return;
+        // --- SCRAMBLE ---
+        class TextScramble {
+            constructor(el) {
+                this.el = el;
+                this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                this.update = this.update.bind(this);
             }
-
-            const categories = ['scenery', 'portrait', 'street', 'abstract'];
-
-            paths.forEach((path) => {
-                // 1. Category Logic (Keep deterministic)
-                const filename = path.split('/').pop();
-                const lowerPath = path.toLowerCase();
-                let category = null;
-                
-                if (lowerPath.includes('landscape') || lowerPath.includes('scenery')) category = 'scenery';
-                else if (lowerPath.includes('portrait') || lowerPath.includes('person')) category = 'portrait';
-                else if (lowerPath.includes('street') || lowerPath.includes('urban')) category = 'street';
-                else if (lowerPath.includes('abstract')) category = 'abstract';
-                
-                if (!category) {
-                    const charCodeSum = filename.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-                    category = categories[charCodeSum % categories.length];
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise((resolve) => this.resolve = resolve);
+                this.queue = [];
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || '';
+                    const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 120); 
+                    const end = start + Math.floor(Math.random() * 120);
+                    this.queue.push({ from, to, start, end });
                 }
-
-                // 2. Create Element (CLEAN - NO TEXT)
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'gallery-item group relative cursor-zoom-in mb-8 break-inside-avoid';
-                itemDiv.setAttribute('data-category', category);
-                
-                // Pure image container
-                itemDiv.innerHTML = `
-                    <div class="bg-[#0a0a0a] w-full overflow-hidden relative">
-                        <img 
-                            src="${path}" 
-                            loading="lazy" 
-                            class="w-full h-auto block"
-                            onerror="this.parentElement.parentElement.style.display='none';"
-                        >
-                        <!-- Subtle scanline overlay on hover only -->
-                        <div class="absolute inset-0 bg-acid-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none mix-blend-overlay"></div>
-                    </div>
-                `;
-
-                GALLERY_GRID.appendChild(itemDiv);
-            });
-
-            attachLightboxEvents();
-            
-            // Fade in grid
-            setTimeout(() => {
-                GALLERY_GRID.style.opacity = 1;
-            }, 100);
+                cancelAnimationFrame(this.frameRequest);
+                this.frame = 0;
+                this.update();
+                return promise;
+            }
+            update() {
+                let output = '';
+                let complete = 0;
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    if (this.frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = this.randomChar();
+                            this.queue[i].char = char;
+                        }
+                        output += `<span class="text-acid-green opacity-50">${char}</span>`;
+                    } else {
+                        output += from;
+                    }
+                }
+                this.el.innerHTML = output;
+                if (complete === this.queue.length) {
+                    this.resolve();
+                } else {
+                    this.frameRequest = requestAnimationFrame(this.update);
+                    this.frame++;
+                }
+            }
+            randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
         }
 
-        window.addEventListener('DOMContentLoaded', loadGalleryData);
-
-        // --- Filter Logic ---
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Style Update
-                filterBtns.forEach(b => {
-                    b.classList.remove('text-acid-green');
-                    b.classList.add('hover:text-white');
-                });
-                btn.classList.add('text-acid-green');
-                btn.classList.remove('hover:text-white');
-                
-                const filter = btn.getAttribute('data-filter');
-                const currentItems = document.querySelectorAll('.gallery-item');
-                
-                currentItems.forEach(item => {
-                    if (item.style.display === 'none' && !item.hasAttribute('data-loaded')) return; // Skip broken images
-                    
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                        // Small delay for layout reflow
-                        setTimeout(() => item.style.opacity = '1', 50);
-                    } else {
-                        item.style.display = 'none';
-                        item.style.opacity = '0';
-                    }
-                });
+        // --- GALLERY ---
+        async function initGallery() {
+            document.querySelectorAll('.scramble-target').forEach(el => {
+                const fx = new TextScramble(el);
+                fx.setText(el.getAttribute('data-value'));
             });
-        });
+            setInterval(() => {
+                const now = new Date();
+                const str = now.toLocaleTimeString('en-US', { hour12: false }) + ':' + Math.floor(now.getMilliseconds()/10);
+                document.getElementById('clock').innerText = str;
+            }, 50);
 
-        // --- Lightbox Logic ---
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const closeBtn = document.getElementById('lightbox-close');
-        const backdrop = document.getElementById('lightbox-backdrop');
+            try {
+                const response = await fetch(CONFIG.dataSource);
+                if (!response.ok) throw new Error("Offline");
+                const text = await response.text();
+                const paths = text.split('\n').map(p => p.trim()).filter(p => p);
+                renderItems(paths);
+            } catch (e) {
+                if (CONFIG.demoMode) renderDemoItems();
+            }
+        }
 
-        function attachLightboxEvents() {
-            document.querySelectorAll('.gallery-item').forEach(item => {
-                const img = item.querySelector('img');
-                img.onload = () => item.setAttribute('data-loaded', 'true');
+        function createItemHTML(src, category, delay) {
+            const floatDelay = `-${Math.random() * 5}s`;
+            return `
+                <div class="gallery-item-wrapper break-inside-avoid opacity-0" 
+                     data-category="${category}"
+                     style="animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards ${delay}ms">
+                    <div class="gallery-item idle group cursor-pointer" style="--float-delay: ${floatDelay}">
+                        <div class="relative bg-gray-900 border border-transparent transition-colors duration-300">
+                            <div class="item-overlay z-20"></div>
+                            <div class="absolute top-3 right-3 flex gap-1 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 meta-floating">
+                                <div class="w-1 h-1 bg-acid-green rounded-full shadow-[0_0_5px_#ccff00]"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                            </div>
+                            <div class="absolute top-0 left-0 w-2 h-2 border-l border-t border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
+                            <div class="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
+                            <img src="${src}" loading="lazy" class="w-full h-auto block transform origin-center z-10 relative" onerror="this.src='https://placehold.co/600x800/111/333?text=CORRUPT_DATA';">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
-                item.addEventListener('click', () => {
-                    if (img.naturalWidth === 0) return;
+        function renderItems(paths) {
+            elements.loader.style.opacity = 0;
+            elements.grid.style.opacity = 1;
+            let html = '';
+            paths.forEach((path, i) => {
+                let cat = 'urban';
+                const lower = path.toLowerCase();
+                if (lower.includes('land')) cat = 'scenery';
+                else if (lower.includes('port')) cat = 'portrait';
+                html += createItemHTML(path, cat, i * 150);
+            });
+            elements.grid.innerHTML = html;
+            attachEvents();
+        }
+
+        function renderDemoItems() {
+            elements.loader.style.opacity = 0;
+            elements.grid.style.opacity = 1;
+            const demos = [
+                {src: 'https://images.unsplash.com/photo-1531297461136-82lw9z0.jpg?auto=format&fit=crop&w=800&q=80', cat: 'urban'},
+                {src: 'https://images.unsplash.com/photo-1492571350019-22de08371fd3?auto=format&fit=crop&w=800&q=80', cat: 'portrait'},
+                {src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80', cat: 'scenery'},
+                {src: 'https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&w=800&q=80', cat: 'urban'},
+                {src: 'https://images.unsplash.com/photo-1626080308314-d7868286cce2?auto=format&fit=crop&w=800&q=80', cat: 'scenery'},
+                {src: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800&q=80', cat: 'urban'},
+            ];
+            let html = '';
+            [...demos, ...demos, ...demos].forEach((item, i) => {
+                html += createItemHTML(item.src, item.cat, i * 150);
+            });
+            elements.grid.innerHTML = html;
+            attachEvents();
+        }
+
+        function attachEvents() {
+            const cards = document.querySelectorAll('.gallery-item');
+            cards.forEach(card => {
+                attachTiltEffect(card);
+                const img = card.querySelector('img');
+                card.addEventListener('click', () => {
+                    elements.lightboxImg.src = img.src;
+                    elements.lightbox.classList.remove('hidden');
+                    // Reset scale class
+                    elements.lightboxContent.classList.remove('scale-100');
+                    elements.lightboxContent.classList.add('scale-95');
                     
-                    lightboxImg.src = img.src;
-                    lightbox.classList.remove('hidden');
                     // Force reflow
-                    void lightbox.offsetWidth; 
-                    lightbox.classList.remove('opacity-0');
+                    void elements.lightbox.offsetWidth;
+                    
+                    // Trigger enter animation
+                    elements.lightbox.classList.remove('opacity-0');
+                    elements.lightboxContent.classList.remove('scale-95');
+                    elements.lightboxContent.classList.add('scale-100');
+                    
                     document.body.style.overflow = 'hidden';
                 });
             });
         }
 
-        const closeLightbox = () => {
-            lightbox.classList.add('opacity-0');
-            setTimeout(() => {
-                lightbox.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 500);
-        };
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const filter = e.target.dataset.filter;
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('text-acid-green');
+                    b.classList.add('text-gray-500');
+                });
+                e.target.classList.remove('text-gray-500');
+                e.target.classList.add('text-acid-green');
 
-        closeBtn.addEventListener('click', closeLightbox);
-        backdrop.addEventListener('click', (e) => {
-            // Close if clicking outside the image
-            if(e.target === backdrop) closeLightbox();
+                const wrappers = document.querySelectorAll('.gallery-item-wrapper');
+                wrappers.forEach(wrapper => {
+                    if (filter === 'all' || wrapper.dataset.category === filter) {
+                        wrapper.style.display = 'block';
+                        setTimeout(() => wrapper.style.opacity = 1, 50);
+                    } else {
+                        wrapper.style.opacity = 0;
+                        setTimeout(() => wrapper.style.display = 'none', 300);
+                    }
+                });
+            });
         });
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape') closeLightbox();
+
+        const closeBox = () => {
+            elements.lightbox.classList.add('opacity-0');
+            elements.lightboxContent.classList.remove('scale-100');
+            elements.lightboxContent.classList.add('scale-95');
+            setTimeout(() => { elements.lightbox.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 500);
+        };
+        document.getElementById('lightbox-close').addEventListener('click', closeBox);
+        elements.lightbox.addEventListener('click', (e) => { 
+            // Only close if clicking the backdrop, not the image content
+            if (e.target === elements.lightbox) closeBox(); 
         });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBox(); });
+
+        window.addEventListener('DOMContentLoaded', () => { initGallery(); });
+
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(60px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
