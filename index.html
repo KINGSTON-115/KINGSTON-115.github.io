@@ -105,7 +105,7 @@
             100% { transform: perspective(500px) rotateX(60deg) translateY(100px) translateZ(-200px); }
         }
 
-        /* --- CYBER DECK (卡包) 核心重构 --- */
+        /* --- CYBER DECK (卡包) 核心样式 --- */
         #deck-container {
             position: relative;
             width: 100%;
@@ -116,24 +116,23 @@
 
         /* 卡片通用样式 */
         .project-card {
-            position: sticky; 
-            top: 15vh;
-            transform-origin: center top;
-            box-shadow: 0 -40px 100px rgba(0,0,0,0.95);
             background-color: #0a0a0a;
-            z-index: 1;
-            cursor: pointer;
             border: 1px solid rgba(255,255,255,0.08);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Removed transform from general transition to avoid conflict */
             overflow: hidden;
-            min-height: 50vh;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             border-radius: 24px;
+            position: sticky;
+            top: 15vh;
+            min-height: 50vh;
+            box-shadow: 0 -30px 80px rgba(0,0,0,0.9);
+            z-index: 1;
+            margin-bottom: 5vh;
         }
         .project-card:hover {
             border-color: rgba(204, 255, 0, 0.5);
         }
 
-        /* === 折叠状态 (COLLAPSED - v10.0 修正版) === */
+        /* === 折叠状态 (COLLAPSED - 修复透视为：上远下近，后高前低) === */
         #deck-container.deck-collapsed {
             height: 75vh; 
             display: block; 
@@ -142,10 +141,9 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             overflow: hidden;
             border-radius: 30px;
-            padding-top: 0; /* Reset padding */
+            padding-top: 50px;
         }
         
-        /* 装饰性“卡包扣” */
         #deck-container.deck-collapsed::after {
             content: 'PROJECT_DATA_PACK // v1.0';
             position: absolute;
@@ -167,26 +165,28 @@
             min-height: 0 !important;
             left: 5%;
             right: 5%;
-            margin: 0 auto;
+            margin: 0 auto; /* 确保水平居中 */
             
-            /* --- 终极堆叠算法 v10.0 --- */
-            /* --i:0 (Nexus) -> 最前面，最大，最亮，位置最靠下 */
-            /* --i:5 (Piano) -> 最后面，最小，最暗，位置最靠上 */
+            /* 透视修正算法 (v10.1)：
+               --i: 0 (Nexus) -> 放在最上面 (Top小)，但被后面的盖住 (Z小)，看起来最远 (Scale小)
+               --i: 5 (Piano) -> 放在最下面 (Top大)，盖住前面的 (Z大)，看起来最近 (Scale大)
+            */
             
-            /* Y轴: 从上往下排。Piano在顶，Nexus在底。*/
-            /* 间距30px。5个间距 = 150px。*/
-            /* 基础Top: 80px */
-            top: calc(80px + (5 - var(--i)) * 35px);
+            /* 1. Y轴位置：索引越大，越往下移 */
+            /* 基础 80px + 增量 */
+            top: calc(80px + var(--i) * 30px); 
             
-            /* 缩放: 越靠前(i越小)越大。 */
-            /* i=0 -> Scale 1.  i=5 -> Scale 0.85 */
-            transform: scale(calc(1 - var(--i) * 0.03));
+            /* 2. 缩放：索引越大，越接近 1 (即最近) */
+            /* 0号卡片缩放 0.9，5号卡片缩放 1.0 */
+            transform: translateX(-50%) scale(calc(0.9 + var(--i) * 0.02)); 
+            /* 注意：需要配合 left: 50% 使用 translateX(-50%) 来绝对居中 */
+            left: 50%; 
             
-            /* 层级: i=0 (Nexus) 必须最高，盖住后面的 */
-            z-index: calc(20 - var(--i));
+            /* 3. 层级：索引越大，层级越高 (盖住上一张) */
+            z-index: calc(var(--i) + 10);
             
-            /* 亮度: i=0 最亮 */
-            filter: brightness(calc(1 - var(--i) * 0.1));
+            /* 4. 亮度：索引越大，越亮 */
+            filter: brightness(calc(0.5 + var(--i) * 0.1));
             
             pointer-events: none; 
             border-top: 1px solid rgba(255,255,255,0.4); 
@@ -195,11 +195,10 @@
             transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* 悬停卡包时：整体舒展开 */
+        /* 悬停时展开间距 */
         #deck-container.deck-collapsed:hover .project-card {
-             /* 增加垂直间距 */
-             top: calc(60px + (5 - var(--i)) * 55px);
-             filter: brightness(1); /* 全部点亮 */
+             top: calc(60px + var(--i) * 50px); /* 增加间距 */
+             filter: brightness(1);
              border-color: var(--accent-color);
         }
 
@@ -392,7 +391,7 @@
             </div>
         </div>
 
-        <!-- 2. 下滑指示器 -->
+        <!-- 2. 下滑指示器 (中文) -->
         <div class="absolute bottom-16 md:bottom-20 left-0 w-full z-30 flex flex-col items-center gap-2 opacity-60 animate-bounce pointer-events-none justify-center">
             <span class="font-mono text-[10px] text-gray-500 tracking-[0.2em]">下滑查看</span>
             <i data-lucide="chevrons-down" class="w-5 h-5 text-acid-green"></i>
@@ -408,7 +407,7 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED PROJECTS (Cyber Deck / Card Pack - REFACTORED v9.2) -->
+    <!-- 2. SELECTED PROJECTS (Cyber Deck) -->
     <section id="projects" class="relative pb-40 pt-20">
         <div class="px-6 md:px-12">
             <div class="section-divider">
@@ -435,6 +434,7 @@
 
                 <div class="flex flex-col gap-32" id="cards-wrapper">
                     <!-- 01: Nexus -->
+                    <!-- Corrected Index: 0 is Top visual in wallet stack -->
                     <article class="project-card min-h-[500px] md:h-[50vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')" style="--i:0">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                             <div>
@@ -510,7 +510,7 @@
                             </div>
                         </div>
                         <div class="md:w-1/2 h-48 md:h-auto bg-gradient-to-br from-purple-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
-                            <div class="absolute inset-0 flex items-center justify-center parallax-content">
+                             <div class="absolute inset-0 flex items-center justify-center parallax-content">
                                 <i data-lucide="crosshair" class="w-40 h-40 text-purple-500/50"></i>
                             </div>
                         </div>
@@ -531,7 +531,7 @@
                                     <span class="px-3 py-1 border border-white/20 rounded-full">LoRa</span>
                                 </div>
                             </div>
-                            <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-electric-blue transition-colors">
+                             <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-electric-blue transition-colors">
                                 [ 点击查看深度技术文档 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                             </div>
                         </div>
@@ -568,7 +568,7 @@
                         </div>
                     </article>
 
-                     <!-- 06: Piano (Index 5 - Last/Top visual in stack) -->
+                     <!-- 06: Piano -->
                      <article class="project-card min-h-[500px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh; --i:5" onclick="openModal('piano')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                              <div>
@@ -623,6 +623,10 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">2ND PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">ROBOTICS</span>
+                    </div>
                 </div>
                 <!-- ... -->
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('robocom2024')">
@@ -634,6 +638,10 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">睿抗机器人魔力元宝 · 海南赛区</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">Robocom 机器人开发者大赛</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">AI_CONTROL</span>
+                    </div>
                 </div>
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2024')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
@@ -644,6 +652,10 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">1ST PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第十九届全国大学生智能车竞赛</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">摄像头组 STC 赛道</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">VISUAL_ALGO</span>
+                    </div>
                 </div>
                 <div class="award-card border border-white/20 p-6 md:p-8 bg-black/50 backdrop-blur hover:bg-white hover:text-black transition-all duration-300 group cursor-pointer" onclick="openModal('smartcar2025')">
                     <div class="flex justify-between items-start mb-4 pointer-events-none">
@@ -654,6 +666,10 @@
                         <span class="font-display font-bold text-2xl md:text-4xl">3RD PLACE</span>
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-2 pointer-events-none">第二十届全国大学生智能车竞赛</h3>
+                    <div class="flex justify-between items-end pointer-events-none">
+                        <p class="text-xs md:text-sm opacity-60">电磁组微缩车模赛道</p>
+                        <span class="font-mono text-[10px] md:text-xs px-2 py-1 border border-current rounded">HARDWARE</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -851,6 +867,7 @@
                     card.style.boxShadow = '';
                     card.style.borderTop = '';
                     card.style.margin = ''; // Clear collapsed margins
+                    // Reset stacking order for expanded view if needed, but sticky handles it naturally
                 });
 
                 // Re-init animations
