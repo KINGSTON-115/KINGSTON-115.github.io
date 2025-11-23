@@ -22,6 +22,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
+    <!-- 不蒜子统计 (Busuanzi) - 核心脚本 -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -119,8 +122,10 @@
             background-color: #0a0a0a;
             border: 1px solid rgba(255,255,255,0.08);
             overflow: hidden;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease; 
+            /* 注意：移除通用 transform transition，避免与 GSAP 冲突，只在 CSS 状态切换时生效 */
             border-radius: 24px;
+            /* 默认展开态：Sticky 效果 */
             position: sticky;
             top: 15vh;
             min-height: 50vh;
@@ -132,7 +137,7 @@
             border-color: rgba(204, 255, 0, 0.5);
         }
 
-        /* === 折叠状态 (COLLAPSED - 修复透视为：上远下近，后高前低) === */
+        /* === 折叠状态 (COLLAPSED) === */
         #deck-container.deck-collapsed {
             height: 75vh; 
             display: block; 
@@ -141,7 +146,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             overflow: hidden;
             border-radius: 30px;
-            padding-top: 50px;
+            padding-top: 0;
         }
         
         #deck-container.deck-collapsed::after {
@@ -165,39 +170,29 @@
             min-height: 0 !important;
             left: 5%;
             right: 5%;
-            margin: 0 auto; /* 确保水平居中 */
+            margin: 0 auto;
             
-            /* 透视修正算法 (v10.1)：
-               --i: 0 (Nexus) -> 放在最上面 (Top小)，但被后面的盖住 (Z小)，看起来最远 (Scale小)
-               --i: 5 (Piano) -> 放在最下面 (Top大)，盖住前面的 (Z大)，看起来最近 (Scale大)
+            /* 前低后高算法:
+               --i:0 (Nexus) -> 最前(位置低)
+               --i:5 (Piano) -> 最后(位置高)
             */
+            top: calc(80px + var(--i) * 30px);
             
-            /* 1. Y轴位置：索引越大，越往下移 */
-            /* 基础 80px + 增量 */
-            top: calc(80px + var(--i) * 30px); 
-            
-            /* 2. 缩放：索引越大，越接近 1 (即最近) */
-            /* 0号卡片缩放 0.9，5号卡片缩放 1.0 */
-            transform: translateX(-50%) scale(calc(0.9 + var(--i) * 0.02)); 
-            /* 注意：需要配合 left: 50% 使用 translateX(-50%) 来绝对居中 */
-            left: 50%; 
-            
-            /* 3. 层级：索引越大，层级越高 (盖住上一张) */
-            z-index: calc(var(--i) + 10);
-            
-            /* 4. 亮度：索引越大，越亮 */
-            filter: brightness(calc(0.5 + var(--i) * 0.1));
+            transform: translateX(-50%) scale(calc(1.0 - var(--i) * 0.02)); 
+            left: 50%;
+            z-index: calc(20 - var(--i));
+            filter: brightness(calc(1.0 - var(--i) * 0.1));
             
             pointer-events: none; 
             border-top: 1px solid rgba(255,255,255,0.4); 
             box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
             
+            /* 这里的 transition 用于 Hover 展开和折叠动画 */
             transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* 悬停时展开间距 */
         #deck-container.deck-collapsed:hover .project-card {
-             top: calc(60px + var(--i) * 50px); /* 增加间距 */
+             top: calc(60px + var(--i) * 50px);
              filter: brightness(1);
              border-color: var(--accent-color);
         }
@@ -315,6 +310,10 @@
         .deco-cross::after { width: 1px; height: 100%; left: 50%; top: 0; }
         .deco-data { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent-color); opacity: 0.4; pointer-events: none; }
         .deco-line-v { position: absolute; width: 1px; height: 100px; background: linear-gradient(to bottom, transparent, var(--accent-color), transparent); opacity: 0.3; pointer-events: none; }
+
+        /* Busuanzi */
+        #busuanzi_container_site_pv { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 99px; display: flex; align-items: center; gap: 8px; }
+        #busuanzi_value_site_pv { color: var(--accent-color); font-weight: bold; }
     </style>
 </head>
 <body class="antialiased">
@@ -407,7 +406,7 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED PROJECTS (Cyber Deck) -->
+    <!-- 2. SELECTED PROJECTS (Cyber Deck / Card Pack) -->
     <section id="projects" class="relative pb-40 pt-20">
         <div class="px-6 md:px-12">
             <div class="section-divider">
@@ -434,7 +433,7 @@
 
                 <div class="flex flex-col gap-32" id="cards-wrapper">
                     <!-- 01: Nexus -->
-                    <!-- Corrected Index: 0 is Top visual in wallet stack -->
+                    <!-- --i:0 is FRONTMOST card visually in stack -->
                     <article class="project-card min-h-[500px] md:h-[50vh] bg-panel-gray border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10" onclick="openModal('nexus')" style="--i:0">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-panel-gray pointer-events-none">
                             <div>
@@ -531,7 +530,7 @@
                                     <span class="px-3 py-1 border border-white/20 rounded-full">LoRa</span>
                                 </div>
                             </div>
-                             <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-electric-blue transition-colors">
+                            <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-electric-blue transition-colors">
                                 [ 点击查看深度技术文档 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                             </div>
                         </div>
@@ -587,7 +586,7 @@
                                 [ 点击查看深度技术文档 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                             </div>
                         </div>
-                        <div class="md:w-1/2 h-48 md:h-auto bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual"><div class="absolute inset-0 flex items-center justify-center gap-6 parallax-content"><div class="w-6 h-32 bg-white/20 rounded-t"></div></div></div>
+                        <div class="md:w-1/2 h-48 md:h-auto bg-gradient-to-br from-yellow-900/50 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual"><div class="absolute inset-0 flex items-center justify-center gap-6 parallax-content"><i data-lucide="music" class="w-40 h-40 text-yellow-400 animate-bounce drop-shadow-[0_0_30px_rgba(250,204,21,0.5)]"></i></div></div>
                     </article>
                 </div>
             </div>
@@ -701,7 +700,7 @@
         </div>
     </section>
 
-    <!-- 5. RECOMMENDED RESOURCES (New Section) -->
+    <!-- 5. RECOMMENDED RESOURCES -->
     <section id="resources" class="py-40 px-6 md:px-12 bg-deep-void text-white relative border-t border-white/10">
         <div class="max-w-4xl mx-auto">
             <div class="section-divider">
@@ -783,10 +782,20 @@
             <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">GITHUB: KINGSTON-115</a>
             <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">BILIBILI: 26031666</a>
         </div>
-        <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20"><div>© 2025 CHARLES</div><div>SCROLL_END</div></div>
+        <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20">
+            <div>© 2025 CHARLES</div>
+            <!-- Busuanzi Counter -->
+            <div class="hidden md:flex items-center gap-2">
+               <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>
+               <span id="busuanzi_container_site_pv" style="display:none">
+                   VISITORS: <span id="busuanzi_value_site_pv" class="font-bold">LOADING...</span>
+               </span>
+            </div>
+            <div>SCROLL_END</div>
+        </div>
     </footer>
 
-    <!-- Modals & Scripts (JavaScript Logic) -->
+    <!-- Modals & Scripts -->
     <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col">
             <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -867,7 +876,6 @@
                     card.style.boxShadow = '';
                     card.style.borderTop = '';
                     card.style.margin = ''; // Clear collapsed margins
-                    // Reset stacking order for expanded view if needed, but sticky handles it naturally
                 });
 
                 // Re-init animations
