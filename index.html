@@ -312,20 +312,21 @@
         .deco-line-v { position: absolute; width: 1px; height: 100px; background: linear-gradient(to bottom, transparent, var(--accent-color), transparent); opacity: 0.3; pointer-events: none; }
 
         /* Busuanzi */
-        #busuanzi_container_site_pv { 
-    font-family: 'JetBrains Mono', monospace; 
-    font-size: 12px; 
-    color: rgba(0,0,0,0.6); /* 文字改为深灰色，不再是看不清的白色 */
-    border: 1px solid rgba(0,0,0,0.2); /* 边框改为深色 */
-    padding: 4px 12px; 
-    border-radius: 99px; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
+        #busuanzi_container_site_uv {  /* 把 pv 改成 uv */
+    font-family: 'JetBrains Mono', monospace;
+    /* ...中间的样式代码保持不变... */
+    font-size: 12px;
+    color: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 4px 12px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-        #busuanzi_value_site_pv { 
-    color: #000000; 
-    font-weight: bold; 
+#busuanzi_value_site_uv {      /* 把 pv 改成 uv */
+    color: #000000;
+    font-weight: bold;
 }
     </style>
 </head>
@@ -798,10 +799,10 @@
         <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20">
             <div>© 2025 CHARLES</div>
             <!-- Busuanzi Counter -->
-            <div class="flex items-center gap-2"> 
-    <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-    <span id="busuanzi_container_site_pv" style="display:none">
-        VISITORS: <span id="busuanzi_value_site_pv" class="font-bold">LOADING...</span>
+            <div class="flex items-center gap-2">
+    <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
+    <span id="busuanzi_container_site_uv" style="display:none">
+        VISITORS: <span id="busuanzi_value_site_uv" class="font-bold">LOADING...</span>
     </span>
 </div>
             <div>SCROLL_END</div>
@@ -1163,5 +1164,4 @@
     </script>
 </body>
 </html>
-
 
