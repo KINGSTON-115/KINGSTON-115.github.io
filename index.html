@@ -385,11 +385,25 @@
                     我是 <strong class="text-white">Charles</strong>。游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
                     <span class="opacity-70 mt-2 block text-xs tracking-wider">在这里，代码是新的炼金术。</span>
                 </p>
+                
+                <!-- 1. 双语按钮 -->
                 <div class="flex flex-col md:flex-row gap-4">
-                    <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-base md:text-lg hover:bg-acid-green transition-colors tracking-wider">Deploy_Projects</a>
-                    <a href="articles.html" class="glitch-hover px-8 py-3 md:px-10 md:py-4 border border-white text-white font-bold font-display uppercase text-base md:text-lg hover:bg-white hover:text-black transition-colors tracking-wider">Read_Notes</a>
+                    <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-sm md:text-base hover:bg-acid-green transition-colors tracking-wider flex items-center gap-2 group">
+                        <span>DEPLOY_PROJECTS</span>
+                        <span class="font-sans font-normal text-xs opacity-60 group-hover:opacity-100">/ 项目展示</span>
+                    </a>
+                    <a href="articles.html" class="glitch-hover px-8 py-3 md:px-10 md:py-4 border border-white text-white font-bold font-display uppercase text-sm md:text-base hover:bg-white hover:text-black transition-colors tracking-wider flex items-center gap-2 group">
+                        <span>READ_NOTES</span>
+                        <span class="font-sans font-normal text-xs opacity-60 group-hover:opacity-100">/ 思考记录</span>
+                    </a>
                 </div>
             </div>
+        </div>
+
+        <!-- 2. 下滑指示器 (改为中文) -->
+        <div class="absolute bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 opacity-60 animate-bounce pointer-events-none">
+            <span class="font-mono text-[10px] text-gray-500 tracking-[0.2em]">下滑查看</span>
+            <i data-lucide="chevrons-down" class="w-5 h-5 text-acid-green"></i>
         </div>
 
         <div class="absolute bottom-0 left-0 w-full border-t border-white/10 py-2 md:py-3 bg-deep-void z-20 overflow-hidden flex">
