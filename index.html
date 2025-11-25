@@ -328,6 +328,34 @@
     color: #000000;
     font-weight: bold;
 }
+/* === 针对 iPad 和 手机的性能优化 (修复黑屏问题) === */
+        @media screen and (max-width: 1180px), screen and (hover: none) {
+            /* 1. 禁用高消耗的噪点和 3D 网格 */
+            .noise-overlay, 
+            .perspective-grid {
+                display: none !important;
+                background-image: none !important;
+                animation: none !important;
+            }
+
+            /* 2. 修复底部标题的混合模式 (防止文字变黑块) */
+            .mix-blend-multiply {
+                mix-blend-mode: normal !important;
+                opacity: 1 !important;
+                color: black !important; /* 确保在绿色背景上是黑字 */
+            }
+
+            /* 3. 降低模糊效果的消耗 */
+            .backdrop-blur-md, .backdrop-blur-xl {
+                backdrop-filter: none !important;
+                background: rgba(20, 20, 20, 0.95) !important; /* 用纯色半透明替代高斯模糊 */
+            }
+            
+            /* 4. 针对底部 Footer 卡片的背景修正 */
+            footer .backdrop-blur-md {
+                background: rgba(255, 255, 255, 0.8) !important; /* 浅色背景替代模糊 */
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -348,13 +376,14 @@
                 <div class="w-2 h-2 bg-acid-green rounded-full animate-pulse"></div>
                 <span class="font-mono text-xs font-bold tracking-widest text-white">CHARLES</span>
             </div>
-            <div class="hidden md:flex items-center gap-6 font-mono text-[10px] text-gray-400 tracking-wide">
+            <div class="hidden md:flex items-center gap-4 lg:gap-6 font-mono text-[10px] text-gray-400 tracking-wide">
                 <a href="#about" class="hover:text-white transition-colors">HOME</a>
                 <a href="#projects" class="hover:text-white transition-colors">WORK</a>
                 <a href="#awards" class="hover:text-white transition-colors">HONORS</a>
                 <a href="gallery.html" class="hover:text-acid-green transition-colors">GALLERY</a>
                 <a href="#resources" class="hover:text-acid-green transition-colors">LEARN</a>
                 <a href="articles.html" class="hover:text-acid-green transition-colors">NOTES</a>
+                <a href="#contact" class="hover:text-acid-green transition-colors">CONTACT</a>
             </div>
             <a href="https://github.com/KINGSTON-115" target="_blank" class="bg-white text-black rounded-full px-4 py-2 font-mono text-[10px] font-bold hover:bg-acid-green transition-colors flex items-center gap-2">
                 <i data-lucide="github" class="w-3 h-3"></i> SRC
@@ -787,24 +816,98 @@
     </section>
 
     <!-- 6. FOOTER -->
-    <footer class="min-h-screen flex flex-col justify-between p-6 md:p-12 bg-acid-green text-black relative">
-        <div class="flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4"><span>Status: Open to work</span><span>Location: Earth</span></div>
-        <div class="space-y-6 md:space-y-8 my-auto">
-            <p class="font-mono text-sm mb-4">INITIATE CONTACT PROTOCOL:</p>
-            <a href="mailto:2877616326@qq.com" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">2877616326@QQ.COM</a>
-            <div class="cursor-pointer giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all" onclick="copyToClipboard('c877616326')">VX: C877616326</div>
-            <a href="https://github.com/KINGSTON-115" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">GITHUB: KINGSTON-115</a>
-            <a href="https://space.bilibili.com/26031666" target="_blank" class="block giant-link text-[10vw] md:text-[6vw] font-display font-black leading-[0.9] break-all">BILIBILI: 26031666</a>
+    <footer id="contact" class="min-h-screen flex flex-col relative bg-acid-green text-black overflow-hidden">
+        
+        <div class="absolute top-[-10%] left-[-5%] z-0 pointer-events-none select-none">
+            <h1 class="text-[40vw] font-display font-black leading-none opacity-[0.05] text-black">LINK</h1>
         </div>
-        <div class="flex justify-between items-end font-mono text-xs pt-8 border-t border-black/20">
+
+        <div class="relative z-10 px-6 md:px-12 pt-12 flex justify-between items-start font-mono text-xs uppercase tracking-wide border-b border-black/20 pb-4">
+            <span>Status: Open to work</span>
+            <span>Location: Earth</span>
+        </div>
+
+        <div class="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 py-20">
+            <div class="w-full max-w-7xl mx-auto">
+                
+                <div class="mb-12">
+                    <h2 class="text-6xl md:text-8xl font-display font-black mb-2 tracking-tighter uppercase mix-blend-multiply">
+                        COMM_UPLINK
+                    </h2>
+                    <div class="flex items-center gap-4">
+                        <div class="h-[3px] w-24 bg-black"></div>
+                        <p class="font-mono text-sm tracking-widest opacity-80 font-bold">INITIATE_CONTACT_PROTOCOL_V2.0</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="mailto:2877616326@qq.com" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="mail" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">EMAIL_ADDRESS //</div>
+                        <div class="font-display font-black text-2xl break-all tracking-tight">2877616326@QQ.COM</div>
+                    </a>
+
+                    <div onclick="copyToClipboard('c877616326')" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 cursor-pointer hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="message-square" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="copy" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">WECHAT // CLICK_TO_COPY</div>
+                        <div class="font-display font-black text-2xl tracking-tight">C877616326</div>
+                    </div>
+
+                    <div onclick="copyToClipboard('2877616326')" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 cursor-pointer hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="message-circle" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="copy" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">QQ_NUMBER // CLICK_TO_COPY</div>
+                        <div class="font-display font-black text-2xl tracking-tight">2877616326</div>
+                    </div>
+
+                    <a href="https://x.com/kingsto55984264?s=21" target="_blank" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="twitter" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">SOCIAL_MEDIA //</div>
+                        <div class="font-display font-black text-2xl tracking-tight">X.COM</div>
+                    </a>
+
+                    <a href="https://github.com/KINGSTON-115" target="_blank" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="github" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">SOURCE_CODE //</div>
+                        <div class="font-display font-black text-2xl tracking-tight">GITHUB_REPO</div>
+                    </a>
+
+                    <a href="https://space.bilibili.com/26031666" target="_blank" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="tv" class="w-8 h-8 group-hover:animate-pulse"></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">VIDEO_LOG //</div>
+                        <div class="font-display font-black text-2xl tracking-tight">BILIBILI_SPACE</div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="relative z-10 px-6 md:px-12 pb-8 pt-8 border-t border-black/20 flex justify-between items-end font-mono text-xs font-bold">
             <div>© 2025 CHARLES</div>
-            <!-- Busuanzi Counter -->
             <div class="flex items-center gap-2">
-    <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
-    <span id="busuanzi_container_site_uv" style="display:none">
-        VISITORS: <span id="busuanzi_value_site_uv" class="font-bold">LOADING...</span>
-    </span>
-</div>
+                <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
+                <span id="busuanzi_container_site_uv" style="display:none">
+                    VISITORS: <span id="busuanzi_value_site_uv" class="font-bold">LOADING...</span>
+                </span>
+            </div>
             <div>SCROLL_END</div>
         </div>
     </footer>
