@@ -1,0 +1,822 @@
+127.0.0.1 - - [03/Feb/2026 11:14:12] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:14:14] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:14:14] "GET /photos/IMG_6951.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:14:26] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:14:27] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+79.124.40.174 - - [03/Feb/2026 11:14:48] code 501, message Unsupported method ('POST')
+79.124.40.174 - - [03/Feb/2026 11:14:48] "POST /Autodiscover/Autodiscover.xml HTTP/1.1" 501 -
+127.0.0.1 - - [03/Feb/2026 11:15:03] "GET /photos/1000040317.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:15:03] "GET /photos/1000040321.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:15:04] "GET /photos/1000040337.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:15:04] "GET /photos/IMG_6825.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:15:04] "GET /photos/1000040329.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:15:06] "GET /game.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:15:39] "GET /game.html HTTP/1.0" 304 -
+79.124.40.174 - - [03/Feb/2026 11:21:34] code 501, message Unsupported method ('POST')
+79.124.40.174 - - [03/Feb/2026 11:21:34] "POST /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php HTTP/1.1" 501 -
+79.124.40.174 - - [03/Feb/2026 11:30:10] code 404, message File not found
+79.124.40.174 - - [03/Feb/2026 11:30:10] "GET /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php HTTP/1.1" 404 -
+79.124.40.174 - - [03/Feb/2026 11:31:41] "GET /?XDEBUG_SESSION_START=phpstorm HTTP/1.1" 200 -
+127.0.0.1 - - [03/Feb/2026 11:33:44] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:33:44] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:33:55] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 11:40:30] "GET / HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:40:31] "GET /photos/1000040316.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:40:31] "GET /photos/1000040318.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:40:32] "GET /photos/1000040335.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 11:40:32] "GET /photos/1000040327.jpeg HTTP/1.0" 304 -
+79.124.40.174 - - [03/Feb/2026 11:40:47] code 404, message File not found
+79.124.40.174 - - [03/Feb/2026 11:40:47] "GET /console/ HTTP/1.1" 404 -
+165.22.168.179 - - [03/Feb/2026 11:43:33] code 404, message File not found
+165.22.168.179 - - [03/Feb/2026 11:43:33] "GET /login HTTP/1.1" 404 -
+79.124.40.174 - - [03/Feb/2026 11:47:51] code 404, message File not found
+79.124.40.174 - - [03/Feb/2026 11:47:51] "GET /_ignition/execute-solution HTTP/1.1" 404 -
+79.124.40.174 - - [03/Feb/2026 11:50:16] "GET / HTTP/1.1" 200 -
+79.124.40.174 - - [03/Feb/2026 11:58:21] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Feb/2026 12:00:23] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:00:23] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 12:00:23] "POST / HTTP/1.0" 501 -
+176.65.139.8 - - [03/Feb/2026 12:02:00] "GET / HTTP/1.1" 200 -
+204.76.203.69 - - [03/Feb/2026 12:04:14] "GET / HTTP/1.1" 200 -
+79.124.40.174 - - [03/Feb/2026 12:06:32] code 404, message File not found
+79.124.40.174 - - [03/Feb/2026 12:06:32] "GET /actuator/gateway/routes HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 12:08:43] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:47] "GET /photos/gallery_code.txt HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:47] "GET /photos/1000040324.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:48] "GET /photos/1000040337.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:49] "GET /photos/1000040315.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:50] "GET /photos/IMG_8510.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:53] "GET /photos/IMG_6958.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:08:59] "GET /articles.html HTTP/1.0" 200 -
+122.118.215.247 - - [03/Feb/2026 12:09:11] "GET / HTTP/1.1" 200 -
+122.118.215.247 - - [03/Feb/2026 12:09:19] "GET /game.html HTTP/1.1" 200 -
+79.124.40.174 - - [03/Feb/2026 12:10:51] code 404, message File not found
+79.124.40.174 - - [03/Feb/2026 12:10:51] "GET /geoserver HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 12:10:56] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:11:17] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 12:11:17] "GET /css/support_parent.css HTTP/1.0" 404 -
+79.124.40.174 - - [03/Feb/2026 12:15:43] code 501, message Unsupported method ('POST')
+79.124.40.174 - - [03/Feb/2026 12:15:43] "POST / HTTP/1.1" 501 -
+165.232.58.153 - - [03/Feb/2026 12:30:47] code 404, message File not found
+165.232.58.153 - - [03/Feb/2026 12:30:47] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 12:32:37] "GET /zhenweisi.png HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:33:02] "GET /zhenweisi.png HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:33:08] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 12:33:08] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 12:33:40] "GET / HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:42] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:42] "GET /photos/1000040316.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:42] "GET /photos/1000040324.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:43] "GET /photos/IMG_3898.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:43] "GET /photos/1000040327.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:43] "GET /photos/1000040321.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:48] "GET /gallery.html HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040318.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040319.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040317.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040315.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040328.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040329.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040332.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040333.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040334.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/1000040335.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/IMG_5069.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:49] "GET /photos/IMG_6443.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/1000040325.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/1000041037.jpg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/7CD650E5A1EAB187FB1FAFA272CC7822.jpg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/IMG_6825.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/IMG_6951.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/1000040338.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/IMG_3045.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:50] "GET /photos/IMG_6958.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:51] "GET /photos/1000040337.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:52] "GET /photos/IMG_7292.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:52] "GET /photos/1000040336.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:52] "GET /photos/IMG_7422.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:52] "GET /photos/IMG_8507.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:52] "GET /photos/IMG_8510.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:53] "GET /photos/IMG_8714.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:33:54] "GET /photos/Snapseed.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:36:08] "GET /gallery.html HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 12:38:08] "GET /zhenweisi_nailong.png HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:08] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:11] "GET /photos/gallery_code.txt HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:12] "GET /photos/1000040315.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:13] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 12:53:13] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 12:53:13] "GET /photos/1000040333.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:13] "GET /photos/IMG_5069.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:14] "GET /photos/1000040318.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 12:53:14] "GET /photos/1000040336.jpeg HTTP/1.0" 200 -
+5.61.209.92 - - [03/Feb/2026 12:59:22] code 404, message File not found
+5.61.209.92 - - [03/Feb/2026 12:59:22] "GET /SDK/webLanguage HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 13:00:39] "GET / HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 13:00:43] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 13:00:43] "GET /photos/IMG_6825.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:00:44] "GET /photos/1000040315.jpeg HTTP/1.0" 200 -
+165.22.168.179 - - [03/Feb/2026 13:09:08] code 404, message File not found
+165.22.168.179 - - [03/Feb/2026 13:09:08] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 13:18:03] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:18:03] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:26:52] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:26:56] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 13:26:56] "GET /favicon.ico HTTP/1.0" 404 -
+170.64.145.36 - - [03/Feb/2026 13:32:59] code 404, message File not found
+170.64.145.36 - - [03/Feb/2026 13:32:59] "GET /login HTTP/1.1" 404 -
+164.90.180.132 - - [03/Feb/2026 13:37:00] code 404, message File not found
+164.90.180.132 - - [03/Feb/2026 13:37:00] "GET /login HTTP/1.1" 404 -
+165.22.170.13 - - [03/Feb/2026 13:42:18] code 404, message File not found
+165.22.170.13 - - [03/Feb/2026 13:42:18] "GET /login HTTP/1.1" 404 -
+142.93.84.41 - - [03/Feb/2026 13:43:09] code 404, message File not found
+142.93.84.41 - - [03/Feb/2026 13:43:09] "GET /login HTTP/1.1" 404 -
+193.142.146.230 - - [03/Feb/2026 13:45:44] code 404, message File not found
+193.142.146.230 - - [03/Feb/2026 13:45:44] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 13:49:34] "HEAD / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:49:36] "HEAD / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 13:51:05] "GET / HTTP/1.0" 200 -
+193.142.147.209 - - [03/Feb/2026 13:59:41] code 501, message Unsupported method ('POST')
+193.142.147.209 - - [03/Feb/2026 13:59:41] "POST / HTTP/1.1" 501 -
+134.209.11.231 - - [03/Feb/2026 14:02:55] code 404, message File not found
+134.209.11.231 - - [03/Feb/2026 14:02:55] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 14:22:54] "GET / HTTP/1.0" 200 -
+87.121.84.46 - - [03/Feb/2026 14:26:41] code 501, message Unsupported method ('CONNECT')
+87.121.84.46 - - [03/Feb/2026 14:26:41] "CONNECT google.com:443 HTTP/1.1" 501 -
+127.0.0.1 - - [03/Feb/2026 14:29:24] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 14:29:24] "GET /SDK/webLanguage HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 14:33:28] "GET / HTTP/1.0" 200 -
+204.76.203.210 - - [03/Feb/2026 14:37:13] "GET / HTTP/1.1" 200 -
+204.76.203.210 - - [03/Feb/2026 14:37:14] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:14] "GET /.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:15] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:15] "GET /.env.local HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:15] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:15] "GET /.env.production HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:16] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:16] "GET /.env.development HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:16] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:16] "GET /.env.dev HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:17] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:17] "GET /.env.prod HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:17] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:17] "GET /.env.test HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:18] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:18] "GET /.env.staging HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:18] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:18] "GET /.env.backup HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:18] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:18] "GET /.env.save HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:19] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:19] "GET /.env.old HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:19] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:19] "GET /.env.bak HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:19] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:19] "GET /.env.tmp HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:19] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:19] "GET /.env.swp HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:20] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:20] "GET /.env~ HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:20] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:20] "GET /env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:20] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:20] "GET /env.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:21] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:21] "GET /env.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:21] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:21] "GET /app/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:21] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:21] "GET /src/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:22] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:22] "GET /config/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:22] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:22] "GET /backend/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:22] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:22] "GET /frontend/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:23] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:23] "GET /api/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:23] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:23] "GET /server/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:23] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:23] "GET /client/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:23] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:23] "GET /web/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:24] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:24] "GET /public/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:24] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:24] "GET /private/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:24] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:24] "GET /var/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:25] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:25] "GET /docker-compose.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:25] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:25] "GET /docker-compose.yaml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:25] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:25] "GET /docker-compose.override.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:26] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:26] "GET /docker-compose.dev.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:26] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:26] "GET /docker-compose.prod.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:26] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:26] "GET /config.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:27] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:27] "GET /config.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:27] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:27] "GET /settings.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:27] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:27] "GET /settings.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:28] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:28] "GET /secrets.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:28] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:28] "GET /credentials.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:28] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:28] "GET /app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:28] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:28] "GET /main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:29] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:29] "GET /index.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:29] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:29] "GET /server.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:29] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:29] "GET /bundle.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:30] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:30] "GET /app.bundle.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:30] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:30] "GET /main.bundle.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:31] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:31] "GET /vendor.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:31] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:31] "GET /chunk.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:32] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:32] "GET /static/js/main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:32] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:32] "GET /static/js/app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:33] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:33] "GET /static/js/bundle.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:33] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:33] "GET /dist/main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:34] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:34] "GET /dist/app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:34] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:34] "GET /dist/bundle.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:35] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:35] "GET /build/static/js/main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:35] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:35] "GET /assets/index.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:36] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:36] "GET /assets/app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:36] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:36] "GET /_next/static/chunks/main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:37] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:37] "GET /_next/static/chunks/app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:37] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:37] "GET /js/app.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:38] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:38] "GET /js/main.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:38] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:38] "GET /js/config.js HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:39] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:39] "GET /settings.py HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:39] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:39] "GET /config.py HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:40] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:40] "GET /secrets.py HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:40] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:40] "GET /config/secrets.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:41] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:41] "GET /config/master.key HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:41] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:41] "GET /wp-config.php.bak HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:42] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:42] "GET /wp-config.php.old HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:42] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:42] "GET /wp-config.php.save HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:43] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:43] "GET /wp-config.php.txt HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:43] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:43] "GET /wp-config.php~ HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:44] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:44] "GET /config/app.php HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:44] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:44] "GET /application.properties HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:45] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:45] "GET /application.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:45] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:45] "GET /application.yaml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:46] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:46] "GET /application-dev.properties HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:46] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:46] "GET /application-prod.properties HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:47] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:47] "GET /appsettings.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:47] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:47] "GET /appsettings.Development.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:48] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:48] "GET /appsettings.Production.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:48] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:48] "GET /config.yaml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:49] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:49] "GET /config.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:49] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:49] "GET /config.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:50] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:50] "GET /serverless.yml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:50] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:50] "GET /serverless.yaml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:51] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:51] "GET /vercel.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:51] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:51] "GET /netlify.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:52] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:52] "GET /config/production.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:52] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:52] "GET /config/development.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:53] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:53] "GET /config/default.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:53] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:53] "GET /config/local.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:54] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:54] "GET /conf/settings.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:54] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:54] "GET /data/config.json HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:55] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:55] "GET /actuator/env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:55] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:55] "GET /actuator/configprops HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:56] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:56] "GET /debug/vars HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:56] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:56] "GET /admin/config HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:57] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:57] "GET /api/config HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:57] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:57] "GET /api/settings HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:58] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:58] "GET /api/env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:58] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:58] "GET /.env.example HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:59] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:59] "GET /.env.sample HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:37:59] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:37:59] "GET /.env.dist HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:00] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:00] "GET /.env.template HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:00] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:00] "GET /backup/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:01] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:01] "GET /backups/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:01] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:01] "GET /old/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:02] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:02] "GET /temp/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:02] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:02] "GET /tmp/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:03] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:03] "GET /.streamlit/secrets.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:03] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:03] "GET /.streamlit/config.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:04] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:04] "GET /app/.streamlit/secrets.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:04] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:04] "GET /home/appuser/.streamlit/secrets.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:05] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:05] "GET /root/.streamlit/secrets.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:05] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:05] "GET /src/.streamlit/secrets.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:06] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:06] "GET /.streamlit/credentials.toml HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:06] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:06] "GET /@fs/app/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:07] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:07] "GET /@fs/root/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:07] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:07] "GET /@fs/proc/self/environ?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:08] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:08] "GET /@fs/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:08] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:08] "GET /@fs/..%2f..%2f..%2f..%2f..%2froot/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:09] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:09] "GET /@fs/..%2f..%2f..%2f..%2f..%2fproc/self/environ?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:09] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:09] "GET /@fs/..%2f..%2f..%2f..%2f..%2fapp/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:10] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:10] "GET /@fs/..%252f..%252f..%252f..%252f..%252froot/.env?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:10] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:10] "GET /@fs/..%252f..%252f..%252f..%252f..%252fproc/self/environ?raw?? HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:11] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:11] "GET /..%2f..%2f..%2f..%2f..%2f..%2fproc/self/environ HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:11] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:11] "GET /../../../../../../../proc/self/environ HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:12] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:12] "GET /../../../../../../../app/.env HTTP/1.1" 404 -
+204.76.203.210 - - [03/Feb/2026 14:38:12] code 404, message File not found
+204.76.203.210 - - [03/Feb/2026 14:38:12] "GET /../../../../../../../root/.env HTTP/1.1" 404 -
+18.212.86.166 - - [03/Feb/2026 14:40:04] "GET / HTTP/1.1" 200 -
+209.38.30.15 - - [03/Feb/2026 15:01:32] code 400, message Bad request version ('À\\x14À')
+209.38.30.15 - - [03/Feb/2026 15:01:32] "\x16\x03\x01\x00{\x01\x00\x00w\x03\x03ïù\x90\x097\x81\x99¨C¦\x1f¿\x08Þ\x94è\x0dÅ0ü0\x90\x04Î#¥Ö\x91¹%æ¦\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À" 400 -
+209.38.30.15 - - [03/Feb/2026 15:01:32] code 400, message Bad request version ('À\\x14À')
+209.38.30.15 - - [03/Feb/2026 15:01:32] "\x16\x03\x01\x00{\x01\x00\x00w\x03\x039.Ê\x1cw\x84\x18¼Ñ('É)4\x8d\x0b\x02\x045\x98ÞdÜ¤ÓN\x0d\x9f¶\x01¹ý\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À" 400 -
+209.38.30.15 - - [03/Feb/2026 15:01:32] "GET / HTTP/1.1" 200 -
+209.38.30.15 - - [03/Feb/2026 15:01:33] code 404, message File not found
+209.38.30.15 - - [03/Feb/2026 15:01:33] "GET /download/powershell/ HTTP/1.1" 404 -
+209.38.30.15 - - [03/Feb/2026 15:01:33] code 404, message File not found
+209.38.30.15 - - [03/Feb/2026 15:01:33] "GET /get.php HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 15:02:41] "GET / HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 15:02:44] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 15:02:45] "GET /photos/1000040325.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:02:46] "GET /photos/1000040336.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:02:47] "GET /photos/1000040324.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:02:48] "GET /photos/IMG_6825.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:02:49] "GET /photos/IMG_3045.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:03:00] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:03:00] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:03:07] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:16:28] "GET /bbc_snapshot.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:17:04] "GET /bbc_snapshot.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:18:01] "GET /bbc_snapshot.html HTTP/1.0" 304 -
+127.0.0.1 - - [03/Feb/2026 15:18:12] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:18:12] "GET /audio/play/p0myqbnn HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:18:13] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:18:13] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:23:48] "GET /bbc_home.png HTTP/1.0" 200 -
+91.196.152.154 - - [03/Feb/2026 15:23:58] code 400, message Bad request version ('À#À¬À®À+À')
+91.196.152.154 - - [03/Feb/2026 15:23:58] "\x16\x03\x03\x01¦\x01\x00\x01¢\x03\x03>\x16¾Çìk\x99\x11o2¬Ù\x9cä\x13\x1a\x1f\x9aI8À6QÖGÞ\x9d\x8b./\x0fÛ 6¢\x1aÓ»37:\x1f ì2<´\x10÷#\x1fN6\x10qÝ\x87Ú\x9c!Î\x94ùÖJ\x00\x8a\x00\x16\x003\x00gÀ\x9eÀ¢\x00\x9e\x009\x00kÀ\x9fÀ£\x00\x9f\x00E\x00¾\x00\x88\x00Ä\x00\x9aÀ\x08À\x09À#À¬À®À+À" 400 -
+91.196.152.153 - - [03/Feb/2026 15:24:02] "GET / HTTP/1.1" 200 -
+178.128.42.130 - - [03/Feb/2026 15:24:21] code 404, message File not found
+178.128.42.130 - - [03/Feb/2026 15:24:21] "GET /login HTTP/1.1" 404 -
+134.209.11.231 - - [03/Feb/2026 15:27:06] code 404, message File not found
+134.209.11.231 - - [03/Feb/2026 15:27:06] "GET /login HTTP/1.1" 404 -
+91.196.152.164 - - [03/Feb/2026 15:32:24] code 404, message File not found
+91.196.152.164 - - [03/Feb/2026 15:32:24] "GET /favicon.ico HTTP/1.1" 404 -
+142.93.84.41 - - [03/Feb/2026 15:32:41] code 404, message File not found
+142.93.84.41 - - [03/Feb/2026 15:32:41] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 15:33:31] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:41] "GET /photos/gallery_code.txt HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:44] "GET /photos/1000040317.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:45] "GET /photos/1000040334.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:45] "GET /photos/1000040325.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:45] "GET /photos/1000041037.jpg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:33:45] "GET /photos/1000040333.jpeg HTTP/1.0" 200 -
+81.168.83.103 - - [03/Feb/2026 15:36:30] code 404, message File not found
+81.168.83.103 - - [03/Feb/2026 15:36:30] "GET /debug.log HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:42:19] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:24] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:27] "GET /photos/gallery_code.txt HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:27] "GET /photos/IMG_8714.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:27] "GET /photos/1000040318.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:28] "GET /photos/IMG_7292.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:28] "GET /photos/Snapseed.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:42:28] "GET /photos/1000040315.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 15:47:03] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:47:03] "GET /+CSCOL+/Java.jar HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:47:04] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:47:04] "GET /+CSCOE+/logon_forms.js HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:47:05] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:47:05] "GET /+CSCOL+/a1.jar HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 15:47:06] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 15:47:06] "GET /+CSCOE+/transfer.js HTTP/1.0" 404 -
+165.22.170.13 - - [03/Feb/2026 15:59:17] code 404, message File not found
+165.22.170.13 - - [03/Feb/2026 15:59:17] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 15:59:41] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 15:59:41] "POST / HTTP/1.0" 501 -
+127.0.0.1 - - [03/Feb/2026 15:59:47] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 15:59:47] "POST / HTTP/1.0" 501 -
+204.76.203.18 - - [03/Feb/2026 16:16:42] "GET / HTTP/1.1" 200 -
+204.76.203.18 - - [03/Feb/2026 16:21:54] code 404, message File not found
+204.76.203.18 - - [03/Feb/2026 16:21:54] "GET /bins/ HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 16:24:45] "GET / HTTP/1.0" 200 -
+204.76.203.18 - - [03/Feb/2026 16:30:20] code 404, message File not found
+204.76.203.18 - - [03/Feb/2026 16:30:20] "GET /bin/ HTTP/1.1" 404 -
+165.232.58.153 - - [03/Feb/2026 16:40:44] code 404, message File not found
+165.232.58.153 - - [03/Feb/2026 16:40:44] "GET /login HTTP/1.1" 404 -
+204.76.203.18 - - [03/Feb/2026 16:47:41] code 404, message File not found
+204.76.203.18 - - [03/Feb/2026 16:47:41] "GET /backup/ HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 16:49:46] "GET / HTTP/1.0" 200 -
+170.64.145.36 - - [03/Feb/2026 16:53:37] code 404, message File not found
+170.64.145.36 - - [03/Feb/2026 16:53:37] "GET /login HTTP/1.1" 404 -
+206.189.3.38 - - [03/Feb/2026 16:55:48] code 404, message File not found
+206.189.3.38 - - [03/Feb/2026 16:55:48] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 17:00:49] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 17:00:49] "POST / HTTP/1.0" 501 -
+74.235.100.0 - - [03/Feb/2026 17:03:52] code 400, message Bad request syntax ('MGLNDD_35.212.204.79_8080')
+74.235.100.0 - - [03/Feb/2026 17:03:52] "MGLNDD_35.212.204.79_8080" 400 -
+----------------------------------------
+Exception occurred during processing of request from ('167.94.138.41', 12586)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/http/server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 404, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+167.94.138.41 - - [03/Feb/2026 17:07:00] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('167.94.138.41', 12598)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/http/server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/usr/lib/python3.12/http/server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "/usr/lib/python3.12/http/server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "/usr/lib/python3.12/shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "/usr/lib/python3.12/socketserver.py", line 840, in write
+    self._sock.sendall(b)
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+167.94.138.41 - - [03/Feb/2026 17:07:07] code 400, message Bad request version ('À\\x14À')
+167.94.138.41 - - [03/Feb/2026 17:07:07] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03äº\x1fí0-Äõ)\x1d\x9e\x9b®£ÞhÈ×\x0c\x13¦Gs\x8aõz w\x96ê== ÑUéÆ\x81Ö§|}rM\x0cs3;\x15jñ£e.\x8aMíêñ\x10Iï9¯\x8d\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À" 400 -
+167.94.138.41 - - [03/Feb/2026 17:07:08] "GET / HTTP/1.1" 200 -
+167.94.138.41 - - [03/Feb/2026 17:07:09] code 505, message Invalid HTTP version (2.0)
+167.94.138.41 - - [03/Feb/2026 17:07:09] "PRI * HTTP/2.0" 505 -
+167.94.138.41 - - [03/Feb/2026 17:07:11] code 404, message File not found
+167.94.138.41 - - [03/Feb/2026 17:07:11] "GET /favicon.ico HTTP/1.1" 404 -
+167.94.138.41 - - [03/Feb/2026 17:07:25] code 400, message Bad request version ('À\\x14À')
+167.94.138.41 - - [03/Feb/2026 17:07:25] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03ÖC\x81Ö¯\x93þ©/£/ð¿v3§\x02\x95\x94).j\x8e:ï?¸ÊÚ[¿\x09 \x10\x9aîÓh\x0dó¡Ì\x04½!\x02L?@Ø¸sa\x00ðª0 Ý\x1dì¾\x16^\x7f\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À" 400 -
+167.94.138.41 - - [03/Feb/2026 17:07:26] code 404, message File not found
+167.94.138.41 - - [03/Feb/2026 17:07:26] "GET /.well-known/security.txt HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 17:09:27] "GET / HTTP/1.0" 200 -
+138.197.222.143 - - [03/Feb/2026 17:15:11] code 404, message File not found
+138.197.222.143 - - [03/Feb/2026 17:15:11] "GET /login HTTP/1.1" 404 -
+165.232.111.116 - - [03/Feb/2026 17:16:47] code 404, message File not found
+165.232.111.116 - - [03/Feb/2026 17:16:47] "GET /login HTTP/1.1" 404 -
+165.22.168.179 - - [03/Feb/2026 17:18:38] code 404, message File not found
+165.22.168.179 - - [03/Feb/2026 17:18:38] "GET /login HTTP/1.1" 404 -
+165.22.170.13 - - [03/Feb/2026 17:27:54] code 404, message File not found
+165.22.170.13 - - [03/Feb/2026 17:27:54] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 17:28:58] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 17:29:00] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 17:29:00] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 17:29:14] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 17:29:14] "GET /wiki HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 17:34:36] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 17:34:42] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 17:34:42] "GET /.env HTTP/1.0" 404 -
+87.121.84.56 - - [03/Feb/2026 17:34:48] code 501, message Unsupported method ('CONNECT')
+87.121.84.56 - - [03/Feb/2026 17:34:48] "CONNECT google.com:443 HTTP/1.1" 501 -
+204.76.203.30 - - [03/Feb/2026 17:51:36] code 404, message File not found
+204.76.203.30 - - [03/Feb/2026 17:51:36] "GET http://ip-api.com/json/ HTTP/1.1" 404 -
+170.64.145.36 - - [03/Feb/2026 18:02:31] code 404, message File not found
+170.64.145.36 - - [03/Feb/2026 18:02:31] "GET /login HTTP/1.1" 404 -
+178.128.77.70 - - [03/Feb/2026 18:12:08] code 404, message File not found
+178.128.77.70 - - [03/Feb/2026 18:12:08] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 18:24:20] "GET / HTTP/1.0" 200 -
+142.93.7.213 - - [03/Feb/2026 18:33:08] code 400, message Bad request syntax ('\\x00\\x0e8\\x8c\\x10ñ|\\x81\\x92\\x19f\\x00\\x00\\x00\\x00\\x00')
+142.93.7.213 - - [03/Feb/2026 18:33:08] "\x00\x0e8\x8c\x10ñ|\x81\x92\x19f\x00\x00\x00\x00\x00" 400 -
+127.0.0.1 - - [03/Feb/2026 18:38:52] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 18:41:59] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 18:42:00] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 18:42:00] "GET /wordpress/ HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 18:42:18] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 18:42:18] "POST / HTTP/1.0" 501 -
+127.0.0.1 - - [03/Feb/2026 18:43:21] "GET / HTTP/1.0" 200 -
+138.197.131.20 - - [03/Feb/2026 18:47:51] code 400, message Bad request version ('À#À¬À®À+À')
+138.197.131.20 - - [03/Feb/2026 18:47:51] "\x16\x03\x03\x01¦\x01\x00\x01¢\x03\x03µº\x95âÓZðo\x08\x91$g\x89¼êVmñ|\x06e¶àÎ\x85rà\x80é¥\x1a¡ `°Á\x9e¢bé`]v\x06îM¿Æ×#\x8f¥ò?«tþ\x9a\x02\x81ÉX\x8dök\x00\x8a\x00\x16\x003\x00gÀ\x9eÀ¢\x00\x9e\x009\x00kÀ\x9fÀ£\x00\x9f\x00E\x00¾\x00\x88\x00Ä\x00\x9aÀ\x08À\x09À#À¬À®À+À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:51] code 400, message Bad request version ('Ã\\x13\\x18÷L\\x91¸')
+138.197.131.20 - - [03/Feb/2026 18:47:51] "\x16\x03\x03\x01¦\x01\x00\x01¢\x03\x03+ {%c`z\x1dX\x1a¹¸àF¾Uò\x1f¥\x19\x8fú¹Þ\x8f¸g,2é÷3 ÉQiÞë\x0cÃ\x13\x18÷L\x91¸" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:51] code 400, message Bad request syntax ('\\x16\\x03\\x03\\x01W\\x01\\x00\\x01S\\x03\\x03¦à\\x14')
+138.197.131.20 - - [03/Feb/2026 18:47:51] "\x16\x03\x03\x01W\x01\x00\x01S\x03\x03¦à\x14" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:52] code 400, message Bad request version ("Ü\\x80åã4\\x07¤ûpÖ\\x03\\x10\\x7fÇBÞ\\x8f\\xad´×þ\\x15Ó:\\x84Â\\x8dÚo2\\x8a{\\x00DÀ\\x13À'À/À\\x14À(À0À`ÀaÀvÀwÌ¨\\x13\\x05\\x13\\x04\\x13\\x03Ì\\x13À\\x11\\x00")
+138.197.131.20 - - [03/Feb/2026 18:47:52] "\x16\x03\x03\x01I\x01\x00\x01E\x03\x03\x00½ü\\.;\x91\x89\x1f9\x81&p\x1bÇ\x8f\x8bõ®è\x1bkæ¤0ào­;ªè\x80 Ü\x80åã4\x07¤ûpÖ\x03\x10\x7fÇBÞ\x8f­´×þ\x15Ó:\x84Â\x8dÚo2\x8a{\x00DÀ\x13À'À/À\x14À(À0À`ÀaÀvÀwÌ¨\x13\x05\x13\x04\x13\x03Ì\x13À\x11\x00" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:52] code 400, message Bad request version ("þ%]9\\x15·T\\x02\\x8eFÀ~Uu\\x00\\x8c\\x1a\\x1aÀ\\x12À\\x13À\\x07À'Ì\\x14À/\\x13\\x01À\\x14\\x13\\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ\\xadÌ¨À$\\x13\\x05À")
+138.197.131.20 - - [03/Feb/2026 18:47:52] "\x16\x03\x03\x01\x9a\x01\x00\x01\x96\x03\x03MU\x8d}\x03xx\x8a0\x84\x10ÿs´®(ÔmE)\x13õF¤\x04æ\x09wëÔ`\x9c \x8a,Üe»\x07B\x8cW=rÀÃ´j_È\x85þ%]9\x15·T\x02\x8eFÀ~Uu\x00\x8c\x1a\x1aÀ\x12À\x13À\x07À'Ì\x14À/\x13\x01À\x14\x13\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ­Ì¨À$\x13\x05À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:52] code 400, message Bad request version ('À#À¬À®À+À')
+138.197.131.20 - - [03/Feb/2026 18:47:52] "\x16\x03\x02\x01\x9b\x01\x00\x01\x97\x03\x021â\x8eö\x1d\x01\x1e¼è¥Ù\x1c\x03øfó\x9eV\x13åmuCâOmÓË\x1d\x7fÛõ \x1fÛÈ\x0d×ñ8²LÈÙ\x96þ6v\x8b\x08\x9b¨\x9dè§cª;\x16R\x14\x92æ\x18¯\x00\x8a\x00\x16\x003\x00gÀ\x9eÀ¢\x00\x9e\x009\x00kÀ\x9fÀ£\x00\x9f\x00E\x00¾\x00\x88\x00Ä\x00\x9aÀ\x08À\x09À#À¬À®À+À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:52] code 400, message Bad request version ('î¼BË\\x18Õ\\x024\\x9eÔ:\\x17J$\\x84-.Y\\x98t\\x13')
+138.197.131.20 - - [03/Feb/2026 18:47:52] "\x16\x03\x01\x01¨\x01\x00\x01¤\x03\x03üìæA^2\x18\x94%/Ö]eLCªëéÕFcb\x11`\x8f)Ö·\x96ýJ\x8a \x0c?\x92\x1ceÊ\x0dî¼BË\x18Õ\x024\x9eÔ:\x17J$\x84-.Y\x98t\x13" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:52] code 400, message Bad request syntax ('\\x16\\x03\\x01\\x01¨\\x01\\x00\\x01¤\\x03\\x03¡\\x87-\\x96p¹RòóÌç8\\x12hë·Ò<Ù¿í\\x99l0íñ\\x04')
+138.197.131.20 - - [03/Feb/2026 18:47:52] "\x16\x03\x01\x01¨\x01\x00\x01¤\x03\x03¡\x87-\x96p¹RòóÌç8\x12hë·Ò<Ù¿í\x99l0íñ\x04" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:53] code 400, message Bad request version ('À#À¬À®À+À')
+138.197.131.20 - - [03/Feb/2026 18:47:53] "\x16\x03\x01\x01\x9e\x01\x00\x01\x9a\x03\x03ÑuÔÛî\x9fE ßX\x83ºÀ\x1f\x06fâÓ°H8\x8dù\x9e¾Â\x8d\x14ºªÞ¾ X1Æû¡u¤Sòr\x88º#äp»Ås*\x05\x82ð\x9dúpôÄàãù"Ì\x00\x80\x00\x16\x003\x00gÀ\x9eÀ¢\x00\x9e\x009\x00kÀ\x9fÀ£\x00\x9f\x00E\x00¾\x00\x88\x00Ä\x00\x9aÀ\x08À\x09À#À¬À®À+À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:53] code 400, message Bad request version ('\\x94$C"\\x94dç\\x05\\x8bÝÆó#¡\\x81\\x9aóä(jÜË]óÿ\\x83×pp×Ý\\x17\\x00\\x8cêêÀ\\x12À\\x13À\\x07À\\'Ì\\x14À/\\x13\\x01À\\x14\\x13\\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ\\xadÌ¨À$\\x13\\x05À')
+138.197.131.20 - - [03/Feb/2026 18:47:53] "\x16\x03\x01\x01µ\x01\x00\x01±\x03\x03\x0b°\x14\x98\x9e\x84\x82\x00µ0G+< \x8aH®\x86èX\x19Ü\x12UdNrä®\x0eËé \x94$C"\x94dç\x05\x8bÝÆó#¡\x81\x9aóä(jÜË]óÿ\x83×pp×Ý\x17\x00\x8cêêÀ\x12À\x13À\x07À'Ì\x14À/\x13\x01À\x14\x13\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ­Ì¨À$\x13\x05À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:53] code 400, message Bad request version ('À\\x13À')
+138.197.131.20 - - [03/Feb/2026 18:47:53] "\x16\x03\x01\x00ú\x01\x00\x00ö\x03\x03\x8eZëf\x9e\x80h´~cò\x1d\x0eþ/^\x10f\x86«ï#\x99S¡¡\x85\x1bVÔ'¯ ¾Æ`\x98H¼F»\x0c\x05CÝÂF\x87@µQRè\x99ÖK\x12\x15»hþâ\x93\x0cZ\x002À+À/À,À0Ì©Ì¨À\x09À\x13À" 400 -
+138.197.131.20 - - [03/Feb/2026 18:47:53] code 400, message Bad request version ('î\\x8b÷\\x00\\x06\\x13\\x01\\x13\\x02\\x13\\x03\\x01\\x00\\x00{\\x00\\x05\\x00\\x05\\x01\\x00\\x00\\x00\\x00\\x00')
+138.197.131.20 - - [03/Feb/2026 18:47:53] "\x16\x03\x01\x00Î\x01\x00\x00Ê\x03\x03\x0cg¶g¾F³¯\x0cÂ\x16\x94\x9d!r\x84r¤"i\x15ÑJâ>\x19\x8c5ÿæ\x0b\x85 Êî0Ít§\x0bV¶ßEn\\A&D\x9c\x17lß\x1f-BD\x0f\\\x8f»\x1fî\x8b÷\x00\x06\x13\x01\x13\x02\x13\x03\x01\x00\x00{\x00\x05\x00\x05\x01\x00\x00\x00\x00\x00" 400 -
+127.0.0.1 - - [03/Feb/2026 18:52:21] "GET / HTTP/1.0" 200 -
+64.227.34.232 - - [03/Feb/2026 19:08:44] code 400, message Bad HTTP/0.9 request type ('\\x16\\x03\\x01\\x00{\\x01\\x00\\x00w\\x03\\x03ÄJ\\x9ac\\x02\\x19Ì\\x9f\\x90å\\x97ÌÖ¦\\x05\\x82EUcÕ\\x81ÞH+yÿv£\\x8c0ê¯\\x00\\x00\\x1aÀ/À+À\\x11À\\x07À\\x13À')
+64.227.34.232 - - [03/Feb/2026 19:08:44] "\x16\x03\x01\x00{\x01\x00\x00w\x03\x03ÄJ\x9ac\x02\x19Ì\x9f\x90å\x97ÌÖ¦\x05\x82EUcÕ\x81ÞH+yÿv£\x8c0ê¯\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À" 400 -
+64.227.34.232 - - [03/Feb/2026 19:08:44] code 400, message Bad request version ('À\\x14À')
+64.227.34.232 - - [03/Feb/2026 19:08:44] "\x16\x03\x01\x00{\x01\x00\x00w\x03\x03ÅãmE\x92ßF¿[2°Ø\x0dSÍi\x0bw¹gÕ©í\x87äEÝ\\FÅH\x8e\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À" 400 -
+64.227.34.232 - - [03/Feb/2026 19:08:45] "GET / HTTP/1.1" 200 -
+64.227.34.232 - - [03/Feb/2026 19:08:46] code 404, message File not found
+64.227.34.232 - - [03/Feb/2026 19:08:46] "GET /download/powershell/ HTTP/1.1" 404 -
+64.227.34.232 - - [03/Feb/2026 19:08:46] code 404, message File not found
+64.227.34.232 - - [03/Feb/2026 19:08:46] "GET /get.php HTTP/1.1" 404 -
+89.42.231.200 - - [03/Feb/2026 19:11:20] code 404, message File not found
+89.42.231.200 - - [03/Feb/2026 19:11:20] "GET /SDK/webLanguage HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 19:26:30] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 19:26:30] "GET /computeMetadata/v1/project/ HTTP/1.0" 404 -
+204.76.203.69 - - [03/Feb/2026 19:37:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Feb/2026 19:42:12] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 19:42:12] "GET /login HTTP/1.0" 404 -
+64.227.66.177 - - [03/Feb/2026 19:43:09] code 404, message File not found
+64.227.66.177 - - [03/Feb/2026 19:43:09] "GET /.env HTTP/1.1" 404 -
+64.227.66.177 - - [03/Feb/2026 19:43:09] "GET /.git/config HTTP/1.1" 200 -
+204.76.203.30 - - [03/Feb/2026 19:47:52] code 404, message File not found
+204.76.203.30 - - [03/Feb/2026 19:47:52] "GET http://ip-api.com/json/ HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 19:50:29] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 19:59:59] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 19:59:59] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 19:59:59] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 19:59:59] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 19:59:59] "GET /favicon.png HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:00:35] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/gallery_code.txt HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/1000040332.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/1000040325.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/IMG_8510.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/1000040337.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:36] "GET /photos/1000040329.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:00:39] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:00:39] "GET /favicon.ico HTTP/1.0" 404 -
+138.197.222.143 - - [03/Feb/2026 20:06:28] code 404, message File not found
+138.197.222.143 - - [03/Feb/2026 20:06:28] "GET /login HTTP/1.1" 404 -
+205.210.31.149 - - [03/Feb/2026 20:13:40] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [03/Feb/2026 20:19:27] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:19:27] "GET /SDK/webLanguage HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:23:16] "GET / HTTP/1.0" 200 -
+198.235.24.35 - - [03/Feb/2026 20:23:56] code 400, message Bad request syntax ('\\x16\\x03\\x01\\x00î\\x01\\x00\\x00ê\\x03\\x03\\x00S\\x06n')
+198.235.24.35 - - [03/Feb/2026 20:23:56] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03\x00S\x06n" 400 -
+198.235.24.35 - - [03/Feb/2026 20:23:56] code 400, message Bad request version ('À(À$À\\x14À')
+198.235.24.35 - - [03/Feb/2026 20:23:56] "\x16\x03\x01\x00Ê\x01\x00\x00Æ\x03\x03B÷\x85g¤\x13ÃðÄÃZKªæ0¶i¶í\x8a\x0fiÁ\x12\x91QC»\x18çÆÕ\x00\x00hÌ\x14Ì\x13À/À+À0À,À\x11À\x07À'À#À\x13À\x09À(À$À\x14À" 400 -
+127.0.0.1 - - [03/Feb/2026 20:24:59] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:24:59] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:32:35] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:32:35] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:32:35] "GET /css/support_parent.css HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:32:35] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:32:35] "GET /js/twint_ch.js HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:37:14] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:37:14] "GET /robots.txt HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 20:37:15] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:37:18] "GET /gallery.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:37:21] "GET /articles.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:37:23] "GET /game.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:37:28] "GET /index.html HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 20:49:19] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 20:49:19] "GET /.env HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 21:00:05] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 21:01:04] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 21:01:04] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 21:14:27] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 21:14:27] "GET /+CSCOE+/logon.html HTTP/1.0" 404 -
+198.235.24.59 - - [03/Feb/2026 21:20:11] code 400, message Bad HTTP/0.9 request type ("\\x16\\x03\\x01\\x00î\\x01\\x00\\x00ê\\x03\\x03¦¡üm,=']\\x0eè\\x88¿W¢\\x18<(ÊÆùÒ\\x0f\\x99×\\x12ùèãÖ\\x1aü\\x0e")
+198.235.24.59 - - [03/Feb/2026 21:20:11] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03¦¡üm,=']\x0eè\x88¿W¢\x18<(ÊÆùÒ\x0f\x99×\x12ùèãÖ\x1aü\x0e Ø~\x02âò.W\x01\x98Q­W3rÇ}\x8e\x05½" 400 -
+198.235.24.59 - - [03/Feb/2026 21:20:12] code 400, message Bad HTTP/0.9 request type ("\\x16\\x03\\x01\\x00Ê\\x01\\x00\\x00Æ\\x03\\x03É9´\\x94Â\\x0eÉéÙº9~×\\x0eíÊÄßÌ\\x83\\x9cd¹e+oÙÖ\\x8aw\\x10\\x1b\\x00\\x00hÌ\\x14Ì\\x13À/À+À0À,À\\x11À\\x07À'À#À\\x13À")
+198.235.24.59 - - [03/Feb/2026 21:20:12] "\x16\x03\x01\x00Ê\x01\x00\x00Æ\x03\x03É9´\x94Â\x0eÉéÙº9~×\x0eíÊÄßÌ\x83\x9cd¹e+oÙÖ\x8aw\x10\x1b\x00\x00hÌ\x14Ì\x13À/À+À0À,À\x11À\x07À'À#À\x13À\x09À(À$À\x14À" 400 -
+127.0.0.1 - - [03/Feb/2026 21:28:12] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 21:28:12] "POST / HTTP/1.0" 501 -
+127.0.0.1 - - [03/Feb/2026 21:30:29] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 21:30:35] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 21:30:35] "GET /wordpress/ HTTP/1.0" 404 -
+178.128.77.70 - - [03/Feb/2026 21:32:36] code 404, message File not found
+178.128.77.70 - - [03/Feb/2026 21:32:36] "GET /login HTTP/1.1" 404 -
+141.226.92.191 - - [03/Feb/2026 21:35:58] code 400, message Bad request syntax ('\\x04\\x01\\x00\\x19hó#\\x8a\\x00')
+141.226.92.191 - - [03/Feb/2026 21:35:58] "\x04\x01\x00\x19hó#\x8a\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:36:19] code 400, message Bad request syntax ('\\x04\\x01\\x00\\x19hó#\\x8a\\x00')
+141.226.92.191 - - [03/Feb/2026 21:36:19] "\x04\x01\x00\x19hó#\x8a\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:36:40] code 400, message Bad request syntax ('\\x04\\x01\\x00\\x19hó#\\x8a\\x00')
+141.226.92.191 - - [03/Feb/2026 21:36:40] "\x04\x01\x00\x19hó#\x8a\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:37:01] code 400, message Bad request syntax ('\\x05\\x01\\x00')
+141.226.92.191 - - [03/Feb/2026 21:37:01] "\x05\x01\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:37:22] code 400, message Bad request syntax ('\\x05\\x01\\x00')
+141.226.92.191 - - [03/Feb/2026 21:37:22] "\x05\x01\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:37:43] code 400, message Bad request syntax ('\\x05\\x01\\x00')
+141.226.92.191 - - [03/Feb/2026 21:37:43] "\x05\x01\x00" 400 -
+141.226.92.191 - - [03/Feb/2026 21:37:43] code 404, message File not found
+141.226.92.191 - - [03/Feb/2026 21:37:43] "GET http://dvtrack.custonews.com/ajax/ip.php HTTP/1.1" 404 -
+141.226.92.191 - - [03/Feb/2026 21:37:47] code 404, message File not found
+141.226.92.191 - - [03/Feb/2026 21:37:47] "GET http://dvtrack.custonews.com/ajax/ip.php HTTP/1.1" 404 -
+141.226.92.191 - - [03/Feb/2026 21:37:51] code 404, message File not found
+141.226.92.191 - - [03/Feb/2026 21:37:51] "GET http://dvtrack.custonews.com/ajax/ip.php HTTP/1.1" 404 -
+141.226.92.191 - - [03/Feb/2026 21:37:52] code 501, message Unsupported method ('CONNECT')
+141.226.92.191 - - [03/Feb/2026 21:37:52] "CONNECT 104.243.35.138:25 HTTP/1.1" 501 -
+141.226.92.191 - - [03/Feb/2026 21:37:52] code 501, message Unsupported method ('CONNECT')
+141.226.92.191 - - [03/Feb/2026 21:37:52] "CONNECT 104.243.35.138:80 HTTP/1.1" 501 -
+141.226.92.191 - - [03/Feb/2026 21:37:53] code 501, message Unsupported method ('CONNECT')
+141.226.92.191 - - [03/Feb/2026 21:37:53] "CONNECT 172.217.16.174:443 HTTP/1.1" 501 -
+142.93.84.41 - - [03/Feb/2026 22:07:19] code 404, message File not found
+142.93.84.41 - - [03/Feb/2026 22:07:19] "GET /login HTTP/1.1" 404 -
+127.0.0.1 - - [03/Feb/2026 22:18:48] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 22:18:48] "GET /api HTTP/1.0" 404 -
+91.224.92.177 - - [03/Feb/2026 22:39:41] code 501, message Unsupported method ('CONNECT')
+91.224.92.177 - - [03/Feb/2026 22:39:41] "CONNECT www.google.com:443 HTTP/1.1" 501 -
+185.242.3.128 - - [03/Feb/2026 22:45:13] "GET / HTTP/1.0" 200 -
+91.224.92.177 - - [03/Feb/2026 22:49:13] code 501, message Unsupported method ('CONNECT')
+91.224.92.177 - - [03/Feb/2026 22:49:13] "CONNECT google.com:443 HTTP/1.1" 501 -
+127.0.0.1 - - [03/Feb/2026 22:54:43] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 22:54:45] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 22:54:45] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 22:55:02] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 22:55:02] "GET /wiki HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 22:57:05] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 22:57:05] "POST / HTTP/1.0" 501 -
+127.0.0.1 - - [03/Feb/2026 23:03:11] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 23:27:59] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [03/Feb/2026 23:47:58] code 404, message File not found
+127.0.0.1 - - [03/Feb/2026 23:47:58] "GET /SDK/webLanguage HTTP/1.0" 404 -
+127.0.0.1 - - [03/Feb/2026 23:49:47] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [03/Feb/2026 23:49:47] "POST / HTTP/1.0" 501 -
+176.65.139.25 - - [04/Feb/2026 00:12:32] code 501, message Unsupported method ('CONNECT')
+176.65.139.25 - - [04/Feb/2026 00:12:32] "CONNECT google.com:443 HTTP/1.1" 501 -
+127.0.0.1 - - [04/Feb/2026 00:14:28] code 404, message File not found
+127.0.0.1 - - [04/Feb/2026 00:14:28] "GET /favicon.ico HTTP/1.0" 404 -
+127.0.0.1 - - [04/Feb/2026 00:15:06] "GET /gallery.html HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:07] "GET /photos/gallery_code.txt HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:08] "GET /photos/1000040315.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:08] "GET /photos/1000040316.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040317.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040318.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040319.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040321.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040333.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040332.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:09] "GET /photos/1000040327.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:10] "GET /photos/IMG_8510.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:15:10] "GET /photos/1000040328.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:15:10] "GET /photos/IMG_6958.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:16:22] "GET /game.html HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:16:34] "GET /game.html HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:16:40] "GET /index.html HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:16:42] "GET /photos/IMG_6443.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:16:42] "GET /photos/1000040321.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:16:42] "GET /photos/IMG_6825.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:16:43] "GET /photos/Snapseed.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:39:37] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:49:19] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:56:30] "GET /index.html HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:56:35] "GET /photos/1000040336.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:56:36] "GET /photos/1000040335.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 00:56:36] "GET /photos/7CD650E5A1EAB187FB1FAFA272CC7822.jpg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 00:56:36] "GET /photos/IMG_3045.JPG HTTP/1.0" 304 -
+205.210.31.153 - - [04/Feb/2026 01:02:53] "GET / HTTP/1.0" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('205.210.31.153', 51894)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/http/server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/usr/lib/python3.12/http/server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "/usr/lib/python3.12/http/server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "/usr/lib/python3.12/shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "/usr/lib/python3.12/socketserver.py", line 840, in write
+    self._sock.sendall(b)
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+127.0.0.1 - - [04/Feb/2026 01:14:41] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [04/Feb/2026 01:14:41] "POST / HTTP/1.0" 501 -
+127.0.0.1 - - [04/Feb/2026 01:15:12] "GET /.git/config HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:32:21] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:32:22] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:32:23] "GET /photos/IMG_8507.JPG HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 01:32:23] "GET /photos/1000041037.jpg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 01:35:06] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:35:08] "GET /photos/1000040333.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:35:09] "GET /photos/1000040325.jpeg HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 01:35:09] "GET /photos/1000040334.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:35:09] "GET /photos/IMG_7292.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:37:08] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:37:15] "GET /photos/1000040337.jpeg HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:37:16] "GET /photos/IMG_5069.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:37:16] "GET /photos/IMG_7292.JPG HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:41:25] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:43:49] "GET / HTTP/1.0" 304 -
+127.0.0.1 - - [04/Feb/2026 01:45:25] "GET / HTTP/1.0" 200 -
+127.0.0.1 - - [04/Feb/2026 01:45:42] "GET / HTTP/1.0" 200 -
