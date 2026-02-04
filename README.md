@@ -16,7 +16,7 @@
 * **终端风格 (Terminal aesthetic)**：单宽字体、黑底白字、高对比度。
 * **响应式设计 (Responsive)**：适配桌面端与移动端视口。
 
-🔗 **Live Demo**: [https://kingston-115.github.io](https://kingston-115.github.io)
+🔗 **Live Demo**: [https://charlesleon.ggff.net](https://charlesleon.ggff.net) (Custom Domain) / [https://kingston-115.github.io](https://kingston-115.github.io) (GitHub Pages)
 
 ---
 
