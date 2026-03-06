@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GALLERY_VIEW // KINGSTON-115 // V3.1</title>
+    <meta name="description" content="Charles 的个人摄影与视觉归档页面，支持筛选、灯箱预览和动态画廊展示。">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#050505">
+    <link rel="canonical" href="https://kingston-115.github.io/gallery.html">
+    <meta property="og:title" content="GALLERY_VIEW // KINGSTON-115">
+    <meta property="og:description" content="Charles 的个人摄影与视觉归档页面。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kingston-115.github.io/gallery.html">
+    <meta property="og:image" content="https://kingston-115.github.io/photos/IMG_7422.JPG">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GALLERY_VIEW // KINGSTON-115">
+    <meta name="twitter:description" content="Charles 的个人摄影与视觉归档页面。">
+    <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_7422.JPG">
+
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     
@@ -236,7 +254,7 @@
             <div class="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-acid-green z-20"></div>
 
             <!-- Image -->
-            <img id="lightbox-img" src="" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
+            <img id="lightbox-img" src="" alt="Enlarged gallery preview" decoding="async" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
                  onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';">
             
             <!-- Metadata Side Panel -->
@@ -267,7 +285,7 @@
 
     <script>
         const CONFIG = {
-            dataSource: '/photos/gallery_code.txt',
+            dataSource: 'photos/gallery_code.txt',
             demoMode: true,
             scrambleSpeed: 30
         };
@@ -391,7 +409,7 @@
                             <div class="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
                             
                             <div class="w-full h-auto bg-gray-800 min-h-[200px] relative overflow-hidden">
-                                <img src="${src}" loading="lazy" class="w-full h-full object-cover block transform origin-center z-10 relative" 
+                                <img src="${src}" loading="lazy" decoding="async" alt="Gallery image" class="w-full h-full object-cover block transform origin-center z-10 relative" 
                                      onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';">
                             </div>
                         </div>
