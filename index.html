@@ -88,7 +88,7 @@
             color: var(--text-color);
             overflow-x: hidden;
             cursor: crosshair;
-            user-select: none;
+            user-select: text;
         }
         
         ::selection {
@@ -466,6 +466,7 @@
         </div>
     </nav>
 
+    <main>
     <!-- 1. HERO -->
     <section id="about" class="min-h-screen flex flex-col justify-center items-center px-4 md:px-12 pt-20 relative overflow-hidden hero-section">
         <!-- Decos -->
@@ -474,9 +475,9 @@
         <div class="deco-data top-[22%] left-[10%]">SYS_OPTIMAL</div>
         <div class="deco-line-v top-[30%] right-[5%]"></div>
 
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0">
-            <h1 class="glow-pulse text-[20vw] font-display font-black leading-none text-white select-none">
-VOID</h1>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10 z-0" aria-hidden="true">
+            <div class="glow-pulse text-[20vw] font-display font-black leading-none text-white select-none">
+VOID</div>
         </div>
 
         <div class="relative z-10 max-w-6xl text-center w-full">
@@ -488,13 +489,19 @@ VOID</h1>
                     <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow scramble-text">FOOLISH</span></span>
                 </h1>
             </div>
-            
+
             <div class="flex flex-col items-center gap-10 hero-content">
                 <p class="font-mono text-gray-400 max-w-xl text-sm md:text-lg leading-relaxed mx-auto px-4 text-center">
                     我是 <strong class="text-white">Charles</strong>。游走在 <span class="text-electric-blue border-b border-electric-blue/30 pb-0.5">模拟电路</span> 与 <span class="text-acid-green border-b border-acid-green/30 pb-0.5">生成式 AI</span> 边缘的开发者。<br>
                     <span class="opacity-70 mt-2 block text-xs tracking-wider">在这里，代码是新的炼金术。</span>
                 </p>
-                
+
+                <div class="flex flex-wrap items-center justify-center gap-3 px-4 max-w-4xl" aria-label="关键经历与亮点">
+                    <span class="font-mono text-[11px] md:text-xs text-white border border-white/15 bg-white/5 px-3 py-2 rounded-full tracking-wide">嵌入式 / AI / 控制</span>
+                    <span class="font-mono text-[11px] md:text-xs text-acid-green border border-acid-green/30 bg-acid-green/5 px-3 py-2 rounded-full tracking-wide">350+ Stars 开源项目</span>
+                    <span class="font-mono text-[11px] md:text-xs text-electric-blue border border-electric-blue/30 bg-electric-blue/5 px-3 py-2 rounded-full tracking-wide">机器人大赛获奖</span>
+                </div>
+
                 <!-- 1. 双语按钮 -->
                 <div class="flex flex-col md:flex-row gap-4">
                     <a href="#projects" class="glitch-hover px-8 py-3 md:px-10 md:py-4 bg-white text-black font-bold font-display uppercase text-sm md:text-base hover:bg-acid-green transition-colors tracking-wider flex items-center gap-2 group">
@@ -534,7 +541,7 @@ VOID</h1>
             </div>
             <h2 class="text-3xl md:text-6xl font-display font-bold mb-24 text-center outline-text relative z-10 flex flex-col md:flex-row items-baseline justify-center gap-4">
                 <span>CASE_STUDIES</span>
-                <span class="solid-cn-text text-xl md:text-3xl">项目经历 <span class="text-sm font-mono text-acid-green align-top pointer-events-none">(07)</span></span>
+                <span class="solid-cn-text text-xl md:text-3xl">项目经历 <span class="text-sm font-mono text-acid-green align-top pointer-events-none">(08)</span></span>
             </h2>
             
             <!-- Deck Wrapper (Starts Collapsed) -->
@@ -716,7 +723,7 @@ VOID</h1>
                                 <div class="font-mono text-cyan-300 text-xs mb-4 tracking-widest">07 // CONTROL + LLM ENGINEERING</div>
                                 <h3 class="text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white">LLM-PID-Tuner 智能调参系统</h3>
                                 <p class="text-gray-400 font-sans text-sm md:text-base leading-relaxed mb-6">
-                                    面向温控与运动控制闭环的 <span class="text-white">LLM-assisted PID</span> 工具链。支持真实硬件串口数据与本地仿真双模式，内置参数安全边界、自动回退、系统辨识与 benchmark 流程，显著减少手动试错。
+                                    面向温控与运动控制闭环的 <span class="text-white">LLM-assisted PID</span> 工具链。支持真实硬件串口数据与本地仿真双模式，内置参数安全边界、自动回退、系统辨识与 benchmark 流程，并在 Git 开源平台获得 <span class="text-white">350+ Stars</span>。
                                 </p>
                                 <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                     <span class="px-3 py-1 border border-white/20 rounded-full">Python</span>
@@ -733,6 +740,34 @@ VOID</h1>
                             <div class="absolute inset-0 flex items-center justify-center gap-6 parallax-content">
                                 <i data-lucide="sliders-horizontal" class="w-32 h-32 text-cyan-300/70"></i>
                                 <i data-lucide="cpu" class="w-20 h-20 text-white/80"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 08: Personal Website -->
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0c0f0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[80]" style="top: 24vh; --i:7" onclick="openModal('portfolioSite')">
+                        <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0c0f0a] pointer-events-none">
+                            <div>
+                                <div class="font-mono text-emerald-300 text-xs mb-4 tracking-widest">08 // OPEN SOURCE + WEB EXPERIENCE</div>
+                                <h3 class="text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white">个人网站开源系统</h3>
+                                <p class="text-gray-400 font-sans text-sm md:text-base leading-relaxed mb-6">
+                                    独立开发并持续维护的个人品牌站点。基于 <span class="text-white">原生 HTML/CSS/JavaScript</span> 与轻量动效体系构建，融合项目归档、摄影展示与交互式内容，作为个人作品、技术表达与公开展示的统一入口。
+                                </p>
+                                <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                                    <span class="px-3 py-1 border border-white/20 rounded-full">HTML5</span>
+                                    <span class="px-3 py-1 border border-white/20 rounded-full">JavaScript</span>
+                                    <span class="px-3 py-1 border border-white/20 rounded-full">TailwindCSS</span>
+                                    <span class="px-3 py-1 border border-white/20 rounded-full">Open Source</span>
+                                </div>
+                            </div>
+                            <div class="inline-flex items-center gap-3 text-white font-mono mt-6 group-hover:text-emerald-300 transition-colors">
+                                [ 点击查看深度技术文档 ] <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 h-48 md:h-auto bg-gradient-to-br from-emerald-900/40 to-black relative overflow-hidden pointer-events-none border-t md:border-t-0 md:border-l border-white/10 project-visual">
+                            <div class="absolute inset-0 flex items-center justify-center gap-8 parallax-content">
+                                <i data-lucide="github" class="w-28 h-28 text-emerald-300/70"></i>
+                                <i data-lucide="globe" class="w-16 h-16 text-white/80 drop-shadow-[0_0_16px_rgba(255,255,255,0.35)]"></i>
                             </div>
                         </div>
                     </article>
@@ -881,18 +916,18 @@ VOID</h1>
                     </div>
                 </a>
 
-                <!-- Item 2: Fitness -->
-                <a href="https://www.bilibili.com/video/BV1GTaBevEhL/?share_source=copy_web&vd_source=8d348acd83a253cad9969734aa375cdb" target="_blank" rel="noopener noreferrer" class="resource-card group">
+                <!-- Item 2: AI PID Tuning -->
+                <a href="https://www.bilibili.com/video/BV1xbfYBUEig/?share_source=copy_web&vd_source=8d348acd83a253cad9969734aa375cdb" target="_blank" rel="noopener noreferrer" class="resource-card group">
                     <div class="resource-thumb">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80" alt="Fitness" loading="lazy" decoding="async">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80" alt="AI PID Tuning" loading="lazy" decoding="async">
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
-                            <span class="font-mono text-xs text-electric-blue border border-electric-blue/30 px-2 py-0.5 rounded">[ BIO_ENHANCEMENT ]</span>
-                            <span class="font-mono text-xs text-gray-500">BILIBILI // PHYSICAL_DATA</span>
+                            <span class="font-mono text-xs text-electric-blue border border-electric-blue/30 px-2 py-0.5 rounded">[ AI_CONTROL ]</span>
+                            <span class="font-mono text-xs text-gray-500">BILIBILI // PID_PROJECT</span>
                         </div>
-                        <h3 class="text-xl font-bold text-white group-hover:text-electric-blue transition-colors mb-1">没那么难！带你入门健身常用的固定器械</h3>
-                        <p class="text-xs text-gray-400 font-mono">HARDWARE_OPTIMIZATION: HUMAN_BODY_V1.0</p>
+                        <h3 class="text-xl font-bold text-white group-hover:text-electric-blue transition-colors mb-1">AI自动化调参PID项目教程</h3>
+                        <p class="text-xs text-gray-400 font-mono">AUTO_TUNING: LLM_ASSISTED_PID_WORKFLOW</p>
                     </div>
                     <div class="resource-arrow" style="color: var(--electric-blue);">
                         <i data-lucide="arrow-right-circle" class="w-8 h-8"></i>
@@ -971,6 +1006,8 @@ VOID</h1>
         </div>
     </section>
 
+    </main>
+
     <!-- 6. FOOTER -->
     <footer id="contact" class="min-h-screen flex flex-col relative bg-acid-green text-black overflow-hidden">
         
@@ -987,7 +1024,7 @@ VOID</h1>
             <div class="w-full max-w-7xl mx-auto">
                 
                 <div class="mb-12">
-                    <<h2 class="text-[13vw] md:text-[9rem] leading-none font-display font-black mb-6 tracking-tighter uppercase text-black whitespace-nowrap">
+                    <h2 class="text-[13vw] md:text-[9rem] leading-none font-display font-black mb-6 tracking-tighter uppercase text-black whitespace-nowrap">
                         CONTACT
                     </h2>
                     <div class="flex items-center gap-4">
@@ -998,13 +1035,13 @@ VOID</h1>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
-                    <a href="mailto:2877616326@qq.com" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
+                    <a href="mailto:liangchengchao16@gmail.com" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
                         <div class="flex justify-between items-start mb-4">
                             <i data-lucide="mail" class="w-8 h-8 group-hover:animate-pulse"></i>
                             <i data-lucide="arrow-up-right" class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                         </div>
                         <div class="font-mono text-xs font-bold opacity-60 mb-2 group-hover:text-acid-green/80">EMAIL_ADDRESS //</div>
-                        <div class="font-mono font-bold text-xl md:text-2xl break-all tracking-tight">2877616326@QQ.COM</div>
+                        <div class="font-mono font-bold text-xl md:text-2xl break-all tracking-tight">liangchengchao16@gmail.com</div>
                     </a>
 
                     <div onclick="copyToClipboard('c877616326')" class="group relative flex flex-col p-6 border-2 border-black bg-white/40 backdrop-blur-md hover:bg-black hover:text-acid-green transition-all duration-200 cursor-pointer hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#000] active:translate-y-0 active:translate-x-0 active:shadow-none">
@@ -1471,8 +1508,22 @@ VOID</h1>
                     <h3>3. 工程亮点</h3>
                     <p>支持 OpenAI 兼容 API（OpenAI / DeepSeek / Ollama / LM Studio），提供 <code>system_id.py</code> 初值建议和 <code>benchmark.py</code> 对比验证，并打包为可直接使用的 <code>llm-pid-tuner.exe</code>。</p>
                     <h3>4. 结果与价值</h3>
-                    <p>在温控与运动控制场景中，显著降低手动调参轮次，提升参数收敛效率和稳定性。</p>
+                    <p>项目已在 Git 开源平台收获 <strong>350+ Stars</strong>，在温控与运动控制场景中显著降低手动调参轮次，提升参数收敛效率和稳定性。</p>
                     <p class="mt-4"><a href="https://github.com/KINGSTON-115/llm-pid-tuner" target="_blank" rel="noopener noreferrer" class="underline">查看项目仓库</a></p>
+                `
+            },
+            portfolioSite: {
+                title: "个人网站开源系统",
+                tags: ["HTML5", "JavaScript", "TailwindCSS", "GSAP", "Open Source"],
+                content: `
+                    <h3>1. 项目定位</h3>
+                    <p>这是我独立开发并长期维护的个人网站开源项目，既是个人品牌展示窗口，也是项目归档、内容输出与视觉实验的统一载体。</p>
+                    <h3>2. 设计与工程</h3>
+                    <p>整体采用 <strong>原生 HTML/CSS/JavaScript</strong> 构建，结合 TailwindCSS、GSAP 与 Lenis 实现轻量化页面结构、流畅滚动体验与赛博终端风格视觉语言，在保持高自由度的同时兼顾可维护性。</p>
+                    <h3>3. 开源定位</h3>
+                    <p>我将主页、项目案例、摄影内容与交互式模块整合为统一的信息架构，让它不仅是“展示页”，更是一个持续演化的公开作品集系统。</p>
+                    <h3>4. 访问入口</h3>
+                    <p><a href="https://github.com/KINGSTON-115/KINGSTON-115.github.io" target="_blank" rel="noopener noreferrer" class="underline">查看 GitHub 仓库</a></p>
                 `
             },
             robocom2025: {
