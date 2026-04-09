@@ -158,7 +158,9 @@
     </div>
     
     <!-- Hidden Input for Mobile -->
-    <input type="text" id="hiddenInput" style="position: absolute; opacity: 0; top: -1000px;">
+    <!-- 优化移动端唤起键盘：将其固定在左上角不可见，防止页面跳动 -->
+    <input type="text" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+           style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -1;">
 
     <!-- Start Screen -->
     <div id="startScreen">
@@ -180,15 +182,44 @@
         const ctx = canvas.getContext('2d');
         let width, height;
         
-        // Game State
-        let gameRunning = false;
-        let score = 0;
-        let health = 100;
-        let enemies = [];
-        let particles = [];
-        let spawnRate = 60; // Frames between spawns
-        let difficultyMultiplier = 1;
-        let frameCount = 0;
+        // --- 1. Game State Management ---
+        const GameState = {
+            running: false,
+            score: 0,
+            health: 100,
+            enemies: [],
+            particles: [],
+            spawnRate: 60, // Base frames between spawns
+            difficultyMultiplier: 1,
+            frameCount: 0,
+            screenShake: 0, // 屏幕震动幅度
+            
+            reset() {
+                this.score = 0;
+                this.health = 100;
+                this.enemies = [];
+                this.particles = [];
+                this.difficultyMultiplier = parseFloat(document.getElementById('speedSlider').value) || 1;
+                this.frameCount = 0;
+                this.screenShake = 0;
+                updateHealthUI();
+                updateScoreUI();
+            },
+            
+            takeDamage(amount) {
+                this.health -= amount;
+                this.screenShake = 15; // 触发屏幕震动
+                updateHealthUI();
+                if (this.health <= 0) {
+                    gameOver();
+                }
+            },
+            
+            addScore(amount) {
+                this.score += amount;
+                updateScoreUI();
+            }
+        };
 
         // Characters to use
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -200,26 +231,28 @@
         window.addEventListener('resize', resize);
         resize();
 
+        // --- 2. Entity Classes ---
         class Enemy {
             constructor() {
                 this.char = chars[Math.floor(Math.random() * chars.length)];
-                this.x = Math.random() * (width - 40) + 20;
-                this.y = -20;
-                this.speed = (Math.random() * 2 + 1) * difficultyMultiplier;
                 this.size = 24;
+                // 确保在屏幕内，避开边缘
+                this.x = Math.random() * (width - 60) + 30;
+                this.y = -20;
+                // 根据当前难度和随机因子设定速度
+                this.speed = (Math.random() * 2 + 1) * GameState.difficultyMultiplier;
             }
 
             update() {
                 this.y += this.speed;
                 if (this.y > height) {
-                    health -= 10;
-                    updateHealth();
-                    return false; // Remove
+                    GameState.takeDamage(10);
+                    return false; // 移除
                 }
-                return true; // Keep
+                return true; // 保留
             }
 
-            draw() {
+            draw(ctx) {
                 ctx.font = 'bold 24px "JetBrains Mono"';
                 ctx.fillStyle = '#ccff00';
                 ctx.shadowBlur = 10;
@@ -248,7 +281,7 @@
                 this.life -= 0.05;
                 return this.life > 0;
             }
-            draw() {
+            draw(ctx) {
                 ctx.globalAlpha = this.life;
                 ctx.fillStyle = this.color;
                 ctx.fillRect(this.x, this.y, 3, 3);
@@ -256,114 +289,153 @@
             }
         }
 
+        // --- 3. UI Interactions ---
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
-            gameRunning = true;
-            loop();
+            document.getElementById('gameOverScreen').style.display = 'none';
+            GameState.reset();
+            GameState.running = true;
+            requestAnimationFrame(gameLoop);
+            
+            // 自动唤起键盘体验更好 (可选)
+            // if (window.innerWidth < 768) activateKeyboard();
         }
 
         function gameOver() {
-            gameRunning = false;
+            GameState.running = false;
             document.getElementById('gameOverScreen').style.display = 'flex';
-            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalScore').innerText = GameState.score;
+            // 游戏结束收起键盘
+            document.getElementById('hiddenInput').blur();
         }
 
-        function updateHealth() {
+        function updateHealthUI() {
             const bar = document.getElementById('healthBar');
-            bar.style.width = health + '%';
-            if (health <= 0) gameOver();
+            bar.style.width = Math.max(0, GameState.health) + '%';
+        }
+        
+        function updateScoreUI() {
+            document.getElementById('scoreDisplay').innerText = GameState.score.toString().padStart(6, '0');
         }
 
         function createExplosion(x, y) {
             for(let i=0; i<8; i++) {
-                particles.push(new Particle(x, y));
+                GameState.particles.push(new Particle(x, y));
             }
         }
 
-        function loop() {
-            if (!gameRunning) return;
+        // --- 4. Main Game Loop ---
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            if (!GameState.running) return;
 
             // Clear with trail effect
             ctx.fillStyle = 'rgba(5, 5, 5, 0.3)';
             ctx.fillRect(0, 0, width, height);
 
-            frameCount++;
+            ctx.save(); // 保存当前上下文状态
 
-            // Spawn enemies
-            if (frameCount % Math.floor(spawnRate / difficultyMultiplier) === 0) {
-                enemies.push(new Enemy());
+            // 屏幕震动计算 (直接在 Canvas 层操作，不操作 DOM Transform)
+            if (GameState.screenShake > 0) {
+                const dx = (Math.random() - 0.5) * GameState.screenShake;
+                const dy = (Math.random() - 0.5) * GameState.screenShake;
+                ctx.translate(dx, dy);
+                GameState.screenShake *= 0.9; // 衰减
+                if (GameState.screenShake < 0.5) GameState.screenShake = 0;
             }
 
-            // Increase difficulty
-            if (frameCount % 600 === 0) {
-                difficultyMultiplier += 0.1;
+            GameState.frameCount++;
+
+            // 动态计算生成率
+            let currentSpawnRate = Math.max(10, Math.floor(GameState.spawnRate / GameState.difficultyMultiplier));
+            if (GameState.frameCount % currentSpawnRate === 0) {
+                GameState.enemies.push(new Enemy());
+            }
+
+            // 随时间增加难度
+            if (GameState.frameCount % 600 === 0) {
+                GameState.difficultyMultiplier += 0.1;
+                // 同步更新 UI
+                document.getElementById('speedSlider').value = GameState.difficultyMultiplier;
+                document.getElementById('speedValue').innerText = GameState.difficultyMultiplier.toFixed(1) + 'x';
             }
 
             // Update & Draw Enemies
-            for (let i = enemies.length - 1; i >= 0; i--) {
-                let e = enemies[i];
+            for (let i = GameState.enemies.length - 1; i >= 0; i--) {
+                let e = GameState.enemies[i];
                 if (!e.update()) {
-                    enemies.splice(i, 1);
-                    // Shake screen slightly on damage
-                    canvas.style.transform = `translate(${Math.random()*4-2}px, ${Math.random()*4-2}px)`;
-                    setTimeout(() => canvas.style.transform = 'none', 50);
+                    GameState.enemies.splice(i, 1);
                 } else {
-                    e.draw();
+                    e.draw(ctx);
                 }
             }
 
             // Update & Draw Particles
-            for (let i = particles.length - 1; i >= 0; i--) {
-                let p = particles[i];
+            for (let i = GameState.particles.length - 1; i >= 0; i--) {
+                let p = GameState.particles[i];
                 if (!p.update()) {
-                    particles.splice(i, 1);
+                    GameState.particles.splice(i, 1);
                 } else {
-                    p.draw();
+                    p.draw(ctx);
                 }
             }
 
-            requestAnimationFrame(loop);
+            ctx.restore(); // 恢复上下文（清除 translate 影响）
+
+            requestAnimationFrame(gameLoop);
         }
 
-        // Input Handling
+        // --- 5. Input Handling ---
         const hiddenInput = document.getElementById('hiddenInput');
         const speedSlider = document.getElementById('speedSlider');
         const speedValue = document.getElementById('speedValue');
 
+        // 绑定手动难度控制
         speedSlider.addEventListener('input', (e) => {
-            difficultyMultiplier = parseFloat(e.target.value);
-            speedValue.innerText = difficultyMultiplier.toFixed(1) + 'x';
+            GameState.difficultyMultiplier = parseFloat(e.target.value);
+            speedValue.innerText = GameState.difficultyMultiplier.toFixed(1) + 'x';
         });
         
         function activateKeyboard() {
             hiddenInput.focus();
+            // 在某些移动端浏览器中，可能需要一点延迟来确保焦点生效
+            setTimeout(() => hiddenInput.focus(), 100);
         }
 
+        // 监听移动端输入 (隐藏输入框)
         hiddenInput.addEventListener('input', (e) => {
-            if (!gameRunning) return;
-            const char = e.data ? e.data.toUpperCase() : '';
-            if (char) processInput(char);
-            hiddenInput.value = ''; // Clear input
+            if (!GameState.running) return;
+            // 针对拼音输入法或某些手机键盘，尝试获取最新输入的字符
+            const val = hiddenInput.value;
+            if (val.length > 0) {
+                const char = val[val.length - 1].toUpperCase();
+                processInput(char);
+                hiddenInput.value = ''; // 立即清空，准备下一次输入
+            }
         });
 
+        // 监听桌面端物理键盘
         window.addEventListener('keydown', (e) => {
-            if (!gameRunning) return;
-            processInput(e.key.toUpperCase());
+            if (!GameState.running) return;
+            // 忽略控制键，只处理单字符
+            if (e.key.length === 1) {
+                processInput(e.key.toUpperCase());
+            }
         });
 
         function processInput(key) {
-            let hit = false;
-            // Find matching enemy (closest to bottom first)
-            const sortedIndices = enemies.map((e, i) => ({y: e.y, i})).sort((a, b) => b.y - a.y);
+            // 找到所有屏幕上的敌人，按 Y 轴排序（最底部的优先匹配）
+            const sortedIndices = GameState.enemies
+                .map((e, i) => ({ y: e.y, i }))
+                .sort((a, b) => b.y - a.y);
             
             for (let obj of sortedIndices) {
-                if (enemies[obj.i].char === key) {
-                    createExplosion(enemies[obj.i].x, enemies[obj.i].y);
-                    enemies.splice(obj.i, 1);
-                    score += 100;
-                    document.getElementById('scoreDisplay').innerText = score.toString().padStart(6, '0');
-                    hit = true;
-                    break;
+                if (GameState.enemies[obj.i].char === key) {
+                    // 击中逻辑
+                    createExplosion(GameState.enemies[obj.i].x, GameState.enemies[obj.i].y);
+                    GameState.enemies.splice(obj.i, 1);
+                    GameState.addScore(100);
+                    break; // 一次按键只击毁最下面的一个字母
                 }
             }
         }
