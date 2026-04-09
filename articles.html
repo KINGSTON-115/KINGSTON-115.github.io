@@ -107,7 +107,7 @@
             <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ SYSTEM_LOGS ]</button>
             <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ THOUGHTS ]</button>
             <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ HARDWARE ]</button>
-            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 06</div>
+            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 07</div>
         </div>
 
         <!-- 文章列表 -->
@@ -230,62 +230,152 @@
                 </div>
             </article>
 
-            <!-- Article 04: Local LoRA Training (Placeholder) -->
+            <!-- Article 04: Lil'Log (Lilian Weng) -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
-                        2024.12.05<br>
-                        <span class="opacity-50 font-normal">ID: LOG_039</span>
+                        2023.06.23<br>
+                        <span class="opacity-50 font-normal">ID: EXT_004</span>
                     </div>
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI_ART</span>
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SD</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AGENTS</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
-                            <a href="#" class="block">训练黎族图腾 LoRA：从数据集清洗到过拟合测试</a>
+                            <a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener noreferrer" class="block">
+                                LLM Powered Autonomous Agents
+                            </a>
                         </h2>
                         <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
-                            尝试训练一个专门生成黎族传统织锦纹样的 LoRA 模型。发现最大的坑不在参数，而在数据集的 tag 标注。使用了 DeepDanbooru 进行自动标注，但对于抽象几何纹样，人工修正仍然必不可少。
+                            OpenAI 研究科学家 Lilian Weng 的经典长文。文章深入探讨了如何将大型语言模型（LLM）作为自主代理（Autonomous Agent）的核心大脑。文中系统性地拆解了代理的三个核心组件：规划（Planning）、记忆（Memory）与工具使用（Tool Use），是开发 AutoGPT、BabyAGI 等复杂 AI 系统的必读指南。
                         </p>
-                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        
+                        <div class="bg-black p-3 border-l-2 border-acid mb-6 max-w-2xl font-mono text-xs opacity-90">
+                            <span class="text-gray-500">// Core Components of LLM Agent</span><br>
+                            1. Planning: <span class="text-white">Subgoal decomposition, Reflection</span><br>
+                            2. Memory: <span class="text-white">Short-term, Long-term (Vector DB)</span><br>
+                            3. Tool Use: <span class="text-acid">API calls, Code execution</span>
+                        </div>
+
+                        <a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
             </article>
-            
-            <!-- Article 05 - Snippet Style (Placeholder) -->
+
+            <!-- Article 05: Cloudflare Tech Blog -->
             <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
-                        2024.08.12<br>
-                        <span class="opacity-50 font-normal">ID: NOTE_002</span>
+                        2022.09.14<br>
+                        <span class="opacity-50 font-normal">ID: EXT_005</span>
                     </div>
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SNIPPET</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SYSTEM</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">RUST</span>
                         </div>
-                        <h2 class="text-xl font-bold mb-2 text-white">
-                           <a href="#">#Snippet: 增量式 PID 算法 C 语言实现</a>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/" target="_blank" rel="noopener noreferrer" class="block">
+                                How we built Pingora: Cloudflare's Rust Proxy
+                            </a>
                         </h2>
-                        <p class="opacity-50 text-xs italic mb-4 text-acid">
-                            // Quick copy-paste ready code for STM32 motor control tasks.
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            Cloudflare 放弃了久经考验的 NGINX，选择用 Rust 从头重写了他们的全球边缘代理系统 Pingora。文章详细对比了 NGINX 基于多进程的架构缺陷与 Rust 在内存安全、异步高并发调度上的优势。该系统每天处理超过一万亿次请求，性能与 CPU 利用率均获得了大幅提升。
                         </p>
-                        <!-- 代码块：黑底绿字，终端风格 -->
+
+                        <div class="flex gap-4 mb-6 text-xs font-mono">
+                            <div class="bg-acid-dark px-3 py-2 border border-acid/30">
+                                <span class="text-gray-400">Old Stack:</span><br>
+                                <span class="text-red-400">NGINX (C)</span>
+                            </div>
+                             <div class="bg-acid-dark px-3 py-2 border border-acid/30">
+                                <span class="text-gray-400">New Stack:</span><br>
+                                <span class="text-acid">Pingora (Rust)</span>
+                            </div>
+                        </div>
+
+                        <a href="https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 06: Andrej Karpathy Blog -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2015.05.21<br>
+                        <span class="opacity-50 font-normal">ID: EXT_006</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">DEEP_LEARNING</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank" rel="noopener noreferrer" class="block">
+                                The Unreasonable Effectiveness of Recurrent Neural Networks
+                            </a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            尽管 Transformers 如今统治了自然语言处理，但 Andrej Karpathy 的这篇经典博文依然是理解序列模型的绝佳起点。文章展示了字符级 RNN 如何在没有硬编码语法的情况下，不可思议地学会生成莎士比亚戏剧、Linux 源码甚至复杂的 LaTeX 文档，揭示了深度学习的“非理性的有效性”。
+                        </p>
+
                         <div class="bg-black p-4 border border-acid/50 text-xs text-acid font-mono overflow-x-auto shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]">
-                            <span class="text-gray-500">// Calculates increment value</span><br>
-                            <span class="text-white">float</span> <span class="text-yellow-300">PID_Calc</span>(PID_TypeDef *pid, <span class="text-white">float</span> target, <span class="text-white">float</span> current) {<br>
-                            &nbsp;&nbsp;pid->error = target - current;<br>
-                            &nbsp;&nbsp;<span class="text-white">float</span> p_out = pid->Kp * (pid->error - pid->last_error);<br>
-                            &nbsp;&nbsp;<span class="text-white">float</span> i_out = pid->Ki * pid->error;<br>
-                            &nbsp;&nbsp;<span class="text-green-500">... return output;</span>
+                            <span class="text-gray-500"># Generating Shakespeare with Character-level RNN</span><br>
+                            PANDARUS:<br>
+                            Alas, I think he shall be come approached and the day<br>
+                            When little srain would be attain'd into being never fed,<br>
+                            And who is but a chain and subjects of his death...
                         </div>
+                        
                         <div class="mt-4">
-                             <a href="#" class="text-xs hover:underline decoration-acid underline-offset-4 text-gray-400 hover:text-white transition-colors">>> View Raw Gist</a>
+                            <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                                Read_Full_Log <span class="ml-2">-></span>
+                            </a>
                         </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 07: NVIDIA Technical Blog -->
+            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
+                    <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
+                        2022.05.24<br>
+                        <span class="opacity-50 font-normal">ID: EXT_007</span>
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">HARDWARE</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">ROBOTICS</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                            <a href="https://developer.nvidia.com/blog/accelerating-robot-development-with-nvidia-isaac-ros/" target="_blank" rel="noopener noreferrer" class="block">
+                                Accelerating Robot Development with NVIDIA Isaac ROS
+                            </a>
+                        </h2>
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                            探讨如何利用硬件加速（Hardware Acceleration）来突破 ROS 2 节点的性能瓶颈。NVIDIA Isaac ROS 提供了基于 CUDA 优化的视觉里程计（VIO）、图像处理与深度学习推理 GEMs。通过零拷贝（Zero-Copy）技术，让 Jetson 平台上的机器人感知节点间通信延迟从数百毫秒降低至几毫秒级。
+                        </p>
+
+                        <div class="bg-black p-3 border-l-2 border-acid mb-6 max-w-2xl font-mono text-xs opacity-90">
+                            <span class="text-gray-500">// Performance Metrics (Jetson AGX Orin)</span><br>
+                            Standard ROS 2 Image Transport: <span class="text-red-400">High Latency (CPU copy)</span><br>
+                            Isaac ROS NITROS (Type Adaptation): <span class="text-acid">Zero-Copy (GPU memory)</span>
+                        </div>
+
+                        <a href="https://developer.nvidia.com/blog/accelerating-robot-development-with-nvidia-isaac-ros/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                            Read_Full_Log <span class="ml-2">-></span>
+                        </a>
                     </div>
                 </div>
             </article>
