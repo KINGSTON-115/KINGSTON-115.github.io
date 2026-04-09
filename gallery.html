@@ -25,52 +25,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'acid-green': '#ccff00',
-                        'acid-dim': 'rgba(204, 255, 0, 0.1)',
-                        'dark-bg': '#050505',
-                        'panel-bg': '#0a0a0a',
-                    },
-                    fontFamily: {
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                        sans: ['"Oswald"', 'sans-serif'],
-                    },
-                    animation: {
-                        'scanline': 'scanline 8s linear infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        scanline: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100%)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Global Styles & Tailwind Config -->
+    <link rel="stylesheet" href="css/global.css">
+    <script src="js/tailwind-config.js"></script>
 
     <style>
         /* --- CORE BASE --- */
         body {
-            background-color: #050505;
-            color: #e5e5e5;
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
             min-height: 100vh;
-            /* FIXED: Removed 'perspective: 1000px;' from body.
-               This property was causing position:fixed elements (like the lightbox)
-               to become relative to the body instead of the viewport.
-            */
         }
 
         /* --- 3D PERSPECTIVE GRID --- */
@@ -100,10 +64,6 @@
         }
 
         /* --- NOISE & OVERLAYS --- */
-        .noise-overlay {
-            position: fixed; inset: 0; z-index: 50; opacity: 0.04; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
         .scanline-overlay {
             position: fixed; inset: 0; z-index: 40; pointer-events: none;
             background-size: 100% 4px; opacity: 0.1;
@@ -152,8 +112,6 @@
         }
 
         /* --- UTILS --- */
-        .scramble-text { display: inline-block; min-width: 1ch; }
-        .selection-acid::selection { background-color: #ccff00; color: #000; }
         .writing-vertical-rl { writing-mode: vertical-rl; }
     </style>
 </head>

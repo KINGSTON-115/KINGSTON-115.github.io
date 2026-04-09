@@ -45,65 +45,14 @@
     <!-- Reliable stats powered by busuanzi -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ['"Syne"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                        sans: ['"Noto Sans SC"', 'sans-serif'],
-                    },
-                    colors: {
-                        'acid-green': '#ccff00',
-                        'electric-blue': '#2b60ff',
-                        'deep-void': '#050505',
-                        'panel-gray': '#111111',
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #222 1px, transparent 1px), linear-gradient(to bottom, #222 1px, transparent 1px)",
-                    },
-                    animation: {
-                        'marquee-infinite': 'marquee 30s linear infinite',
-                    },
-                    keyframes: {
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-100%)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Global Styles & Tailwind Config -->
+    <link rel="stylesheet" href="css/global.css">
+    <script src="js/tailwind-config.js"></script>
 
     <style>
-        :root {
-            --bg-color: #050505;
-            --text-color: #ffffff;
-            --accent-color: #ccff00;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
             overflow-x: hidden;
-            cursor: crosshair;
             user-select: text;
-        }
-        
-        ::selection {
-            background-color: var(--accent-color);
-            color: black;
-        }
-
-        ::-webkit-scrollbar { width: 0; }
-
-        /* 1. 噪点纹理层 */
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9998; opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* 2. 滚动进度条 */
