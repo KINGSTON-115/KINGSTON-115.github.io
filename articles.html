@@ -25,64 +25,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                    },
-                    colors: {
-                        // 核心配色：酸性绿 (Acid Green)
-                        black: '#050505',
-                        acid: '#CCFF00',      // 核心高亮酸绿
-                        'acid-dim': 'rgba(204, 255, 0, 0.1)', // 弱化的酸绿背景
-                        'acid-dark': '#1a2200', // 深色装饰
-                    },
-                    animation: {
-                        'blink': 'blink 1s step-end infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        blink: {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Global Styles & Tailwind Config -->
+    <link rel="stylesheet" href="css/global.css">
+    <script src="js/tailwind-config.js"></script>
 
     <style>
         body {
-            background-color: #050505;
-            color: #CCFF00; /* 全局默认文字颜色为酸绿 */
             font-family: 'JetBrains Mono', monospace;
-            /* 酸绿滚动条 */
-            scrollbar-width: thin;
-            scrollbar-color: #CCFF00 #111;
-        }
-        
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111;
-            border-left: 1px solid #222;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CCFF00;
-            border-radius: 0px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #aaff00;
-        }
-
-        /* 选中文本：酸绿背景，黑字 */
-        ::selection {
-            background-color: #CCFF00;
-            color: #000000;
         }
 
         /* 核心交互：悬停反色（变绿块） */

@@ -1,0 +1,62 @@
+/* === GLOBAL VARIABLES === */
+:root {
+    --bg-color: #050505;
+    --text-color: #ffffff;
+    --accent-color: #ccff00; /* Acid Green */
+    --danger-color: #ff2b2b;
+}
+
+/* === GLOBAL TYPOGRAPHY & BODY === */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* 默认光标与选择 */
+    cursor: crosshair;
+}
+
+/* === SELECTION (Acid Green) === */
+::selection {
+    background-color: var(--accent-color);
+    color: black;
+}
+.selection-acid::selection {
+    background-color: var(--accent-color);
+    color: black;
+}
+
+/* === SCROLLBAR (Acid Green / Cyberpunk Style) === */
+/* 适用于 index.html (隐藏模式) 及其他页面的细条模式 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #111;
+    border-left: 1px solid #222;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-color);
+}
+
+/* Firefox scrollbar styling where supported */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) #111;
+}
+
+/* === NOISE TEXTURE OVERLAY === */
+.noise-overlay {
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9998; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* === UTILITIES === */
+.scramble-text {
+    display: inline-block;
+    min-width: 1ch;
+}
