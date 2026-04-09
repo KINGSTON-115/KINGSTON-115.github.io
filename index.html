@@ -42,7 +42,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-    <!-- Reliable stats powered by CountAPI -->
+    <!-- Reliable stats powered by busuanzi -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <script>
         tailwind.config = {
@@ -1101,9 +1102,9 @@ VOID</div>
             <div class="flex items-center gap-2 text-black">
                 <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
                 <span id="statsCounter" aria-live="polite">
-                    VISITORS: <span id="reliableVisitors">--</span>
+                    VISITORS: <span id="busuanzi_value_site_uv">--</span>
                     <span class="opacity-50">|</span>
-                    VIEWS: <span id="reliableViews">--</span>
+                    VIEWS: <span id="busuanzi_value_site_pv">--</span>
                 </span>
             </div>
             </div>
@@ -1143,6 +1144,9 @@ VOID</div>
         if (canvas) {
             const ctx = canvas.getContext('2d');
             let width, height, particles = [];
+            let animationFrameId;
+            let isCanvasVisible = true;
+
             function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
             window.addEventListener('resize', resize); resize();
             class Symbol {
@@ -1151,8 +1155,33 @@ VOID</div>
                 draw() { ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`; ctx.lineWidth = 1; ctx.strokeRect(this.x, this.y, this.size, this.size); }
             }
             for(let i=0; i<30; i++) particles.push(new Symbol());
-            function animateCanvas() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateCanvas); }
-            animateCanvas();
+            function animateCanvas() { 
+                if (!isCanvasVisible) return;
+                ctx.clearRect(0, 0, width, height); 
+                particles.forEach(p => { p.update(); p.draw(); }); 
+                animationFrameId = requestAnimationFrame(animateCanvas); 
+            }
+
+            // 使用 IntersectionObserver 优化 Canvas 渲染性能
+            const heroSection = document.getElementById('about');
+            if (heroSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            if (!isCanvasVisible) {
+                                isCanvasVisible = true;
+                                animateCanvas(); // 恢复动画
+                            }
+                        } else {
+                            isCanvasVisible = false;
+                            cancelAnimationFrame(animationFrameId); // 暂停动画
+                        }
+                    });
+                }, { threshold: 0 });
+                observer.observe(heroSection);
+            } else {
+                animateCanvas();
+            }
         }
 
         gsap.registerPlugin(ScrollTrigger, TextPlugin);
@@ -1276,80 +1305,9 @@ VOID</div>
         });
         function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => { const toast = document.getElementById('toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
 
-        // Reliable visitor stats (CountAPI + anti-refresh / anti-bot heuristics)
-        async function initReliableStats() {
-            const visitorsEl = document.getElementById('reliableVisitors');
-            const viewsEl = document.getElementById('reliableViews');
-            if (!visitorsEl || !viewsEl) return;
-
-            const namespace = 'kingston-115.github.io';
-            const viewsKey = 'site_views_total';
-            const uniqueKey = 'site_unique_visitors';
-            const viewCooldownMs = 10 * 60 * 1000;
-
-            const countApi = async (path) => {
-                const response = await fetch(`https://api.countapi.xyz/${path}`, { cache: 'no-store' });
-                if (!response.ok) throw new Error(`CountAPI ${response.status}`);
-                return response.json();
-            };
-
-            const formatCount = (value) => {
-                if (typeof value !== 'number' || Number.isNaN(value)) return '--';
-                return new Intl.NumberFormat('en-US').format(value);
-            };
-
-            const getVisitorId = () => {
-                const storageKey = 'site_visitor_id_v1';
-                let visitorId = localStorage.getItem(storageKey);
-                if (!visitorId) {
-                    const raw = (window.crypto && crypto.randomUUID)
-                        ? crypto.randomUUID()
-                        : `${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-                    visitorId = raw.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 32);
-                    localStorage.setItem(storageKey, visitorId);
-                }
-                return visitorId;
-            };
-
-            try {
-                visitorsEl.textContent = 'SYNC...';
-                viewsEl.textContent = 'SYNC...';
-
-                const ua = navigator.userAgent || '';
-                const looksLikeBot = /bot|crawler|spider|headless|lighthouse/i.test(ua) || navigator.webdriver;
-
-                const now = Date.now();
-                const lastViewTs = Number(localStorage.getItem('site_last_view_ts') || '0');
-                const shouldCountView = !looksLikeBot && (now - lastViewTs > viewCooldownMs);
-
-                let viewsResult;
-                if (shouldCountView) {
-                    viewsResult = await countApi(`hit/${namespace}/${viewsKey}`);
-                    localStorage.setItem('site_last_view_ts', String(now));
-                } else {
-                    viewsResult = await countApi(`get/${namespace}/${viewsKey}`);
-                }
-
-                let uniqueResult;
-                if (!looksLikeBot) {
-                    const visitorId = getVisitorId();
-                    const firstSeen = await countApi(`hit/${namespace}/visitor_seen_${visitorId}`);
-                    if (firstSeen.value === 1) {
-                        uniqueResult = await countApi(`hit/${namespace}/${uniqueKey}`);
-                    } else {
-                        uniqueResult = await countApi(`get/${namespace}/${uniqueKey}`);
-                    }
-                } else {
-                    uniqueResult = await countApi(`get/${namespace}/${uniqueKey}`);
-                }
-
-                visitorsEl.textContent = formatCount(uniqueResult.value);
-                viewsEl.textContent = formatCount(viewsResult.value);
-            } catch (error) {
-                visitorsEl.textContent = '--';
-                viewsEl.textContent = '--';
-                console.warn('Reliable stats unavailable:', error);
-            }
+        // Reliable visitor stats (CountAPI removed, handled by busuanzi now)
+        function initReliableStats() {
+            // Busuanzi handles it automatically, keeping this empty for potential future logic
         }
         initReliableStats();
 
