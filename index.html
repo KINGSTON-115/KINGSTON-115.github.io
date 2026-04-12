@@ -48,6 +48,7 @@
     <!-- Global Styles & Tailwind Config -->
     <link rel="stylesheet" href="css/global.css">
     <script src="js/tailwind-config.js"></script>
+    <script src="js/cyber-fx.js"></script>
 
     <style>
         body {
@@ -385,8 +386,14 @@
 </head>
 <body class="antialiased">
 
-    <!-- Loader -->
-    <div id="loader"><div class="font-mono text-acid-green animate-pulse">SYSTEM_BOOTING...</div></div>
+    <!-- Cyber Preloader -->
+    <div id="cyber-preloader" class="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-end p-8 font-mono text-acid-green overflow-hidden transition-opacity duration-700">
+        <div class="absolute inset-0 noise-overlay opacity-10"></div>
+        <div id="preloader-text" class="text-sm sm:text-base leading-tight whitespace-pre-wrap mb-4"></div>
+        <div class="border border-acid-green h-2 w-full max-w-md">
+            <div id="preloader-bar" class="h-full bg-acid-green w-0 transition-all duration-100"></div>
+        </div>
+    </div>
     
     <!-- Progress & BG -->
     <div class="progress-bar" id="progressBar"></div>
@@ -1043,19 +1050,22 @@ VOID</div>
             </div>
         </div>
 
-        <div class="relative z-10 px-6 md:px-12 pb-8 pt-8 border-t border-black/20 flex justify-between items-end font-mono text-xs font-bold">
+        <div class="relative z-10 px-6 md:px-12 pb-8 pt-8 border-t border-black/20 flex flex-col gap-4 md:flex-row md:justify-between md:items-end font-mono text-xs font-bold">
             <div>© 2025 CHARLES</div>
             
-            <div class="flex items-center gap-6">
-                <a href="game.html" class="px-4 py-1.5 border border-black/20 text-black/40 hover:border-black/60 hover:text-black transition-all font-mono text-[12px] tracking-tight uppercase rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center">GAME_CORE</a>
-            <div class="flex items-center gap-2 text-black">
-                <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
-                <span id="statsCounter" aria-live="polite">
-                    VISITORS: <span id="busuanzi_value_site_uv">--</span>
-                    <span class="opacity-50">|</span>
-                    VIEWS: <span id="busuanzi_value_site_pv">--</span>
-                </span>
-            </div>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="game.html" class="px-4 py-1.5 border border-black/20 text-black/40 hover:border-black/60 hover:text-black transition-all font-mono text-[12px] tracking-tight uppercase rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center">GAME_CORE</a>
+                    <a href="https://sbti.fancc.de5.net/" target="_blank" rel="noopener noreferrer" title="Funny MBTI quiz" class="px-4 py-1.5 border border-black/20 text-black/40 hover:border-black/60 hover:text-black transition-all font-mono text-[12px] tracking-tight uppercase rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center">MBTI_SCAN</a>
+                </div>
+                <div class="flex items-center gap-2 text-black">
+                    <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>    
+                    <span id="statsCounter" aria-live="polite">
+                        VISITORS: <span id="busuanzi_value_site_uv">--</span>
+                        <span class="opacity-50">|</span>
+                        VIEWS: <span id="busuanzi_value_site_pv">--</span>
+                    </span>
+                </div>
             </div>
             
             <div>SCROLL_END</div>
@@ -1244,7 +1254,9 @@ VOID</div>
             galleryContainer.addEventListener('wheel', (e) => { if (e.deltaY !== 0) { e.preventDefault(); galleryContainer.scrollLeft += e.deltaY; } });
         }
         
-        function hideLoader() { const l = document.getElementById('loader'); if (l && !l.classList.contains('loaded')) { l.classList.add('loaded'); document.body.style.overflow = ''; } }
+        function hideLoader() { 
+            // Old loader logic removed, handled by cyber-fx.js
+        }
         window.addEventListener('load', () => setTimeout(hideLoader, 800));
         setTimeout(hideLoader, 2000); 
         window.addEventListener('scroll', () => {
