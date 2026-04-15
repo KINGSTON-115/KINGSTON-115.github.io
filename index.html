@@ -48,7 +48,6 @@
     <!-- Global Styles & Tailwind Config -->
     <link rel="stylesheet" href="css/global.css">
     <script src="js/tailwind-config.js"></script>
-    <script src="js/cyber-fx.js"></script>
 
     <style>
         body {
@@ -386,14 +385,8 @@
 </head>
 <body class="antialiased">
 
-    <!-- Cyber Preloader -->
-    <div id="cyber-preloader" class="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-end p-8 font-mono text-acid-green overflow-hidden transition-opacity duration-700">
-        <div class="absolute inset-0 noise-overlay opacity-10"></div>
-        <div id="preloader-text" class="text-sm sm:text-base leading-tight whitespace-pre-wrap mb-4"></div>
-        <div class="border border-acid-green h-2 w-full max-w-md">
-            <div id="preloader-bar" class="h-full bg-acid-green w-0 transition-all duration-100"></div>
-        </div>
-    </div>
+    <!-- Loader -->
+    <div id="loader"><div class="font-mono text-acid-green animate-pulse">SYSTEM_BOOTING...</div></div>
     
     <!-- Progress & BG -->
     <div class="progress-bar" id="progressBar"></div>
@@ -1254,9 +1247,7 @@ VOID</div>
             galleryContainer.addEventListener('wheel', (e) => { if (e.deltaY !== 0) { e.preventDefault(); galleryContainer.scrollLeft += e.deltaY; } });
         }
         
-        function hideLoader() { 
-            // Old loader logic removed, handled by cyber-fx.js
-        }
+        function hideLoader() { const l = document.getElementById('loader'); if (l && !l.classList.contains('loaded')) { l.classList.add('loaded'); document.body.style.overflow = ''; } }
         window.addEventListener('load', () => setTimeout(hideLoader, 800));
         setTimeout(hideLoader, 2000); 
         window.addEventListener('scroll', () => {
