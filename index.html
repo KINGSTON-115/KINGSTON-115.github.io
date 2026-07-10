@@ -7,6 +7,7 @@
     <meta name="description" content="Charles 的个人技术主页：聚焦嵌入式系统、机器人、AI 与项目归档。">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#050505">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='42' fill='%23ccff00'%3EC%3C/text%3E%3C/svg%3E">
     <link rel="canonical" href="https://kingston-115.github.io/">
     <meta property="og:title" content="CHARLES // SYSTEM_OVERRIDE">
     <meta property="og:description" content="Charles 的个人技术主页：嵌入式系统、机器人、AI 与项目归档。">
@@ -18,36 +19,20 @@
     <meta name="twitter:description" content="Charles 的个人技术主页：嵌入式系统、机器人、AI 与项目归档。">
     <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_3045.JPG">
 
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="preconnect" href="https://api.countapi.xyz" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
-
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- GSAP & Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <!-- Local fonts: preloaded to avoid third-party latency and layout shifts. -->
+    <link rel="preload" href="fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Reliable stats powered by busuanzi -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-    <!-- Global Styles & Tailwind Config -->
+    <!-- Compiled Tailwind utilities and global styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="css/global.css">
-    <script src="js/tailwind-config.js"></script>
 
     <style>
         body {
@@ -435,8 +420,8 @@ VOID</div>
             
             <div class="hero-title-wrapper mb-12 flex flex-col items-center">
                 <h1 class="text-5xl md:text-8xl lg:text-9xl font-display font-bold leading-[1.1] md:leading-[0.95] text-white hero-text-glow">
-                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow-reverse scramble-text">HUNGRY</span></span>
-                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow scramble-text">FOOLISH</span></span>
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow-reverse">HUNGRY</span></span>
+                    <span class="block">STAY <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-acid-green animate-gradient-slow">FOOLISH</span></span>
                 </h1>
             </div>
 
@@ -1066,11 +1051,11 @@ VOID</div>
     </footer>
 
     <!-- Modals & Scripts -->
-  <div id="projectModal" class="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
+  <div id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" inert class="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
         
         <div class="modal-content bg-[#111] border border-white/20 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-2xl relative shadow-2xl flex flex-col" data-lenis-prevent>
             
-            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50">
+            <button type="button" aria-label="关闭项目详情" onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white hover:text-black transition-colors z-50">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             
@@ -1086,6 +1071,26 @@ VOID</div>
     </div>
     <div id="toast">COPIED TO CLIPBOARD_</div>
 
+    <script>
+        (() => {
+            const hideLoader = () => {
+                const loader = document.getElementById('loader');
+                if (loader && !loader.classList.contains('loaded')) {
+                    loader.classList.add('loaded');
+                    document.body.style.overflow = '';
+                }
+            };
+
+            window.addEventListener('load', () => setTimeout(hideLoader, 800));
+            setTimeout(hideLoader, 2000);
+        })();
+    </script>
+
+    <!-- Non-critical interaction libraries load after page content. -->
+    <script src="js/icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script>
         lucide.createIcons();
         const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
@@ -1136,23 +1141,8 @@ VOID</div>
             }
         }
 
-        gsap.registerPlugin(ScrollTrigger, TextPlugin);
+        gsap.registerPlugin(ScrollTrigger);
         
-        const scrambleElements = document.querySelectorAll('.scramble-text');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        scrambleElements.forEach(el => {
-            const originalText = el.innerText;
-            let iterations = 0;
-            const interval = setInterval(() => {
-                el.innerText = originalText.split('').map((letter, index) => {
-                    if (index < iterations) return originalText[index];
-                    return chars[Math.floor(Math.random() * 36)];
-                }).join('');
-                if (iterations >= originalText.length) clearInterval(interval);
-                iterations += 1/3; 
-            }, 30);
-        });
-
         gsap.to(".hero-title-wrapper", { y: -150, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
         gsap.to(".hero-content", { y: -100, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
 
@@ -1247,9 +1237,6 @@ VOID</div>
             galleryContainer.addEventListener('wheel', (e) => { if (e.deltaY !== 0) { e.preventDefault(); galleryContainer.scrollLeft += e.deltaY; } });
         }
         
-        function hideLoader() { const l = document.getElementById('loader'); if (l && !l.classList.contains('loaded')) { l.classList.add('loaded'); document.body.style.overflow = ''; } }
-        window.addEventListener('load', () => setTimeout(hideLoader, 800));
-        setTimeout(hideLoader, 2000); 
         window.addEventListener('scroll', () => {
             const st = document.documentElement.scrollTop || document.body.scrollTop;
             const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1266,14 +1253,21 @@ VOID</div>
         // Random Photo Preview Logic
         const photoIds = ["1518791841217-8f162f1e1131", "1492691527719-9d1e07e534b4", "1470071459604-3b5ec3a7fe05", "1550745165-9bc0b252726f", "1535132011086-b8818f0161dd", "1618005182384-a83a8bd57fbe"];
         const homeGrid = document.querySelector('#galleryContainer .gallery-track');
-        
+
+        function toThumbnailUrl(src) {
+            if (!src || /^(?:https?:)?\/\//.test(src)) return src;
+            const filename = src.split('/').pop();
+            const basename = filename.replace(/\.[^.]+$/, '');
+            return `photos/thumbs/${basename}.webp`;
+        }
+
         async function loadGalleryPreview() {
             try {
-                const response = await fetch('photos/gallery_code.txt');
+                const response = await fetch('photos/gallery_manifest.json');
                 if (!response.ok) throw new Error("Local file not found");
-                const text = await response.text();
-                const urls = text.split('\n').filter(line => line.trim() !== '');
-                const selected = urls.sort(() => 0.5 - Math.random()).slice(0, 5);
+                const items = await response.json();
+                if (!Array.isArray(items)) throw new Error("Invalid gallery manifest");
+                const selected = items.sort(() => 0.5 - Math.random()).slice(0, 5);
                 renderGrid(selected);
             } catch (e) {
                 const fallbackUrls = photoIds.map(id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80`);
@@ -1282,13 +1276,19 @@ VOID</div>
             }
         }
 
-        function renderGrid(urls) {
+        function renderGrid(items) {
             if(!homeGrid) return;
             homeGrid.innerHTML = '';
-            urls.forEach((url, index) => {
+            items.forEach((item, index) => {
+                const normalizedItem = typeof item === 'string' ? { src: item } : item;
+                const url = normalizedItem.src;
                 const wrapper = document.createElement('div');
                 wrapper.className = 'photo-frame-wrapper';
-                wrapper.innerHTML = `<div class="photo-frame"><img src="${url}" loading="lazy" decoding="async" alt="Gallery preview image ${index + 1}"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_00${index+1}.RAW</div></div>`;
+                const thumbnailUrl = normalizedItem.thumbnail || toThumbnailUrl(url);
+                const dimensions = normalizedItem.width && normalizedItem.height
+                    ? `width="${normalizedItem.width}" height="${normalizedItem.height}"`
+                    : '';
+                wrapper.innerHTML = `<div class="photo-frame"><img src="${thumbnailUrl}" data-full-src="${url}" ${dimensions} loading="lazy" decoding="async" alt="Gallery preview image ${index + 1}" onerror="this.onerror=null; this.src=this.dataset.fullSrc;"><div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur px-2 py-1 font-mono text-xs text-white photo-info">IMG_00${index+1}.RAW</div></div>`;
                 homeGrid.appendChild(wrapper);
             });
             
@@ -1467,10 +1467,23 @@ VOID</div>
         const mTags = document.getElementById('modalTags');
         const mBody = document.getElementById('modalBody');
         const mImages = document.getElementById('modalImages');
+        const modalCloseButton = modalEl.querySelector('button[aria-label]');
+        let modalTrigger = null;
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    card.click();
+                }
+            });
+        });
 
         function openModal(id) {
             const d = modalData[id];
             if(!d) return;
+            modalTrigger = document.activeElement;
             mTitle.innerText = d.title;
             mTags.innerHTML = d.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
             mBody.innerHTML = d.content;
@@ -1479,20 +1492,31 @@ VOID</div>
                 d.images.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
                     img.className = 'w-full h-64 object-cover rounded-lg border border-white/10';
                     mImages.appendChild(img);
                 });
             }
             modalEl.classList.add('active');
+            modalEl.removeAttribute('inert');
+            modalEl.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            if(window.lenis) window.lenis.stop();
+            lenis.stop();
+            requestAnimationFrame(() => modalCloseButton.focus());
         }
         function closeModal() {
             modalEl.classList.remove('active');
+            modalEl.setAttribute('aria-hidden', 'true');
+            modalEl.setAttribute('inert', '');
             document.body.style.overflow = '';
-            if(window.lenis) window.lenis.start();
+            lenis.start();
+            if (modalTrigger instanceof HTMLElement) modalTrigger.focus();
         }
         if(modalEl) modalEl.addEventListener('click', (e) => { if(e.target === modalEl) closeModal(); });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modalEl.classList.contains('active')) closeModal();
+        });
     </script>
 </body>
 </html>
