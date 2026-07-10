@@ -43,8 +43,10 @@
         /* 2. 滚动进度条 */
         .progress-bar {
             position: fixed; top: 0; left: 0; height: 3px;
-            background: var(--accent-color); width: 0%; z-index: 10000;
-            transition: width 0.1s ease-out;
+            background: var(--accent-color); width: 100%; z-index: 10000;
+            transform: scaleX(0);
+            transform-origin: left center;
+            will-change: transform;
             box-shadow: 0 0 10px var(--accent-color);
         }
 
@@ -127,7 +129,8 @@
             background-color: #0a0a0a;
             border: 1px solid rgba(255,255,255,0.08);
             overflow: hidden;
-            transition: border-color 0.3s ease; 
+            isolation: isolate;
+            transition: border-color 0.3s ease, box-shadow 0.35s ease;
             /* 注意：移除通用 transform transition，避免与 GSAP 冲突，只在 CSS 状态切换时生效 */
             border-radius: 24px;
             /* 默认展开态：Sticky 效果 */
@@ -141,13 +144,17 @@
 /* === 卡片 Hover 效果升级 === */
         .project-card:hover {
             border-color: rgba(204, 255, 0, 0.5);
-	    transform: scale(1.015);
-    	    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-   	    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-	.project-card:hover .project-visual {
-    filter: brightness(1.15) contrast(1.05);
-}
+        .project-card-dimmer {
+            position: absolute;
+            inset: 0;
+            z-index: 90;
+            background: #050505;
+            opacity: 0;
+            pointer-events: none;
+            will-change: opacity;
+        }
         /* === 折叠状态 (COLLAPSED) === */
         #deck-container.deck-collapsed {
             height: 75vh; 
@@ -199,7 +206,12 @@
             box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
             
             /* 这里的 transition 用于 Hover 展开和折叠动画 */
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transition:
+                top 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                filter 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.6s ease,
+                box-shadow 0.6s ease;
         }
 
         #deck-container.deck-collapsed:hover .project-card {
@@ -213,20 +225,20 @@
             position: absolute; inset: 0; z-index: 100;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.8) 80%);
-            opacity: 0; transition: all 0.3s ease; cursor: pointer;
+            opacity: 0; transition: opacity 0.3s ease; cursor: pointer;
             pointer-events: none; 
         }
         #deck-container.deck-collapsed .deck-cover { opacity: 1; pointer-events: auto; }
         
         .deck-action-btn {
-            padding: 1.2rem 3rem; background: rgba(0, 0, 0, 0.9); border: 1px solid var(--accent-color); color: var(--accent-color); font-family: 'JetBrains Mono', monospace; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 30px rgba(204, 255, 0, 0.15); backdrop-filter: blur(10px); transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; border-radius: 4px;
+            padding: 1.2rem 3rem; background: rgba(0, 0, 0, 0.9); border: 1px solid var(--accent-color); color: var(--accent-color); font-family: 'JetBrains Mono', monospace; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 30px rgba(204, 255, 0, 0.15); backdrop-filter: blur(10px); transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; border-radius: 4px;
         }
         .deck-action-btn:hover { background: var(--accent-color); color: black; box-shadow: 0 0 60px rgba(204, 255, 0, 0.6); transform: scale(1.05); }
         .deck-action-btn .sub-text { font-size: 0.7em; opacity: 0.8; font-weight: normal; font-family: 'Noto Sans SC', sans-serif; }
 
         /* 收起按钮 */
         #retract-btn {
-            position: fixed; bottom: 40px; right: 40px; z-index: 100; background: #fff; color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(20px) rotate(0deg); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: fixed; bottom: 40px; right: 40px; z-index: 100; background: #fff; color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(20px) rotate(0deg); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         #retract-btn.visible { opacity: 1; pointer-events: auto; transform: translateY(0) rotate(0deg); }
         #retract-btn:hover { background: var(--accent-color); transform: scale(1.1) rotate(90deg); }
@@ -251,13 +263,13 @@
         .gallery-track { display: inline-flex; gap: 4rem; padding-left: 10vw; padding-right: 10vw; }
         .photo-frame-wrapper { transition: transform 0.4s ease; }
         .photo-frame-wrapper:hover { transform: scale(1.02); z-index: 20; }
-        .photo-frame { width: 65vh; height: 45vh; flex-shrink: 0; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); transition: all 0.5s ease; filter: grayscale(100%) contrast(110%); background: #111; pointer-events: none; }
+        .photo-frame { width: 65vh; height: 45vh; flex-shrink: 0; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); transition: border-color 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease; filter: grayscale(100%) contrast(110%); background: #111; pointer-events: none; }
         @media (max-width: 768px) { .photo-frame { width: 85vw; height: 35vh; } }
         .photo-frame-wrapper:hover .photo-frame { filter: grayscale(0%) contrast(100%); border-color: var(--accent-color); box-shadow: 0 20px 50px -10px rgba(204, 255, 0, 0.15); }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
         /* More Card */
-        .more-card { width: 30vh; height: 45vh; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2); transition: all 0.3s ease; text-decoration: none; }
+        .more-card { width: 30vh; height: 45vh; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease; text-decoration: none; }
         @media (max-width: 768px) { .more-card { width: 40vw; height: 35vh; } }
         .more-card:hover { background: rgba(204, 255, 0, 0.1); border-color: var(--accent-color); border-style: solid; transform: scale(1.05); }
         .more-card:hover span { color: #fff; }
@@ -303,14 +315,14 @@
         .tech-tag { display: inline-block; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8em; margin-right: 5px; color: var(--accent-color); border: 1px solid rgba(255,255,255,0.1); }
         
         /* Resource Card */
-        .resource-card { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(10,10,10,0.6); backdrop-filter: blur(10px); padding: 1.5rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; gap: 1.5rem; }
+        .resource-card { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(10,10,10,0.6); backdrop-filter: blur(10px); padding: 1.5rem; transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; gap: 1.5rem; }
         .resource-card::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--accent-color); transform: scaleY(0); transition: transform 0.3s ease; transform-origin: bottom; }
         .resource-card:hover { border-color: var(--accent-color); background: rgba(204, 255, 0, 0.05); transform: translateX(10px); }
         .resource-card:hover::before { transform: scaleY(1); }
         .resource-thumb { width: 160px; height: 90px; flex-shrink: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); position: relative; }
         .resource-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .resource-card:hover .resource-thumb img { transform: scale(1.1); }
-        .resource-arrow { margin-left: auto; opacity: 0; transform: translateX(-20px); transition: all 0.3s ease; color: var(--accent-color); }
+        .resource-arrow { margin-left: auto; opacity: 0; transform: translateX(-20px); transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease; color: var(--accent-color); }
         .resource-card:hover .resource-arrow { opacity: 1; transform: translateX(0); }
         @media (max-width: 768px) { .resource-card { flex-direction: column; align-items: flex-start; gap: 1rem; } .resource-thumb { width: 100%; height: 160px; } .resource-arrow { display: none; } }
         
@@ -1093,30 +1105,79 @@ VOID</div>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script>
         lucide.createIcons();
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+        gsap.registerPlugin(ScrollTrigger);
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const lenis = new Lenis({
+            duration: 1.05,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: !prefersReducedMotion,
+            wheelMultiplier: 0.9,
+            touchMultiplier: 1.1
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+        ScrollTrigger.config({ ignoreMobileResize: true });
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            gsap.set(progressBar, { scaleX: 0 });
+            ScrollTrigger.create({
+                start: 0,
+                end: 'max',
+                onUpdate: (self) => gsap.set(progressBar, { scaleX: self.progress })
+            });
+        }
         
         const canvas = document.getElementById('matrixCanvas');
         if (canvas) {
             const ctx = canvas.getContext('2d');
             let width, height, particles = [];
-            let animationFrameId;
-            let isCanvasVisible = true;
+            let animationFrameId = null;
+            let resizeFrameId = null;
+            let isHeroVisible = false;
+            let isCanvasRunning = false;
 
             function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize); resize();
+            function scheduleResize() {
+                if (resizeFrameId !== null) return;
+                resizeFrameId = requestAnimationFrame(() => {
+                    resizeFrameId = null;
+                    resize();
+                });
+            }
+            window.addEventListener('resize', scheduleResize, { passive: true });
+            resize();
             class Symbol {
                 constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.size = Math.random() * 20 + 10; this.speedX = (Math.random() - 0.5) * 1; this.speedY = (Math.random() - 0.5) * 1; this.opacity = Math.random() * 0.5; }
                 update() { this.x += this.speedX; this.y += this.speedY; if (this.x > width) this.x = 0; if (this.x < 0) this.x = width; if (this.y > height) this.y = 0; if (this.y < 0) this.y = height; }
                 draw() { ctx.strokeStyle = `rgba(204, 255, 0, ${this.opacity})`; ctx.lineWidth = 1; ctx.strokeRect(this.x, this.y, this.size, this.size); }
             }
             for(let i=0; i<30; i++) particles.push(new Symbol());
-            function animateCanvas() { 
-                if (!isCanvasVisible) return;
-                ctx.clearRect(0, 0, width, height); 
-                particles.forEach(p => { p.update(); p.draw(); }); 
-                animationFrameId = requestAnimationFrame(animateCanvas); 
+            function animateCanvas() {
+                if (!isCanvasRunning) return;
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                animationFrameId = requestAnimationFrame(animateCanvas);
+            }
+
+            function startCanvas() {
+                if (prefersReducedMotion || document.hidden || !isHeroVisible || isCanvasRunning) return;
+                isCanvasRunning = true;
+                animationFrameId = requestAnimationFrame(animateCanvas);
+            }
+
+            function stopCanvas() {
+                isCanvasRunning = false;
+                if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            function syncCanvasState() {
+                if (isHeroVisible && !document.hidden) startCanvas();
+                else stopCanvas();
             }
 
             // 使用 IntersectionObserver 优化 Canvas 渲染性能
@@ -1124,32 +1185,35 @@ VOID</div>
             if (heroSection) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            if (!isCanvasVisible) {
-                                isCanvasVisible = true;
-                                animateCanvas(); // 恢复动画
-                            }
-                        } else {
-                            isCanvasVisible = false;
-                            cancelAnimationFrame(animationFrameId); // 暂停动画
-                        }
+                        isHeroVisible = entry.isIntersecting;
+                        syncCanvasState();
                     });
                 }, { threshold: 0 });
                 observer.observe(heroSection);
             } else {
-                animateCanvas();
+                isHeroVisible = true;
+                syncCanvasState();
             }
+
+            document.addEventListener('visibilitychange', syncCanvasState);
         }
 
-        gsap.registerPlugin(ScrollTrigger);
-        
-        gsap.to(".hero-title-wrapper", { y: -150, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
-        gsap.to(".hero-content", { y: -100, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: true } });
+        gsap.to(".hero-title-wrapper", { y: -150, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: 0.6 } });
+        gsap.to(".hero-content", { y: -100, opacity: 0, scrollTrigger: { trigger: ".hero-section", start: "top top", end: "bottom center", scrub: 0.6 } });
 
         // Deck Interaction (Heavy Refactor for Clean Reset)
         const deckContainer = document.getElementById('deck-container');
         const retractBtn = document.getElementById('retract-btn');
-        let cardTriggers = []; 
+        const projectCards = Array.from(document.querySelectorAll('.project-card'));
+        let cardTriggers = [];
+
+        projectCards.forEach((card) => {
+            if (card.querySelector('.project-card-dimmer')) return;
+            const dimmer = document.createElement('div');
+            dimmer.className = 'project-card-dimmer';
+            dimmer.setAttribute('aria-hidden', 'true');
+            card.appendChild(dimmer);
+        });
 
         function expandDeck() {
             if(deckContainer) {
@@ -1157,8 +1221,7 @@ VOID</div>
                 retractBtn.classList.add('visible');
                 
                 // Force CSS reset via JS to ensure clean state
-                const cards = document.querySelectorAll('.project-card');
-                cards.forEach(card => {
+                projectCards.forEach(card => {
                     // Restore Sticky Behavior
                     card.style.position = 'sticky';
                     card.style.top = '15vh';
@@ -1172,44 +1235,48 @@ VOID</div>
                     card.style.boxShadow = '';
                     card.style.borderTop = '';
                     card.style.margin = ''; // Clear collapsed margins
+                    gsap.set(card.querySelector('.project-card-dimmer'), { opacity: 0 });
                 });
 
                 // Re-init animations
-                cards.forEach((card, index) => {
-                    if (index === cards.length - 1) return;
+                projectCards.forEach((card, index) => {
+                    if (index === projectCards.length - 1) return;
                     
-                    const st1 = gsap.to(card.querySelector('.project-visual .parallax-content'), { 
-                        y: "20%", ease: "none", 
-                        scrollTrigger: { trigger: card, start: "top center", end: "bottom top", scrub: true } 
+                    const st1 = gsap.to(card.querySelector('.project-visual .parallax-content'), {
+                        y: "20%", ease: "none",
+                        scrollTrigger: { trigger: card, start: "top center", end: "bottom top", scrub: 0.45 }
                     });
                     cardTriggers.push(st1.scrollTrigger);
 
-                    const st2 = gsap.fromTo(card, 
-                        { scale: 1, filter: "brightness(1)" }, 
-                        { scale: 0.92, filter: "brightness(0.6)", ease: "none", 
-                          scrollTrigger: { trigger: card, start: "top -20%", end: "bottom -100%", scrub: 0.5 } 
-                        });
-                    cardTriggers.push(st2.scrollTrigger);
+                    const dimmer = card.querySelector('.project-card-dimmer');
+                    const cardTimeline = gsap.timeline({
+                        scrollTrigger: { trigger: card, start: "top -20%", end: "bottom -100%", scrub: 0.5 }
+                    });
+                    cardTimeline
+                        .fromTo(card, { scale: 1 }, { scale: 0.92, ease: "none" }, 0)
+                        .fromTo(dimmer, { opacity: 0 }, { opacity: 0.4, ease: "none" }, 0);
+                    cardTriggers.push(cardTimeline.scrollTrigger);
                 });
-                
-                ScrollTrigger.refresh();
+
+                requestAnimationFrame(() => ScrollTrigger.refresh());
             }
         }
 
         function collapseDeck() {
              if(deckContainer) {
                 // Kill all ScrollTriggers to prevent conflict
-                cardTriggers.forEach(t => t.kill());
+                cardTriggers.forEach(t => t?.kill(true));
                 cardTriggers = [];
                 
                 // Brutal style reset: Clear ALL inline styles added by GSAP
-                const cards = document.querySelectorAll('.project-card');
-                cards.forEach(card => {
+                projectCards.forEach(card => {
                     // Smart reset: Clear props but preserve --i variable logic via CSS/Attribute
                     const iVal = card.style.getPropertyValue('--i'); // If it was inline
                     
                     // Clear everything GSAP touches
-                    gsap.set(card, {clearProps: "transform,filter,opacity,position,top,left,width,height,minHeight,boxShadow,zIndex,pointerEvents,borderTop,margin,border"}); 
+                    gsap.set(card, {clearProps: "transform,filter,opacity,position,top,left,width,height,minHeight,boxShadow,zIndex,pointerEvents,borderTop,margin,border"});
+                    gsap.set(card.querySelector('.project-card-dimmer'), { clearProps: "opacity" });
+                    gsap.set(card.querySelector('.project-visual .parallax-content'), { clearProps: "transform" });
                     
                     // If --i was inline (it is in our HTML), restoring it is crucial if clearProps wiped it. 
                     // Note: clearProps="all" wipes --i. clearProps="transform..." might not.
@@ -1229,19 +1296,80 @@ VOID</div>
         // Gallery Drag
         const galleryContainer = document.getElementById('galleryContainer');
         if (galleryContainer) {
-            let isDown = false; let startX; let scrollLeft;
-            galleryContainer.addEventListener('mousedown', (e) => { isDown = true; galleryContainer.classList.add('active'); startX = e.pageX - galleryContainer.offsetLeft; scrollLeft = galleryContainer.scrollLeft; });
-            galleryContainer.addEventListener('mouseleave', () => { isDown = false; galleryContainer.classList.remove('active'); });
-            galleryContainer.addEventListener('mouseup', () => { isDown = false; galleryContainer.classList.remove('active'); });
-            galleryContainer.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - galleryContainer.offsetLeft; const walk = (x - startX) * 2; galleryContainer.scrollLeft = scrollLeft - walk; });
-            galleryContainer.addEventListener('wheel', (e) => { if (e.deltaY !== 0) { e.preventDefault(); galleryContainer.scrollLeft += e.deltaY; } });
+            let isDragging = false;
+            let didDrag = false;
+            let startX = 0;
+            let startScrollLeft = 0;
+            let targetScrollLeft = galleryContainer.scrollLeft;
+            let railFrameId = null;
+
+            const clampRailTarget = (value) => Math.max(0, Math.min(value, galleryContainer.scrollWidth - galleryContainer.clientWidth));
+
+            const animateRail = () => {
+                const distance = targetScrollLeft - galleryContainer.scrollLeft;
+                if (Math.abs(distance) < 0.5) {
+                    galleryContainer.scrollLeft = targetScrollLeft;
+                    railFrameId = null;
+                    return;
+                }
+                galleryContainer.scrollLeft += distance * 0.14;
+                railFrameId = requestAnimationFrame(animateRail);
+            };
+
+            const queueRailAnimation = () => {
+                if (railFrameId === null) railFrameId = requestAnimationFrame(animateRail);
+            };
+
+            galleryContainer.addEventListener('pointerdown', (event) => {
+                if (event.pointerType !== 'mouse' || event.button !== 0) return;
+                isDragging = true;
+                didDrag = false;
+                startX = event.clientX;
+                startScrollLeft = galleryContainer.scrollLeft;
+                targetScrollLeft = galleryContainer.scrollLeft;
+                if (railFrameId !== null) cancelAnimationFrame(railFrameId);
+                railFrameId = null;
+                galleryContainer.setPointerCapture(event.pointerId);
+                galleryContainer.classList.add('active');
+            });
+
+            galleryContainer.addEventListener('pointermove', (event) => {
+                if (!isDragging) return;
+                const distance = (event.clientX - startX) * 1.6;
+                didDrag ||= Math.abs(distance) > 6;
+                galleryContainer.scrollLeft = clampRailTarget(startScrollLeft - distance);
+                targetScrollLeft = galleryContainer.scrollLeft;
+            }, { passive: true });
+
+            const finishDrag = (event) => {
+                if (!isDragging) return;
+                isDragging = false;
+                if (galleryContainer.hasPointerCapture(event.pointerId)) galleryContainer.releasePointerCapture(event.pointerId);
+                galleryContainer.classList.remove('active');
+            };
+
+            galleryContainer.addEventListener('pointerup', finishDrag);
+            galleryContainer.addEventListener('pointercancel', finishDrag);
+            galleryContainer.addEventListener('click', (event) => {
+                if (!didDrag) return;
+                event.preventDefault();
+                event.stopPropagation();
+                didDrag = false;
+            }, true);
+
+            galleryContainer.addEventListener('wheel', (event) => {
+                const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+                if (!delta) return;
+                event.preventDefault();
+                targetScrollLeft = clampRailTarget(Math.max(targetScrollLeft, galleryContainer.scrollLeft) + delta);
+                if (prefersReducedMotion) galleryContainer.scrollLeft = targetScrollLeft;
+                else queueRailAnimation();
+            }, { passive: false });
+
+            window.addEventListener('resize', () => {
+                targetScrollLeft = clampRailTarget(targetScrollLeft);
+            }, { passive: true });
         }
-        
-        window.addEventListener('scroll', () => {
-            const st = document.documentElement.scrollTop || document.body.scrollTop;
-            const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById('progressBar').style.width = (st / sh) * 100 + "%";
-        });
         function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => { const toast = document.getElementById('toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
 
         // Reliable visitor stats (CountAPI removed, handled by busuanzi now)

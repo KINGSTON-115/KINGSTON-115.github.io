@@ -46,19 +46,21 @@
         }
         .perspective-grid {
             position: absolute;
-            top: 50%; left: -50%; width: 200%; height: 200%;
+            top: calc(50% - 60px); left: -50%; width: 200%; height: calc(200% + 120px);
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 60px 60px;
-            transform: rotateX(60deg) translateY(-100px) translateZ(-200px);
+            transform: rotateX(60deg) translate3d(0, -100px, -200px);
             transform-origin: 50% 0%;
             mask-image: linear-gradient(to bottom, transparent 0%, black 40%, transparent 90%);
             animation: gridMove 20s linear infinite;
+            backface-visibility: hidden;
+            will-change: transform;
         }
         @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 60px; }
+            0% { transform: rotateX(60deg) translate3d(0, -100px, -200px); }
+            100% { transform: rotateX(60deg) translate3d(0, -40px, -200px); }
         }
 
         /* --- NOISE & OVERLAYS --- */
@@ -76,24 +78,27 @@
         .gallery-item {
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            will-change: transform;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .gallery-item.idle {
+        .gallery-item.motion-active.idle {
             animation: float 6s ease-in-out infinite;
             animation-delay: var(--float-delay, 0s);
+            will-change: transform;
+        }
+        .gallery-item.is-interacting {
+            transition: none;
+            will-change: transform;
         }
 
         .gallery-item img {
             filter: grayscale(100%) contrast(110%) brightness(0.7);
-            transition: filter 0.5s ease;
+            transition: filter 0.35s ease;
             box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
             min-height: 200px; 
             background: #111;
         }
         .gallery-item:hover img {
             filter: grayscale(0%) contrast(105%) brightness(1);
-            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 20px rgba(204, 255, 0, 0.1);
         }
         
         .item-overlay {
@@ -101,6 +106,7 @@
             border: 1px solid rgba(204, 255, 0, 0.3);
             opacity: 0; transition: opacity 0.3s; pointer-events: none;
             transform: translateZ(20px);
+            box-shadow: inset 0 0 20px rgba(204, 255, 0, 0.06), 0 0 24px rgba(204, 255, 0, 0.08);
         }
         .gallery-item:hover .item-overlay { opacity: 1; }
         
@@ -252,6 +258,23 @@
             lightboxImg: document.getElementById('lightbox-img')
         };
 
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const supportsTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        const motionObserver = !prefersReducedMotion && 'IntersectionObserver' in window
+            ? new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    const card = entry.target;
+                    card.classList.toggle('motion-active', entry.isIntersecting);
+                    if (entry.isIntersecting && !card.classList.contains('is-interacting')) card.classList.add('idle');
+                    else if (!entry.isIntersecting) {
+                        card.classList.remove('idle');
+                        card.style.transform = '';
+                    }
+                });
+            }, { rootMargin: '20% 0px', threshold: 0.01 })
+            : null;
+
         function toThumbnailUrl(src) {
             if (!src || /^(?:https?:)?\/\//.test(src)) return src;
             const filename = src.split('/').pop();
@@ -261,31 +284,47 @@
 
         // --- 3D TILT LOGIC ---
         function attachTiltEffect(card) {
-            const supportsTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (!supportsTilt || prefersReducedMotion) return;
 
-            let ticking = false;
-            card.addEventListener('mousemove', (e) => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        const rotateX = ((y - centerY) / centerY) * -10; 
-                        const rotateY = ((x - centerX) / centerX) * 10;
-                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                        card.classList.remove('idle'); 
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
+            let bounds = null;
+            let frameId = null;
+            let idleTimer = null;
+            let pointerX = 0;
+            let pointerY = 0;
+
+            const renderTilt = () => {
+                frameId = null;
+                if (!bounds) return;
+                const centerX = bounds.width / 2;
+                const centerY = bounds.height / 2;
+                const rotateX = ((pointerY - bounds.top - centerY) / centerY) * -8;
+                const rotateY = ((pointerX - bounds.left - centerX) / centerX) * 8;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1)`;
+            };
+
+            card.addEventListener('pointerenter', () => {
+                clearTimeout(idleTimer);
+                bounds = card.getBoundingClientRect();
+                card.classList.remove('idle');
+                card.classList.add('is-interacting');
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateX(0) rotateY(0) scale(1)`;
-                setTimeout(() => card.classList.add('idle'), 500); 
+
+            card.addEventListener('pointermove', (event) => {
+                pointerX = event.clientX;
+                pointerY = event.clientY;
+                if (frameId === null) frameId = requestAnimationFrame(renderTilt);
+            }, { passive: true });
+
+            card.addEventListener('pointerleave', () => {
+                if (frameId !== null) cancelAnimationFrame(frameId);
+                frameId = null;
+                bounds = null;
+                card.classList.remove('is-interacting');
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                idleTimer = setTimeout(() => {
+                    card.style.transform = '';
+                    if (card.classList.contains('motion-active')) card.classList.add('idle');
+                }, 320);
             });
         }
 
@@ -302,7 +341,7 @@
                 clockTimer = null;
                 if (document.hidden) return;
                 updateClock();
-                clockTimer = setInterval(updateClock, 100);
+                clockTimer = setInterval(updateClock, 250);
             };
             document.addEventListener('visibilitychange', syncClock);
             syncClock();
@@ -331,7 +370,7 @@
                 <div class="gallery-item-wrapper break-inside-avoid opacity-0" 
                      data-category="${category}"
                      style="animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards ${delay}ms">
-                    <div class="gallery-item idle group cursor-pointer" role="button" tabindex="0" aria-label="打开图片 ${imageName}" style="--float-delay: ${floatDelay}">
+                    <div class="gallery-item group cursor-pointer" role="button" tabindex="0" aria-label="打开图片 ${imageName}" style="--float-delay: ${floatDelay}">
                         <div class="relative bg-gray-900 border border-transparent transition-colors duration-300">
                             <div class="item-overlay z-20"></div>
                             <div class="absolute top-3 right-3 flex gap-1 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 meta-floating">
@@ -391,6 +430,7 @@
         function attachEvents() {
             const cards = document.querySelectorAll('.gallery-item');
             cards.forEach(card => {
+                if (motionObserver) motionObserver.observe(card);
                 attachTiltEffect(card);
                 const img = card.querySelector('img');
                 const openLightbox = () => {
