@@ -31,25 +31,99 @@
             overflow: hidden;
             margin: 0;
             user-select: none;
+            overscroll-behavior: none;
+            touch-action: manipulation;
         }
         #gameCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
+            inset: 0;
             z-index: 1;
-        }
-        .ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+        }
+        .ui-layer {
+            position: fixed;
+            inset: 0;
             z-index: 10;
             pointer-events: none;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 2rem;
+            padding: clamp(1rem, 3vw, 2rem);
+        }
+        .hud-top,
+        .hud-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .hud-bottom { align-items: flex-end; }
+        .hud-panel {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(5, 5, 5, 0.72);
+            backdrop-filter: blur(8px);
+            padding: 0.75rem;
+        }
+        .hud-label {
+            color: #6b7280;
+            font-size: 0.625rem;
+            letter-spacing: 0.08em;
+        }
+        .health-track {
+            width: min(16rem, 44vw);
+            height: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2px;
+            margin-top: 0.35rem;
+        }
+        .health-fill {
+            width: 100%;
+            height: 100%;
+            background: #ef4444;
+            transform: scaleX(1);
+            transform-origin: left center;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            will-change: transform;
+        }
+        .hud-stats {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 0.5rem 1rem;
+            margin-top: 0.65rem;
+            font-size: 0.75rem;
+        }
+        .hud-stat-value { color: var(--accent-color); }
+        .score-value {
+            color: var(--accent-color);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.65rem;
+            pointer-events: auto;
+        }
+        .hud-action {
+            border: 1px solid rgba(204, 255, 0, 0.7);
+            color: var(--accent-color);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.45rem 0.7rem;
+            font: 700 0.625rem 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hud-action:hover,
+        .hud-action:focus-visible {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 16px rgba(204, 255, 0, 0.25);
+            outline: none;
         }
         .hud-text {
             text-shadow: 0 0 10px var(--accent-color);
@@ -58,12 +132,9 @@
             color: var(--danger-color);
             text-shadow: 0 0 10px var(--danger-color);
         }
-        #startScreen, #gameOverScreen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .screen-overlay {
+            position: fixed;
+            inset: 0;
             background: rgba(5, 5, 5, 0.9);
             backdrop-filter: blur(10px);
             z-index: 20;
@@ -72,7 +143,22 @@
             align-items: center;
             justify-content: center;
             pointer-events: auto;
+            padding: 1.5rem;
+            text-align: center;
         }
+        .screen-overlay[hidden] { display: none; }
+        .screen-title { font-size: clamp(2.5rem, 9vw, 4rem); }
+        .screen-copy { max-width: 34rem; color: #9ca3af; line-height: 1.7; }
+        .screen-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            color: #9ca3af;
+            font-size: 0.7rem;
+        }
+        .screen-meta span { border: 1px solid rgba(255, 255, 255, 0.16); padding: 0.4rem 0.65rem; }
         .btn {
             background: transparent;
             border: 2px solid var(--accent-color);
@@ -82,7 +168,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 2rem;
@@ -91,6 +177,7 @@
             background: var(--accent-color);
             color: black;
             box-shadow: 0 0 30px var(--accent-color);
+            transform: translateY(-2px);
         }
         .scanline {
             position: fixed;
@@ -104,159 +191,296 @@
             z-index: 100;
             opacity: 0.3;
         }
+        .mobile-control-layer {
+            position: fixed;
+            left: 50%;
+            bottom: 4.5rem;
+            z-index: 15;
+            transform: translateX(-50%);
+        }
+        @media (min-width: 768px) {
+            .mobile-control-layer { display: none; }
+        }
+        @media (max-width: 640px) {
+            .hud-top { align-items: stretch; }
+            .hud-panel { padding: 0.55rem; }
+            .hud-stats { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+            .score-panel { min-width: 8.5rem; }
+            .control-row { max-width: 11rem; margin-left: auto; }
+            .speed-control { display: none; }
+            .hud-bottom { font-size: 0.625rem; }
+            .btn { font-size: 1rem; padding: 0.8rem 1.5rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="scanline"></div>
-    <canvas id="gameCanvas"></canvas>
+    <div class="scanline" aria-hidden="true"></div>
+    <canvas id="gameCanvas" role="img" aria-label="CORE DEFENSE 字符防御游戏画面">当前浏览器不支持 Canvas。</canvas>
 
     <!-- HUD -->
-    <div class="ui-layer">
-        <div class="flex justify-between items-start">
-            <div>
-                <div class="text-xs text-gray-500 mb-1">SYSTEM_INTEGRITY</div>
-                <div class="w-64 h-4 border border-white/20 p-0.5">
-                    <div id="healthBar" class="h-full bg-red-500 w-full transition-all duration-200"></div>
+    <div id="gameHud" class="ui-layer" inert>
+        <div class="hud-top">
+            <div class="hud-panel">
+                <div class="hud-label">SYSTEM_INTEGRITY</div>
+                <div class="health-track">
+                    <div id="healthBar" class="health-fill" role="progressbar" aria-label="系统完整度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+                </div>
+                <div class="hud-stats">
+                    <div><div class="hud-label">LEVEL</div><div id="levelDisplay" class="hud-stat-value">01</div></div>
+                    <div><div class="hud-label">COMBO</div><div id="comboDisplay" class="hud-stat-value">x1 / 00</div></div>
+                    <div><div class="hud-label">THREAT</div><div id="threatDisplay" class="hud-stat-value">1.0x</div></div>
                 </div>
             </div>
-            <div class="text-right flex flex-col items-end gap-2">
-                <div>
-                    <div class="text-xs text-gray-500 mb-1">SCORE</div>
-                    <div id="scoreDisplay" class="text-4xl font-bold hud-text text-[#ccff00]">000000</div>
-                </div>
-                <!-- Speed Control Module -->
-                <div class="pointer-events-auto flex items-center gap-2 bg-black/40 p-2 border border-white/10 rounded">
-                    <span class="text-[10px] text-gray-500 font-mono">VELOCITY_CTRL</span>
-                    <input type="range" id="speedSlider" min="0.1" max="2" step="0.1" value="1" class="w-24 accent-[#ccff00] cursor-pointer">
-                    <span id="speedValue" class="text-xs text-[#ccff00] font-mono w-8">1.0x</span>
+            <div class="hud-panel score-panel text-right">
+                <div class="hud-label">SCORE / BEST <span id="bestScoreDisplay">000000</span></div>
+                <div id="scoreDisplay" class="score-value hud-text">000000</div>
+                <div class="control-row">
+                    <label class="speed-control flex items-center gap-2">
+                        <span class="hud-label">BASE_VELOCITY</span>
+                        <input type="range" id="speedSlider" min="0.7" max="1.5" step="0.1" value="1" class="w-20 accent-[#ccff00] cursor-pointer">
+                        <span id="speedValue" class="text-xs text-[#ccff00] w-8">1.0x</span>
+                    </label>
+                    <button id="pauseButton" class="hud-action" type="button" aria-pressed="false">[ PAUSE // ESC ]</button>
                 </div>
             </div>
         </div>
-        <div class="flex justify-between items-end">
+        <div class="hud-bottom">
             <div class="text-xs text-gray-500">
                 MODE: DEFENSE<br>
-                TARGET: KEYBOARD_INPUT
+                BREACH_LINE: ACTIVE
             </div>
             <a href="index.html" class="pointer-events-auto text-gray-500 hover:text-white transition-colors">[ EXIT_SYSTEM ]</a>
         </div>
     </div>
 
     <!-- Mobile Controls -->
-    <div class="ui-layer" style="pointer-events: none; z-index: 15;">
-        <div class="flex justify-center items-end h-full pb-20 md:hidden">
-            <button id="keyboardBtn" class="pointer-events-auto border border-[#ccff00] text-[#ccff00] px-4 py-2 font-mono text-sm bg-black/50 backdrop-blur" onclick="activateKeyboard()">
-                [ DEPLOY_KEYBOARD ]
-            </button>
-        </div>
+    <div id="mobileControls" class="mobile-control-layer" inert>
+        <button id="keyboardBtn" class="hud-action" type="button">[ DEPLOY_KEYBOARD ]</button>
     </div>
     
     <!-- Hidden Input for Mobile -->
     <!-- 优化移动端唤起键盘：将其固定在左上角不可见，防止页面跳动 -->
-    <input type="text" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+    <input type="text" id="hiddenInput" tabindex="-1" aria-label="移动端游戏字符输入" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
            style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -1;">
 
     <!-- Start Screen -->
-    <div id="startScreen">
-        <h1 class="text-6xl font-bold mb-4 hud-text text-center">CORE DEFENSE</h1>
-        <p class="text-gray-400 mb-8 max-w-md text-center">Intercept incoming data packets before they breach the system core.<br><br>Type the falling characters to destroy them.</p>
-        <button class="btn" onclick="startGame()">INITIALIZE</button>
+    <div id="startScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+        <h1 id="startTitle" class="screen-title font-bold mb-4 hud-text">CORE DEFENSE</h1>
+        <p class="screen-copy">输入坠落字符，在数据包越过底部警戒线前将其拦截。游戏速度会随存活时间逐步提升。</p>
+        <div class="screen-meta" aria-label="操作说明">
+            <span>KEYBOARD // A-Z 0-9</span>
+            <span>PAUSE // ESC</span>
+            <span>HIGH_SCORE // <strong id="startBestScore" class="text-[#ccff00]">000000</strong></span>
+        </div>
+        <button id="startButton" class="btn" type="button">INITIALIZE</button>
+    </div>
+
+    <!-- Pause Screen -->
+    <div id="pauseScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" hidden>
+        <h1 id="pauseTitle" class="screen-title font-bold mb-4 hud-text">SYSTEM PAUSED</h1>
+        <p id="pauseReason" class="screen-copy">MANUAL_PAUSE // 当前战局已冻结。</p>
+        <button id="resumeButton" class="btn" type="button">RESUME_SYSTEM</button>
     </div>
 
     <!-- Game Over Screen -->
-    <div id="gameOverScreen" style="display: none;">
-        <h1 class="text-6xl font-bold mb-4 danger-text text-center">SYSTEM FAILURE</h1>
+    <div id="gameOverScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle" hidden>
+        <h1 id="gameOverTitle" class="screen-title font-bold mb-4 danger-text">SYSTEM FAILURE</h1>
         <p class="text-gray-400 mb-2">FINAL SCORE</p>
-        <div id="finalScore" class="text-5xl font-bold text-white mb-8">0</div>
-        <button class="btn" onclick="location.reload()">REBOOT_SYSTEM</button>
+        <div id="finalScore" class="text-5xl font-bold text-white">0</div>
+        <div class="screen-meta">
+            <span>BEST // <strong id="finalBestScore" class="text-[#ccff00]">000000</strong></span>
+            <span>LEVEL // <strong id="finalLevel" class="text-[#ccff00]">01</strong></span>
+            <span id="newRecord" class="text-[#ccff00]" hidden>NEW_RECORD</span>
+        </div>
+        <button id="restartButton" class="btn" type="button">REBOOT_SYSTEM</button>
     </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+        const STORAGE_KEY = 'core-defense-high-score';
+        const ui = {
+            healthBar: document.getElementById('healthBar'),
+            score: document.getElementById('scoreDisplay'),
+            best: document.getElementById('bestScoreDisplay'),
+            startBest: document.getElementById('startBestScore'),
+            combo: document.getElementById('comboDisplay'),
+            level: document.getElementById('levelDisplay'),
+            threat: document.getElementById('threatDisplay'),
+            speedSlider: document.getElementById('speedSlider'),
+            speedValue: document.getElementById('speedValue'),
+            pauseButton: document.getElementById('pauseButton'),
+            keyboardButton: document.getElementById('keyboardBtn'),
+            hiddenInput: document.getElementById('hiddenInput'),
+            gameHud: document.getElementById('gameHud'),
+            mobileControls: document.getElementById('mobileControls'),
+            startScreen: document.getElementById('startScreen'),
+            pauseScreen: document.getElementById('pauseScreen'),
+            gameOverScreen: document.getElementById('gameOverScreen'),
+            pauseReason: document.getElementById('pauseReason'),
+            finalScore: document.getElementById('finalScore'),
+            finalBest: document.getElementById('finalBestScore'),
+            finalLevel: document.getElementById('finalLevel'),
+            newRecord: document.getElementById('newRecord')
+        };
+
+        let width = 0;
+        let height = 0;
+        let pixelRatio = 1;
+        let animationFrameId = null;
+        let resizeFrameId = null;
+        let lastFrameTime = 0;
+        let reducedMotion = motionQuery.matches;
+
+        function readHighScore() {
+            try {
+                const value = Number.parseInt(localStorage.getItem(STORAGE_KEY), 10);
+                return Number.isFinite(value) ? Math.max(0, value) : 0;
+            } catch (error) {
+                return 0;
+            }
+        }
+
+        function saveHighScore(value) {
+            try {
+                localStorage.setItem(STORAGE_KEY, String(value));
+            } catch (error) {
+                // Storage can be unavailable in private browsing; the current session still works.
+            }
+        }
+
         // --- 1. Game State Management ---
         const GameState = {
-            running: false,
+            phase: 'idle',
             score: 0,
             health: 100,
             enemies: [],
             particles: [],
-            spawnRate: 60, // Base frames between spawns
-            difficultyMultiplier: 1,
-            frameCount: 0,
-            screenShake: 0, // 屏幕震动幅度
-            
+            baseDifficulty: 1,
+            elapsed: 0,
+            spawnAccumulator: 0,
+            level: 1,
+            combo: 0,
+            screenShake: 0,
+            threatSecond: -1,
+            highScore: readHighScore(),
+
+            get difficulty() {
+                return Math.min(3, this.baseDifficulty * (1 + this.elapsed / 90));
+            },
+
+            get multiplier() {
+                return Math.min(5, 1 + Math.floor(this.combo / 5));
+            },
+
             reset() {
                 this.score = 0;
                 this.health = 100;
                 this.enemies = [];
                 this.particles = [];
-                this.difficultyMultiplier = parseFloat(document.getElementById('speedSlider').value) || 1;
-                this.frameCount = 0;
+                this.baseDifficulty = Number.parseFloat(ui.speedSlider.value) || 1;
+                this.elapsed = 0;
+                this.spawnAccumulator = 0;
+                this.level = 1;
+                this.combo = 0;
                 this.screenShake = 0;
+                this.threatSecond = -1;
                 updateHealthUI();
                 updateScoreUI();
+                updateProgressUI();
             },
-            
+
             takeDamage(amount) {
-                this.health -= amount;
-                this.screenShake = 15; // 触发屏幕震动
+                this.health = Math.max(0, this.health - amount);
+                this.combo = 0;
+                this.screenShake = reducedMotion ? 0 : 12;
                 updateHealthUI();
+                updateComboUI();
                 if (this.health <= 0) {
                     gameOver();
                 }
             },
-            
-            addScore(amount) {
-                this.score += amount;
+
+            registerHit() {
+                this.combo += 1;
+                this.score += 100 * this.multiplier;
                 updateScoreUI();
+                updateComboUI();
+            },
+
+            registerMiss() {
+                if (this.combo === 0) return;
+                this.combo = 0;
+                updateComboUI();
             }
         };
 
-        // Characters to use
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const breachLineOffset = 56;
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        function resizeCanvas() {
+            const previousBreachY = height > 0 ? Math.max(120, height - breachLineOffset) : 0;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.round(width * pixelRatio);
+            canvas.height = Math.round(height * pixelRatio);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            const nextBreachY = Math.max(120, height - breachLineOffset);
+            const verticalScale = previousBreachY > 0 ? nextBreachY / previousBreachY : 1;
+            GameState.enemies.forEach((enemy) => {
+                enemy.x = Math.min(Math.max(enemy.x, 24), Math.max(24, width - 24));
+                if (enemy.y > 0) enemy.y *= verticalScale;
+            });
+            drawScene(0, true);
         }
-        window.addEventListener('resize', resize);
-        resize();
+
+        function scheduleResize() {
+            if (resizeFrameId !== null) return;
+            resizeFrameId = requestAnimationFrame(() => {
+                resizeFrameId = null;
+                resizeCanvas();
+            });
+        }
+
+        window.addEventListener('resize', scheduleResize, { passive: true });
+        resizeCanvas();
 
         // --- 2. Entity Classes ---
         class Enemy {
             constructor() {
                 this.char = chars[Math.floor(Math.random() * chars.length)];
-                this.size = 24;
-                // 确保在屏幕内，避开边缘
-                this.x = Math.random() * (width - 60) + 30;
-                this.y = -20;
-                // 根据当前难度和随机因子设定速度
-                this.speed = (Math.random() * 2 + 1) * GameState.difficultyMultiplier;
+                this.size = width < 640 ? 22 : 26;
+                this.x = Math.random() * Math.max(1, width - 60) + 30;
+                this.y = -this.size;
+                this.speed = (68 + Math.random() * 62) * GameState.difficulty;
             }
 
-            update() {
-                this.y += this.speed;
-                if (this.y > height) {
+            update(deltaSeconds) {
+                this.y += this.speed * deltaSeconds;
+                if (this.y >= Math.max(120, height - breachLineOffset)) {
                     GameState.takeDamage(10);
-                    return false; // 移除
+                    return false;
                 }
-                return true; // 保留
+                return true;
             }
 
-            draw(ctx) {
-                ctx.font = 'bold 24px "JetBrains Mono"';
+            draw() {
+                ctx.font = `700 ${this.size}px "JetBrains Mono"`;
                 ctx.fillStyle = '#ccff00';
-                ctx.shadowBlur = 10;
+                ctx.shadowBlur = reducedMotion ? 0 : 10;
                 ctx.shadowColor = '#ccff00';
                 ctx.fillText(this.char, this.x, this.y);
                 ctx.shadowBlur = 0;
-                
-                // Trail effect
-                ctx.fillStyle = 'rgba(204, 255, 0, 0.2)';
-                ctx.fillText(this.char, this.x, this.y - 5);
+                if (!reducedMotion) {
+                    ctx.fillStyle = 'rgba(204, 255, 0, 0.18)';
+                    ctx.fillText(this.char, this.x, this.y - 5);
+                }
             }
         }
 
@@ -264,175 +488,307 @@
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
-                this.vx = (Math.random() - 0.5) * 10;
-                this.vy = (Math.random() - 0.5) * 10;
-                this.life = 1.0;
-                this.color = '#ccff00';
+                this.vx = (Math.random() - 0.5) * 360;
+                this.vy = (Math.random() - 0.5) * 360;
+                this.duration = 0.35 + Math.random() * 0.3;
+                this.life = this.duration;
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life -= 0.05;
+
+            update(deltaSeconds) {
+                this.x += this.vx * deltaSeconds;
+                this.y += this.vy * deltaSeconds;
+                this.life -= deltaSeconds;
                 return this.life > 0;
             }
-            draw(ctx) {
-                ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
+
+            draw() {
+                ctx.globalAlpha = Math.max(0, this.life / this.duration);
+                ctx.fillStyle = '#ccff00';
                 ctx.fillRect(this.x, this.y, 3, 3);
                 ctx.globalAlpha = 1.0;
             }
         }
 
         // --- 3. UI Interactions ---
+        function setGameplayControlsEnabled(enabled) {
+            ui.gameHud.toggleAttribute('inert', !enabled);
+            ui.mobileControls.toggleAttribute('inert', !enabled);
+        }
+
         function startGame() {
-            document.getElementById('startScreen').style.display = 'none';
-            document.getElementById('gameOverScreen').style.display = 'none';
+            stopLoop();
+            ui.startScreen.hidden = true;
+            ui.pauseScreen.hidden = true;
+            ui.gameOverScreen.hidden = true;
+            ui.pauseButton.textContent = '[ PAUSE // ESC ]';
+            ui.pauseButton.setAttribute('aria-pressed', 'false');
+            setGameplayControlsEnabled(true);
             GameState.reset();
-            GameState.running = true;
-            requestAnimationFrame(gameLoop);
-            
-            // 自动唤起键盘体验更好 (可选)
-            // if (window.innerWidth < 768) activateKeyboard();
+            GameState.phase = 'running';
+            drawScene(0, true);
+            startLoop();
+            if (coarsePointerQuery.matches) activateKeyboard();
         }
 
         function gameOver() {
-            GameState.running = false;
-            document.getElementById('gameOverScreen').style.display = 'flex';
-            document.getElementById('finalScore').innerText = GameState.score;
-            // 游戏结束收起键盘
-            document.getElementById('hiddenInput').blur();
+            if (GameState.phase === 'over') return;
+            GameState.phase = 'over';
+            stopLoop();
+            const isNewRecord = GameState.score > GameState.highScore;
+            if (isNewRecord) {
+                GameState.highScore = GameState.score;
+                saveHighScore(GameState.highScore);
+            }
+            ui.pauseScreen.hidden = true;
+            ui.gameOverScreen.hidden = false;
+            setGameplayControlsEnabled(false);
+            ui.finalScore.textContent = String(GameState.score).padStart(6, '0');
+            ui.finalBest.textContent = String(GameState.highScore).padStart(6, '0');
+            ui.finalLevel.textContent = String(GameState.level).padStart(2, '0');
+            ui.newRecord.hidden = !isNewRecord;
+            ui.startBest.textContent = String(GameState.highScore).padStart(6, '0');
+            ui.hiddenInput.blur();
+            document.getElementById('restartButton').focus();
+        }
+
+        function pauseGame(reason = 'MANUAL_PAUSE // 当前战局已冻结。') {
+            if (GameState.phase !== 'running') return;
+            GameState.phase = 'paused';
+            stopLoop();
+            ui.pauseReason.textContent = reason;
+            ui.pauseScreen.hidden = false;
+            setGameplayControlsEnabled(false);
+            ui.pauseButton.textContent = '[ RESUME // ESC ]';
+            ui.pauseButton.setAttribute('aria-pressed', 'true');
+            ui.hiddenInput.blur();
+            document.getElementById('resumeButton').focus();
+        }
+
+        function resumeGame() {
+            if (GameState.phase !== 'paused' || document.hidden) return;
+            GameState.phase = 'running';
+            ui.pauseScreen.hidden = true;
+            ui.pauseButton.textContent = '[ PAUSE // ESC ]';
+            ui.pauseButton.setAttribute('aria-pressed', 'false');
+            setGameplayControlsEnabled(true);
+            startLoop();
+            if (coarsePointerQuery.matches) activateKeyboard();
+            else ui.pauseButton.focus();
+        }
+
+        function togglePause() {
+            if (GameState.phase === 'running') pauseGame();
+            else if (GameState.phase === 'paused') resumeGame();
         }
 
         function updateHealthUI() {
-            const bar = document.getElementById('healthBar');
-            bar.style.width = Math.max(0, GameState.health) + '%';
+            const healthRatio = Math.max(0, GameState.health) / 100;
+            ui.healthBar.style.transform = `scaleX(${healthRatio})`;
+            ui.healthBar.style.backgroundColor = GameState.health <= 30 ? '#ff2b2b' : '#ef4444';
+            ui.healthBar.setAttribute('aria-valuenow', String(GameState.health));
         }
-        
+
         function updateScoreUI() {
-            document.getElementById('scoreDisplay').innerText = GameState.score.toString().padStart(6, '0');
+            ui.score.textContent = String(GameState.score).padStart(6, '0');
+            ui.best.textContent = String(Math.max(GameState.highScore, GameState.score)).padStart(6, '0');
+        }
+
+        function updateComboUI() {
+            ui.combo.textContent = `x${GameState.multiplier} / ${String(GameState.combo).padStart(2, '0')}`;
+        }
+
+        function updateProgressUI() {
+            ui.level.textContent = String(GameState.level).padStart(2, '0');
+            ui.threat.textContent = `${GameState.difficulty.toFixed(1)}x`;
+            ui.speedValue.textContent = `${GameState.baseDifficulty.toFixed(1)}x`;
+            updateComboUI();
         }
 
         function createExplosion(x, y) {
-            for(let i=0; i<8; i++) {
+            const particleCount = reducedMotion ? 3 : 10;
+            for (let i = 0; i < particleCount; i++) {
                 GameState.particles.push(new Particle(x, y));
             }
         }
 
         // --- 4. Main Game Loop ---
-        let lastTime = 0;
+        function startLoop() {
+            stopLoop();
+            lastFrameTime = performance.now();
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function stopLoop() {
+            if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
         function gameLoop(timestamp) {
-            if (!GameState.running) return;
+            animationFrameId = null;
+            if (GameState.phase !== 'running') return;
+            const deltaSeconds = Math.min(Math.max((timestamp - lastFrameTime) / 1000, 0), 0.05);
+            lastFrameTime = timestamp;
+            updateGame(deltaSeconds);
+            drawScene(deltaSeconds);
+            if (GameState.phase === 'running') animationFrameId = requestAnimationFrame(gameLoop);
+        }
 
-            // Clear with trail effect
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.3)';
-            ctx.fillRect(0, 0, width, height);
-
-            ctx.save(); // 保存当前上下文状态
-
-            // 屏幕震动计算 (直接在 Canvas 层操作，不操作 DOM Transform)
-            if (GameState.screenShake > 0) {
-                const dx = (Math.random() - 0.5) * GameState.screenShake;
-                const dy = (Math.random() - 0.5) * GameState.screenShake;
-                ctx.translate(dx, dy);
-                GameState.screenShake *= 0.9; // 衰减
-                if (GameState.screenShake < 0.5) GameState.screenShake = 0;
+        function updateGame(deltaSeconds) {
+            const previousLevel = GameState.level;
+            GameState.elapsed += deltaSeconds;
+            GameState.level = Math.floor(GameState.elapsed / 20) + 1;
+            GameState.spawnAccumulator += deltaSeconds;
+            GameState.screenShake = Math.max(0, GameState.screenShake - 42 * deltaSeconds);
+            const threatSecond = Math.floor(GameState.elapsed);
+            if (threatSecond !== GameState.threatSecond) {
+                GameState.threatSecond = threatSecond;
+                refreshThreatDisplay();
             }
 
-            GameState.frameCount++;
-
-            // 动态计算生成率
-            let currentSpawnRate = Math.max(10, Math.floor(GameState.spawnRate / GameState.difficultyMultiplier));
-            if (GameState.frameCount % currentSpawnRate === 0) {
+            const spawnInterval = Math.max(0.25, 0.95 / GameState.difficulty);
+            while (GameState.spawnAccumulator >= spawnInterval && GameState.enemies.length < 40) {
+                GameState.spawnAccumulator -= spawnInterval;
                 GameState.enemies.push(new Enemy());
             }
 
-            // 随时间增加难度
-            if (GameState.frameCount % 600 === 0) {
-                GameState.difficultyMultiplier += 0.1;
-                // 同步更新 UI
-                document.getElementById('speedSlider').value = GameState.difficultyMultiplier;
-                document.getElementById('speedValue').innerText = GameState.difficultyMultiplier.toFixed(1) + 'x';
-            }
+            if (GameState.level !== previousLevel) updateProgressUI();
 
-            // Update & Draw Enemies
             for (let i = GameState.enemies.length - 1; i >= 0; i--) {
-                let e = GameState.enemies[i];
-                if (!e.update()) {
+                const enemy = GameState.enemies[i];
+                if (!enemy.update(deltaSeconds)) {
                     GameState.enemies.splice(i, 1);
-                } else {
-                    e.draw(ctx);
+                    if (GameState.phase !== 'running') break;
                 }
             }
 
-            // Update & Draw Particles
             for (let i = GameState.particles.length - 1; i >= 0; i--) {
-                let p = GameState.particles[i];
-                if (!p.update()) {
-                    GameState.particles.splice(i, 1);
-                } else {
-                    p.draw(ctx);
-                }
+                if (!GameState.particles[i].update(deltaSeconds)) GameState.particles.splice(i, 1);
+            }
+        }
+
+        function drawScene(deltaSeconds, forceClear = false) {
+            const trailAlpha = forceClear || reducedMotion ? 1 : 1 - Math.pow(0.7, deltaSeconds * 60);
+            ctx.fillStyle = forceClear || reducedMotion ? '#050505' : `rgba(5, 5, 5, ${trailAlpha})`;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.save();
+            if (GameState.screenShake > 0 && !reducedMotion) {
+                ctx.translate(
+                    (Math.random() - 0.5) * GameState.screenShake,
+                    (Math.random() - 0.5) * GameState.screenShake
+                );
             }
 
-            ctx.restore(); // 恢复上下文（清除 translate 影响）
+            const breachY = Math.max(120, height - breachLineOffset);
+            ctx.save();
+            ctx.setLineDash([7, 9]);
+            ctx.strokeStyle = 'rgba(255, 43, 43, 0.55)';
+            ctx.beginPath();
+            ctx.moveTo(0, breachY);
+            ctx.lineTo(width, breachY);
+            ctx.stroke();
+            ctx.restore();
 
-            requestAnimationFrame(gameLoop);
+            GameState.enemies.forEach((enemy) => enemy.draw());
+            GameState.particles.forEach((particle) => particle.draw());
+            ctx.restore();
+        }
+
+        function refreshThreatDisplay() {
+            ui.threat.textContent = `${GameState.difficulty.toFixed(1)}x`;
         }
 
         // --- 5. Input Handling ---
-        const hiddenInput = document.getElementById('hiddenInput');
-        const speedSlider = document.getElementById('speedSlider');
-        const speedValue = document.getElementById('speedValue');
-
-        // 绑定手动难度控制
-        speedSlider.addEventListener('input', (e) => {
-            GameState.difficultyMultiplier = parseFloat(e.target.value);
-            speedValue.innerText = GameState.difficultyMultiplier.toFixed(1) + 'x';
+        ui.speedSlider.addEventListener('input', (event) => {
+            GameState.baseDifficulty = Number.parseFloat(event.target.value) || 1;
+            ui.speedValue.textContent = `${GameState.baseDifficulty.toFixed(1)}x`;
+            refreshThreatDisplay();
         });
-        
+
         function activateKeyboard() {
-            hiddenInput.focus();
-            // 在某些移动端浏览器中，可能需要一点延迟来确保焦点生效
-            setTimeout(() => hiddenInput.focus(), 100);
+            if (GameState.phase !== 'running') return;
+            try {
+                ui.hiddenInput.focus({ preventScroll: true });
+            } catch (error) {
+                ui.hiddenInput.focus();
+            }
+            ui.keyboardButton.textContent = '[ KEYBOARD_ACTIVE ]';
         }
 
-        // 监听移动端输入 (隐藏输入框)
-        hiddenInput.addEventListener('input', (e) => {
-            if (!GameState.running) return;
-            // 针对拼音输入法或某些手机键盘，尝试获取最新输入的字符
-            const val = hiddenInput.value;
+        ui.hiddenInput.addEventListener('input', () => {
+            if (GameState.phase !== 'running') return;
+            const val = ui.hiddenInput.value;
             if (val.length > 0) {
-                const char = val[val.length - 1].toUpperCase();
-                processInput(char);
-                hiddenInput.value = ''; // 立即清空，准备下一次输入
+                const inputChars = Array.from(val.toUpperCase()).filter((char) => /^[A-Z0-9]$/.test(char));
+                inputChars.forEach(processInput);
+                ui.hiddenInput.value = '';
             }
         });
 
-        // 监听桌面端物理键盘
-        window.addEventListener('keydown', (e) => {
-            if (!GameState.running) return;
-            // 忽略控制键，只处理单字符
-            if (e.key.length === 1) {
-                processInput(e.key.toUpperCase());
+        ui.hiddenInput.addEventListener('blur', () => {
+            ui.keyboardButton.textContent = '[ DEPLOY_KEYBOARD ]';
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                togglePause();
+                return;
+            }
+            if (event.target === ui.hiddenInput) return;
+            if (GameState.phase !== 'running' || event.repeat) return;
+            if (/^[a-z0-9]$/i.test(event.key)) {
+                processInput(event.key.toUpperCase());
             }
         });
 
         function processInput(key) {
-            // 找到所有屏幕上的敌人，按 Y 轴排序（最底部的优先匹配）
-            const sortedIndices = GameState.enemies
-                .map((e, i) => ({ y: e.y, i }))
-                .sort((a, b) => b.y - a.y);
-            
-            for (let obj of sortedIndices) {
-                if (GameState.enemies[obj.i].char === key) {
-                    // 击中逻辑
-                    createExplosion(GameState.enemies[obj.i].x, GameState.enemies[obj.i].y);
-                    GameState.enemies.splice(obj.i, 1);
-                    GameState.addScore(100);
-                    break; // 一次按键只击毁最下面的一个字母
+            let targetIndex = -1;
+            let lowestY = -Infinity;
+            for (let index = 0; index < GameState.enemies.length; index++) {
+                const enemy = GameState.enemies[index];
+                if (enemy.char === key && enemy.y > lowestY) {
+                    targetIndex = index;
+                    lowestY = enemy.y;
                 }
             }
+
+            if (targetIndex === -1) {
+                GameState.registerMiss();
+                return;
+            }
+
+            const [enemy] = GameState.enemies.splice(targetIndex, 1);
+            createExplosion(enemy.x, enemy.y);
+            GameState.registerHit();
         }
+
+        document.getElementById('startButton').addEventListener('click', startGame);
+        document.getElementById('restartButton').addEventListener('click', startGame);
+        document.getElementById('resumeButton').addEventListener('click', resumeGame);
+        ui.pauseButton.addEventListener('click', togglePause);
+        ui.keyboardButton.addEventListener('click', activateKeyboard);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && GameState.phase === 'running') {
+                pauseGame('AUTO_PAUSE // 页面进入后台，战局已安全冻结。');
+            }
+        });
+
+        const handleMotionPreference = (event) => {
+            reducedMotion = event.matches;
+            if (reducedMotion) {
+                GameState.particles = [];
+                GameState.screenShake = 0;
+            }
+            drawScene(0, true);
+        };
+        if (typeof motionQuery.addEventListener === 'function') motionQuery.addEventListener('change', handleMotionPreference);
+        else motionQuery.addListener(handleMotionPreference);
+
+        ui.startBest.textContent = String(GameState.highScore).padStart(6, '0');
+        ui.best.textContent = String(GameState.highScore).padStart(6, '0');
+        updateProgressUI();
     </script>
 </body>
 </html>
