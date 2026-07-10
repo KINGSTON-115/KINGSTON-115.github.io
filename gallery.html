@@ -7,6 +7,7 @@
     <meta name="description" content="Charles 的个人摄影与视觉归档页面，支持筛选、灯箱预览和动态画廊展示。">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#050505">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='42' fill='%23ccff00'%3EC%3C/text%3E%3C/svg%3E">
     <link rel="canonical" href="https://kingston-115.github.io/gallery.html">
     <meta property="og:title" content="GALLERY_VIEW // KINGSTON-115">
     <meta property="og:description" content="Charles 的个人摄影与视觉归档页面。">
@@ -18,16 +19,13 @@
     <meta name="twitter:description" content="Charles 的个人摄影与视觉归档页面。">
     <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_7422.JPG">
 
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Global Styles & Tailwind Config -->
+    <!-- Compiled Tailwind utilities and global styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="css/global.css">
-    <script src="js/tailwind-config.js"></script>
 
     <style>
         /* --- CORE BASE --- */
@@ -145,8 +143,8 @@
                 <span>ARCHIVE_BATCH_115</span>
             </div>
             <h1 class="font-sans text-6xl md:text-8xl font-bold uppercase leading-[0.85] tracking-tight mb-8 text-white drop-shadow-2xl">
-                <span class="block scramble-target" data-value="NEURAL">NEURAL</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white scramble-target" data-value="SNAPSHOTS">SNAPSHOTS</span>
+                <span class="block">NEURAL</span>
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white">SNAPSHOTS</span>
             </h1>
             <p class="max-w-xl text-gray-500 text-sm font-mono leading-relaxed border-l border-gray-800 pl-6 ml-1">
                 > ACCESSING VISUAL MEMORY BANKS...<br>
@@ -188,7 +186,7 @@
     </main>
 
     <!-- LIGHTBOX -->
-    <div id="lightbox" class="fixed inset-0 z-[9999] bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览" aria-hidden="true" inert class="fixed inset-0 z-[9999] bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
         
         <!-- Background Grid -->
         <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
@@ -212,7 +210,7 @@
             <div class="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-acid-green z-20"></div>
 
             <!-- Image -->
-            <img id="lightbox-img" src="" alt="Enlarged gallery preview" decoding="async" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
+            <img id="lightbox-img" alt="Enlarged gallery preview" decoding="async" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
                  onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';">
             
             <!-- Metadata Side Panel -->
@@ -243,9 +241,8 @@
 
     <script>
         const CONFIG = {
-            dataSource: 'photos/gallery_code.txt',
-            demoMode: true,
-            scrambleSpeed: 30
+            dataSource: 'photos/gallery_manifest.json',
+            demoMode: true
         };
 
         const elements = {
@@ -255,8 +252,19 @@
             lightboxImg: document.getElementById('lightbox-img')
         };
 
+        function toThumbnailUrl(src) {
+            if (!src || /^(?:https?:)?\/\//.test(src)) return src;
+            const filename = src.split('/').pop();
+            const basename = filename.replace(/\.[^.]+$/, '');
+            return `photos/thumbs/${basename}.webp`;
+        }
+
         // --- 3D TILT LOGIC ---
         function attachTiltEffect(card) {
+            const supportsTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!supportsTilt || prefersReducedMotion) return;
+
             let ticking = false;
             card.addEventListener('mousemove', (e) => {
                 if (!ticking) {
@@ -281,89 +289,49 @@
             });
         }
 
-        // --- SCRAMBLE ---
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.chars = '!<>-_\\/[]{}—=+*^?#________';
-                this.update = this.update.bind(this);
-            }
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise((resolve) => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 120); 
-                    const end = start + Math.floor(Math.random() * 120);
-                    this.queue.push({ from, to, start, end });
-                }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="text-acid-green opacity-50">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-            randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
-        }
-
         // --- GALLERY ---
         async function initGallery() {
-            document.querySelectorAll('.scramble-target').forEach(el => {
-                const fx = new TextScramble(el);
-                fx.setText(el.getAttribute('data-value'));
-            });
-            setInterval(() => {
+            const updateClock = () => {
                 const now = new Date();
                 const str = now.toLocaleTimeString('en-US', { hour12: false }) + ':' + Math.floor(now.getMilliseconds()/10);
                 document.getElementById('clock').innerText = str;
-            }, 50);
+            };
+            let clockTimer = null;
+            const syncClock = () => {
+                clearInterval(clockTimer);
+                clockTimer = null;
+                if (document.hidden) return;
+                updateClock();
+                clockTimer = setInterval(updateClock, 100);
+            };
+            document.addEventListener('visibilitychange', syncClock);
+            syncClock();
 
             try {
                 const response = await fetch(CONFIG.dataSource);
                 if (!response.ok) throw new Error("Offline");
-                const text = await response.text();
-                const paths = text.split('\n').map(p => p.trim()).filter(p => p);
-                renderItems(paths);
+                const items = await response.json();
+                if (!Array.isArray(items)) throw new Error("Invalid gallery manifest");
+                renderItems(items);
             } catch (e) {
                 if (CONFIG.demoMode) renderDemoItems();
             }
         }
 
-        function createItemHTML(src, category, delay) {
+        function createItemHTML(item, category, delay) {
+            const normalizedItem = typeof item === 'string' ? { src: item } : item;
+            const src = normalizedItem.src;
             const floatDelay = `-${Math.random() * 5}s`;
+            const thumbnailSrc = normalizedItem.thumbnail || toThumbnailUrl(src);
+            const imageName = src.split('/').pop();
+            const hasDimensions = normalizedItem.width && normalizedItem.height;
+            const aspectStyle = hasDimensions ? `style="aspect-ratio: ${normalizedItem.width} / ${normalizedItem.height}"` : '';
+            const placeholderClass = hasDimensions ? '' : 'min-h-[200px]';
             return `
                 <div class="gallery-item-wrapper break-inside-avoid opacity-0" 
                      data-category="${category}"
                      style="animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards ${delay}ms">
-                    <div class="gallery-item idle group cursor-pointer" style="--float-delay: ${floatDelay}">
+                    <div class="gallery-item idle group cursor-pointer" role="button" tabindex="0" aria-label="打开图片 ${imageName}" style="--float-delay: ${floatDelay}">
                         <div class="relative bg-gray-900 border border-transparent transition-colors duration-300">
                             <div class="item-overlay z-20"></div>
                             <div class="absolute top-3 right-3 flex gap-1 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 meta-floating">
@@ -373,9 +341,9 @@
                             <div class="absolute top-0 left-0 w-2 h-2 border-l border-t border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
                             <div class="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
                             
-                            <div class="w-full h-auto bg-gray-800 min-h-[200px] relative overflow-hidden">
-                                <img src="${src}" loading="lazy" decoding="async" alt="Gallery image" class="w-full h-full object-cover block transform origin-center z-10 relative" 
-                                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';">
+                            <div class="w-full bg-gray-800 ${placeholderClass} relative overflow-hidden" ${aspectStyle}>
+                                <img src="${thumbnailSrc}" data-full-src="${src}" ${hasDimensions ? `width="${normalizedItem.width}" height="${normalizedItem.height}"` : ''} loading="lazy" decoding="async" alt="Gallery image" class="w-full h-full object-cover block transform origin-center z-10 relative"
+                                     onerror="this.onerror=null; this.src=this.dataset.fullSrc;">
                             </div>
                         </div>
                     </div>
@@ -387,12 +355,13 @@
             elements.loader.style.opacity = 0;
             elements.grid.style.opacity = 1;
             let html = '';
-            paths.forEach((path, i) => {
+            paths.forEach((item, i) => {
+                const path = typeof item === 'string' ? item : item.src;
                 let cat = 'urban';
                 const lower = path.toLowerCase();
                 if (lower.includes('land')) cat = 'scenery';
                 else if (lower.includes('port')) cat = 'portrait';
-                html += createItemHTML(path, cat, i * 150);
+                html += createItemHTML(item, cat, i * 150);
             });
             elements.grid.innerHTML = html;
             attachEvents();
@@ -417,22 +386,36 @@
             attachEvents();
         }
 
+        let activeGalleryCard = null;
+
         function attachEvents() {
             const cards = document.querySelectorAll('.gallery-item');
             cards.forEach(card => {
                 attachTiltEffect(card);
                 const img = card.querySelector('img');
-                card.addEventListener('click', () => {
+                const openLightbox = () => {
                     // Check if img exists and has src
                     if (!img || !img.src) return;
-                    
-                    elements.lightboxImg.src = img.src;
-                    
+
+                    activeGalleryCard = card;
+                    elements.lightboxImg.src = img.dataset.fullSrc || img.src;
+                    elements.lightboxImg.alt = img.alt;
+
                     elements.lightbox.classList.remove('hidden');
+                    elements.lightbox.removeAttribute('inert');
+                    elements.lightbox.setAttribute('aria-hidden', 'false');
                     void elements.lightbox.offsetWidth;
                     elements.lightbox.classList.remove('opacity-0');
-                    
+
                     document.body.style.overflow = 'hidden';
+                    document.getElementById('lightbox-close').focus();
+                };
+                card.addEventListener('click', openLightbox);
+                card.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openLightbox();
+                    }
                 });
             });
         }
@@ -461,10 +444,15 @@
         });
 
         const closeBox = () => {
+            if (elements.lightbox.classList.contains('hidden')) return;
             elements.lightbox.classList.add('opacity-0');
             setTimeout(() => { 
-                elements.lightbox.classList.add('hidden'); 
-                document.body.style.overflow = 'auto'; 
+                elements.lightbox.classList.add('hidden');
+                elements.lightbox.setAttribute('aria-hidden', 'true');
+                elements.lightbox.setAttribute('inert', '');
+                elements.lightboxImg.removeAttribute('src');
+                document.body.style.overflow = '';
+                if (activeGalleryCard) activeGalleryCard.focus();
             }, 300);
         };
         document.getElementById('lightbox-close').addEventListener('click', closeBox);

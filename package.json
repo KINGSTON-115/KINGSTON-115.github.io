@@ -1,0 +1,16 @@
+{
+  "name": "kingston-115-personal-site",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:css && npm run build:icons && npm run build:images",
+    "build:css": "tailwindcss -i ./css/tailwind.css -o ./css/tailwind.min.css --minify",
+    "build:icons": "esbuild js/icons-entry.js --bundle --minify --format=iife --outfile=js/icons.min.js --legal-comments=inline",
+    "build:images": "node scripts/build-thumbnails.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1",
+    "lucide": "0.468.0",
+    "sharp": "0.35.3",
+    "tailwindcss": "3.4.17"
+  }
+}
