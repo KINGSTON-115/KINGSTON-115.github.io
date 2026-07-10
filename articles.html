@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://kingston-115.github.io/articles.html">
     <meta property="og:title" content="ARCHIVES // CHARLES">
     <meta property="og:description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记。">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingston-115.github.io/articles.html">
     <meta property="og:image" content="https://kingston-115.github.io/photos/IMG_3898.JPG">
     <meta name="twitter:card" content="summary_large_image">
@@ -31,21 +31,120 @@
 
         /* 核心交互：悬停反色（变绿块） */
         .hover-acid {
-            transition: all 0.1s ease;
+            transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
         }
         .hover-acid:hover {
             background-color: #CCFF00;
             color: #000000;
             box-shadow: 0 0 10px rgba(204, 255, 0, 0.5); /* 荧光光晕 */
+            transform: translateY(-1px);
         }
-        
-        /* 图片绿色滤镜（可选，增加氛围） */
-        .img-filter {
-            filter: grayscale(100%) sepia(100%) hue-rotate(50deg) saturate(300%);
-            transition: filter 0.3s;
+
+        .archive-search {
+            width: min(100%, 36rem);
+            border: 1px solid rgba(204, 255, 0, 0.45);
+            background: rgba(0, 0, 0, 0.72);
+            color: #fff;
+            padding: 0.8rem 1rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
-        .group:hover .img-filter {
-            filter: none;
+        .archive-search:focus {
+            border-color: #CCFF00;
+            background: #000;
+            box-shadow: 0 0 0 3px rgba(204, 255, 0, 0.12), 0 0 24px rgba(204, 255, 0, 0.08);
+        }
+        .archive-search::placeholder { color: rgba(204, 255, 0, 0.38); }
+
+        .filter-btn {
+            border: 1px solid #CCFF00;
+            color: #CCFF00;
+            padding: 0.35rem 0.85rem;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .filter-btn:hover,
+        .filter-btn:focus-visible {
+            background: rgba(204, 255, 0, 0.12);
+            outline: none;
+            transform: translateY(-1px);
+        }
+        .filter-btn.is-active {
+            background: #CCFF00;
+            color: #000;
+            box-shadow: 0 0 14px rgba(204, 255, 0, 0.28);
+        }
+
+        .article-entry {
+            min-width: 0;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+        #article-list,
+        .article-entry > div,
+        .article-entry > div > div:last-child {
+            min-width: 0;
+        }
+        .article-entry[hidden] { display: none; }
+        .article-entry:hover { border-color: rgba(204, 255, 0, 0.65); }
+
+        .local-note {
+            max-width: 48rem;
+            border: 1px solid rgba(204, 255, 0, 0.35);
+            background: rgba(204, 255, 0, 0.035);
+        }
+        .local-note summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 0.8rem 1rem;
+            color: #CCFF00;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .local-note summary::-webkit-details-marker { display: none; }
+        .local-note summary:hover,
+        .local-note summary:focus-visible { background: #CCFF00; color: #000; outline: none; }
+        .local-note[open] summary { border-bottom: 1px solid rgba(204, 255, 0, 0.35); }
+
+        .code-shell {
+            position: relative;
+            width: 100%;
+            min-width: 0;
+            max-width: 48rem;
+            overflow: hidden;
+            border: 1px solid rgba(204, 255, 0, 0.45);
+            background: #000;
+        }
+        .code-shell pre {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 1rem;
+            color: #CCFF00;
+            font-size: 0.75rem;
+            line-height: 1.75;
+        }
+
+        .copy-toast {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 100;
+            border: 1px solid #000;
+            background: #CCFF00;
+            color: #000;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(1rem);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.35);
+        }
+        .copy-toast.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* 细线样式 */
@@ -65,8 +164,8 @@
             <span class="text-xs opacity-70 mt-1">SYSTEM_STATUS: <span class="animate-pulse text-white">ONLINE</span></span>
         </div>
 
-        <div class="flex gap-6 text-sm font-bold">
-            <!-- 返回按钮 -->
+        <div class="flex gap-4 md:gap-6 text-xs md:text-sm font-bold">
+            <a href="gallery.html" class="hidden sm:inline hover:text-white transition-colors">GALLERY</a>
             <a href="index.html" class="group flex items-center gap-2 hover:text-white transition-colors">
                 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-acid">[</span>
                 RETURN_ROOT
@@ -93,23 +192,27 @@
             </div>
         </header>
 
-        <!-- 过滤器 -->
-        <div class="mb-12 flex flex-wrap gap-3 items-center text-sm border-y border-acid py-4 font-bold">
-            <span class="mr-2 text-acid opacity-70">>> FILTER:</span>
-            <!-- 默认选中：实心酸绿 -->
-            <button class="px-4 py-1 border border-acid bg-acid text-black transition-all shadow-[0_0_10px_rgba(204,255,0,0.3)]">[ ALL ]</button>
-            <!-- 未选中：空心酸绿 -->
-            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ SYSTEM_LOGS ]</button>
-            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ THOUGHTS ]</button>
-            <button class="hover-acid px-4 py-1 border border-acid text-acid transition-all">[ HARDWARE ]</button>
-            <div class="ml-auto hidden md:block text-acid opacity-60">ENTRIES: 06</div>
-        </div>
+        <!-- 搜索与过滤器 -->
+        <section class="mb-12 border-y border-acid py-5" aria-label="文章检索">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-4 mb-5">
+                <label for="archive-search" class="text-acid font-bold text-sm shrink-0">>> SEARCH:</label>
+                <input id="archive-search" class="archive-search font-mono text-sm" type="search" autocomplete="off" placeholder="标题、标签或正文关键字（按 / 聚焦）">
+            </div>
+            <div id="archive-filters" class="flex flex-wrap gap-3 items-center text-xs md:text-sm font-bold" role="group" aria-label="文章分类">
+                <span class="mr-1 text-acid opacity-70">>> FILTER:</span>
+                <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">[ ALL ]</button>
+                <button class="filter-btn" type="button" data-filter="system" aria-pressed="false">[ SYSTEM_LOGS ]</button>
+                <button class="filter-btn" type="button" data-filter="thoughts" aria-pressed="false">[ THOUGHTS ]</button>
+                <button class="filter-btn" type="button" data-filter="hardware" aria-pressed="false">[ HARDWARE ]</button>
+                <div id="entry-status" class="w-full lg:w-auto lg:ml-auto text-acid opacity-70" aria-live="polite">SHOWING: 00 / 00</div>
+            </div>
+        </section>
 
         <!-- 文章列表 -->
-        <div class="grid gap-0">
+        <div id="article-list" class="grid gap-0">
 
             <!-- Article 01: LLM (Real Link: Hugging Face) -->
-            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+            <article class="article-entry group relative border-b border-acid/30 py-12 hover:bg-acid-dim" data-category="thoughts system" data-date="2022-08-17">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <!-- 日期列 -->
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
@@ -128,7 +231,7 @@
                                 LLM.int8()：Transformers 大规模 8 位矩阵乘法
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
                             Tim Dettmers 与 Hugging Face 的这篇经典合作文章详细介绍了如何将大模型显存占用减半而不损失精度。其核心在于混合精度分解：将绝大多数参数进行 int8 量化，而对异常值（Outliers）保留 fp16 计算。这对我们在边缘端部署小参数模型极具参考价值。
                         </p>
                         <!-- 精华内容：终端风格代码块 -->
@@ -139,7 +242,7 @@
                             Performance Degradation: <span class="text-acid">0.0%</span>
                         </div>
 
-                        <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
@@ -147,7 +250,7 @@
             </article>
 
             <!-- Article 02: PCB (Real Link: Altium) -->
-            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+            <article class="article-entry group relative border-b border-acid/30 py-12 hover:bg-acid-dim" data-category="hardware" data-date="2023-11-15">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
                         2023.11.15<br>
@@ -165,7 +268,7 @@
                                 DDR3/DDR4 走线指南：Fly-by 拓扑设计规范
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
                             Altium 官方关于 Fly-by 拓扑的深度解析。相比于 DDR2 时代的 T 型拓扑，Fly-by 利用菊花链结构减少了桩线（Stubs）反射，极大提升了信号完整性，但代价是引入了必须通过 Write Leveling 解决的时钟偏斜。这是绘制 V3s 或 RK3588 核心板的必读材料。
                         </p>
                          <!-- 精华内容：参数高亮 -->
@@ -180,7 +283,7 @@
                             </div>
                         </div>
 
-                        <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
@@ -188,7 +291,7 @@
             </article>
 
             <!-- Article 03: ROS2 (Real Link: ROS Docs) -->
-            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+            <article class="article-entry group relative border-b border-acid/30 py-12 hover:bg-acid-dim" data-category="system" data-date="2024-05-20">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
                         2024.05.20<br>
@@ -206,7 +309,7 @@
                                 ROS 2 DDS 调优指南：处理高延迟与丢包
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
                             当在 WiFi 环境下运行 ROS 2 时，默认的 DDS 配置往往会导致通信卡顿。官方指南详细列出了 Fast DDS 和 Cyclone DDS 的 OS 缓冲区调整策略。对于水质监测船这种远距离 WiFi 图传场景，增加 `rmem_max` 和 `wmem_max` 是救命稻草。
                         </p>
                         
@@ -218,15 +321,15 @@
                             <span class="text-gray-500"># Important for Image Transport over WiFi</span>
                         </div>
 
-                        <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
+                        <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
                             Read_Full_Log <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
             </article>
 
-            <!-- Article 04: Local LoRA Training (Placeholder) -->
-            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+            <!-- Article 04: Local LoRA Training -->
+            <article class="article-entry group relative border-b border-acid/30 py-12 hover:bg-acid-dim" data-category="thoughts" data-date="2024-12-05">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
                         2024.12.05<br>
@@ -239,20 +342,25 @@
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SD</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
-                            <a href="#" class="block">训练黎族图腾 LoRA：从数据集清洗到过拟合测试</a>
+                            训练黎族图腾 LoRA：从数据集清洗到过拟合测试
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300 group-hover:text-acid">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
                             尝试训练一个专门生成黎族传统织锦纹样的 LoRA 模型。发现最大的坑不在参数，而在数据集的 tag 标注。使用了 DeepDanbooru 进行自动标注，但对于抽象几何纹样，人工修正仍然必不可少。
                         </p>
-                        <a href="#" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 transition-all uppercase tracking-wider text-acid">
-                            Read_Full_Log <span class="ml-2">-></span>
-                        </a>
+                        <details class="local-note">
+                            <summary>OPEN_LOCAL_LOG <span aria-hidden="true">[+]</span></summary>
+                            <div class="p-4 md:p-5 grid md:grid-cols-3 gap-4 text-xs leading-relaxed">
+                                <div><span class="block text-acid mb-2">01 // DATASET</span><span class="text-gray-300">优先清理重复图样、低清图片和带有现代元素的样本，保持传统几何纹样的一致性。</span></div>
+                                <div><span class="block text-acid mb-2">02 // LABELS</span><span class="text-gray-300">自动标签只作为初稿，抽象纹样仍需人工统一主体、颜色与构图标签。</span></div>
+                                <div><span class="block text-acid mb-2">03 // NEXT_STEP</span><span class="text-gray-300">继续对比不同 rank、学习率和重复次数，并建立固定提示词的版本对照集。</span></div>
+                            </div>
+                        </details>
                     </div>
                 </div>
             </article>
             
-            <!-- Article 05 - Snippet Style (Placeholder) -->
-            <article class="group relative border-b border-acid/30 py-12 transition-all hover:bg-acid-dim">
+            <!-- Article 05 - Snippet Style -->
+            <article class="article-entry group relative border-b border-acid/30 py-12 hover:bg-acid-dim" data-category="hardware system" data-date="2024-08-12">
                 <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12">
                     <div class="w-32 text-xs font-bold font-mono shrink-0 text-acid opacity-80">
                         2024.08.12<br>
@@ -264,22 +372,27 @@
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SNIPPET</span>
                         </div>
                         <h2 class="text-xl font-bold mb-2 text-white">
-                           <a href="#">#Snippet: 增量式 PID 算法 C 语言实现</a>
+                           #Snippet: 增量式 PID 算法 C 语言实现
                         </h2>
                         <p class="opacity-50 text-xs italic mb-4 text-acid">
                             // Quick copy-paste ready code for STM32 motor control tasks.
                         </p>
-                        <!-- 代码块：黑底绿字，终端风格 -->
-                        <div class="bg-black p-4 border border-acid/50 text-xs text-acid font-mono overflow-x-auto shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]">
-                            <span class="text-gray-500">// Calculates increment value</span><br>
-                            <span class="text-white">float</span> <span class="text-yellow-300">PID_Calc</span>(PID_TypeDef *pid, <span class="text-white">float</span> target, <span class="text-white">float</span> current) {<br>
-                            &nbsp;&nbsp;pid->error = target - current;<br>
-                            &nbsp;&nbsp;<span class="text-white">float</span> p_out = pid->Kp * (pid->error - pid->last_error);<br>
-                            &nbsp;&nbsp;<span class="text-white">float</span> i_out = pid->Ki * pid->error;<br>
-                            &nbsp;&nbsp;<span class="text-green-500">... return output;</span>
-                        </div>
-                        <div class="mt-4">
-                             <a href="#" class="text-xs hover:underline decoration-acid underline-offset-4 text-gray-400 hover:text-white transition-colors">>> View Raw Gist</a>
+                        <div class="code-shell">
+                            <div class="flex items-center justify-between border-b border-acid/30 px-4 py-2 text-[10px] text-gray-500">
+                                <span>incremental_pid.c</span>
+                                <button type="button" class="hover-acid border border-acid px-3 py-1 text-acid" data-copy-target="pid-snippet">COPY_CODE</button>
+                            </div>
+                            <pre><code id="pid-snippet">float PID_Calc(PID_TypeDef *pid, float target, float current) {
+    const float error = target - current;
+    const float delta = pid->Kp * (error - pid->last_error)
+                      + pid->Ki * error
+                      + pid->Kd * (error - 2.0f * pid->last_error + pid->prev_error);
+
+    pid->output += delta;
+    pid->prev_error = pid->last_error;
+    pid->last_error = error;
+    return pid->output;
+}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -287,10 +400,14 @@
 
         </div>
 
-        <!-- 底部加载更多 -->
+        <div id="archive-empty" class="mt-12 border border-dashed border-acid/50 p-8 text-center text-sm text-acid" hidden>
+            NO_MATCHING_DATA // 尝试更换关键词或分类
+        </div>
+
+        <!-- 底部分页 -->
         <div class="mt-12 text-center">
-            <button class="text-xs font-bold text-acid border border-acid px-6 py-3 hover:bg-acid hover:text-black hover:shadow-[0_0_20px_#CCFF00] transition-all uppercase tracking-widest">
-                [ Load_More_Data ]
+            <button id="load-more" type="button" aria-controls="article-list" class="text-xs font-bold text-acid border border-acid px-6 py-3 hover:bg-acid hover:text-black hover:shadow-[0_0_20px_#CCFF00] transition-colors uppercase tracking-widest">
+                [ LOAD_MORE_DATA ]
             </button>
         </div>
 
@@ -326,47 +443,141 @@
         </div>
     </footer>
 
+    <div id="copy-toast" class="copy-toast" role="status" aria-live="polite"></div>
+
     <!-- 交互脚本 -->
     <script>
-        function copyToClipboard(text) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            
-            const toast = document.createElement('div');
-            toast.className = 'fixed bottom-4 right-4 bg-acid text-black px-6 py-3 text-xs border border-black z-50 font-bold uppercase shadow-[0_0_15px_#CCFF00]';
-            toast.innerText = 'DATA_COPIED_TO_CLIPBOARD';
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 2000);
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const toast = document.getElementById('copy-toast');
+        let toastTimer = null;
+
+        function showToast(message) {
+            clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.classList.add('is-visible');
+            toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1800);
         }
 
-        // 过滤器交互
-        const buttons = document.querySelectorAll('button.hover-acid');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                if(this.parentElement.classList.contains('flex-wrap')) {
-                     buttons.forEach(b => {
-                        if(b.parentElement.classList.contains('flex-wrap')) {
-                            b.classList.remove('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
-                            b.classList.add('text-acid');
-                        }
-                    });
-                    // 还原第一个ALL按钮
-                    const allBtn = this.parentElement.querySelector('button:first-child');
-                    allBtn.classList.remove('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
-                    allBtn.classList.add('text-acid', 'hover-acid');
+        function legacyCopy(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'fixed';
+            el.style.opacity = '0';
+            document.body.appendChild(el);
+            el.select();
+            const copied = document.execCommand('copy');
+            document.body.removeChild(el);
+            return copied;
+        }
 
-                    this.classList.remove('text-acid');
-                    this.classList.add('bg-acid', 'text-black', 'shadow-[0_0_10px_rgba(204,255,0,0.3)]');
-                }
+        async function copyToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+                else if (!legacyCopy(text)) throw new Error('Copy command failed');
+                showToast('DATA_COPIED_TO_CLIPBOARD');
+            } catch (error) {
+                showToast('COPY_FAILED // SELECT_MANUALLY');
+            }
+        }
+
+        document.querySelectorAll('[data-copy-target]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const target = document.getElementById(button.dataset.copyTarget);
+                if (target) copyToClipboard(target.textContent.trim());
             });
         });
+
+        const PAGE_SIZE = 3;
+        const articleList = document.getElementById('article-list');
+        const entries = Array.from(document.querySelectorAll('.article-entry'))
+            .sort((a, b) => b.dataset.date.localeCompare(a.dataset.date));
+        entries.forEach((entry) => articleList.appendChild(entry));
+        const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+        const searchInput = document.getElementById('archive-search');
+        const entryStatus = document.getElementById('entry-status');
+        const emptyState = document.getElementById('archive-empty');
+        const loadMoreButton = document.getElementById('load-more');
+        let activeFilter = 'all';
+        let visibleLimit = PAGE_SIZE;
+
+        const normalize = (value) => value.toLocaleLowerCase('zh-CN').replace(/\s+/g, ' ').trim();
+
+        function animateEntry(entry) {
+            if (prefersReducedMotion || typeof entry.animate !== 'function') return;
+            entry.animate(
+                [
+                    { opacity: 0, transform: 'translateY(14px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ],
+                { duration: 280, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+            );
+        }
+
+        function renderArchive({ animate = true } = {}) {
+            const query = normalize(searchInput.value);
+            const matches = entries.filter((entry) => {
+                const categories = entry.dataset.category.split(/\s+/);
+                const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+                const matchesSearch = !query || normalize(entry.textContent).includes(query);
+                return matchesFilter && matchesSearch;
+            });
+
+            const visibleEntries = new Set(matches.slice(0, visibleLimit));
+            entries.forEach((entry) => {
+                const shouldShow = visibleEntries.has(entry);
+                const wasHidden = entry.hidden;
+                entry.hidden = !shouldShow;
+                if (shouldShow && wasHidden && animate) animateEntry(entry);
+            });
+
+            const shownCount = Math.min(matches.length, visibleLimit);
+            entryStatus.textContent = `SHOWING: ${String(shownCount).padStart(2, '0')} / ${String(matches.length).padStart(2, '0')}`;
+            emptyState.hidden = matches.length !== 0;
+            loadMoreButton.hidden = matches.length <= shownCount;
+            if (!loadMoreButton.hidden) {
+                const remaining = Math.min(PAGE_SIZE, matches.length - shownCount);
+                loadMoreButton.textContent = `[ LOAD_MORE_DATA // +${String(remaining).padStart(2, '0')} ]`;
+            }
+        }
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                activeFilter = button.dataset.filter;
+                visibleLimit = PAGE_SIZE;
+                filterButtons.forEach((item) => {
+                    const isActive = item === button;
+                    item.classList.toggle('is-active', isActive);
+                    item.setAttribute('aria-pressed', String(isActive));
+                });
+                renderArchive();
+            });
+        });
+
+        searchInput.addEventListener('input', () => {
+            visibleLimit = PAGE_SIZE;
+            renderArchive();
+        });
+
+        loadMoreButton.addEventListener('click', () => {
+            visibleLimit += PAGE_SIZE;
+            renderArchive();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            const activeElement = document.activeElement;
+            const isTyping = activeElement && (activeElement.matches('input, textarea') || activeElement.isContentEditable);
+            if (event.key === '/' && !isTyping) {
+                event.preventDefault();
+                searchInput.focus();
+            } else if (event.key === 'Escape' && activeElement === searchInput && searchInput.value) {
+                searchInput.value = '';
+                visibleLimit = PAGE_SIZE;
+                renderArchive();
+            }
+        });
+
+        renderArchive({ animate: false });
     </script>
 </body>
 </html>
