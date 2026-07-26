@@ -136,7 +136,7 @@
             /* 默认展开态：Sticky 效果 */
             position: sticky;
             top: 15vh;
-            min-height: 50vh;
+            min-height: max(50vh, 500px); /* 矮窗口下保证内容不被 overflow-hidden 裁切 */
             box-shadow: 0 -30px 80px rgba(0,0,0,0.9);
             z-index: 1;
             margin-bottom: 5vh;
@@ -445,7 +445,7 @@ VOID</div>
 
                 <div class="flex flex-wrap items-center justify-center gap-3 px-4 max-w-4xl" aria-label="关键经历与亮点">
                     <span class="font-mono text-[11px] md:text-xs text-white border border-white/15 bg-white/5 px-3 py-2 rounded-full tracking-wide">嵌入式 / AI / 控制</span>
-                    <span class="font-mono text-[11px] md:text-xs text-acid-green border border-acid-green/30 bg-acid-green/5 px-3 py-2 rounded-full tracking-wide">350+ Stars 开源项目</span>
+                    <span class="font-mono text-[11px] md:text-xs text-acid-green border border-acid-green/30 bg-acid-green/5 px-3 py-2 rounded-full tracking-wide"><span class="gh-stars">700+</span> Stars 开源项目</span>
                     <span class="font-mono text-[11px] md:text-xs text-electric-blue border border-electric-blue/30 bg-electric-blue/5 px-3 py-2 rounded-full tracking-wide">机器人大赛获奖</span>
                 </div>
 
@@ -537,7 +537,7 @@ VOID</div>
                     </article>
 
                     <!-- 02: Drone -->
-                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="top: 12vh; --i:1" onclick="openModal('drone')">
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0f0f0f] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-20" style="--i:1" onclick="openModal('drone')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0f0f0f] pointer-events-none">
                             <div>
                                 <div class="font-mono text-electric-blue text-xs mb-4 tracking-widest">02 // FULL STACK + IOT</div>
@@ -564,7 +564,7 @@ VOID</div>
                     </article>
 
                     <!-- 03: Laser -->
-                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="top: 14vh; --i:2" onclick="openModal('laser')">
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-30" style="--i:2" onclick="openModal('laser')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                             <div>
                                 <div class="font-mono text-purple-400 text-xs mb-4 tracking-widest">03 // COMPUTER VISION</div>
@@ -590,7 +590,7 @@ VOID</div>
                     </article>
 
                     <!-- 04: Ship -->
-                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="top: 16vh; --i:3" onclick="openModal('ship')">
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-40" style="--i:3" onclick="openModal('ship')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                             <div>
                                 <div class="font-mono text-electric-blue text-xs mb-4 tracking-widest">04 // GPS & HARDWARE</div>
@@ -616,7 +616,7 @@ VOID</div>
                     </article>
 
                      <!-- 05: Culture -->
-                     <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="top: 18vh; --i:4" onclick="openModal('culture')">
+                     <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-50" style="--i:4" onclick="openModal('culture')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0a0a0a] pointer-events-none">
                             <div>
                                 <div class="font-mono text-pink-500 text-xs mb-4 tracking-widest">05 // GENERATIVE ART</div>
@@ -642,7 +642,7 @@ VOID</div>
                     </article>
 
                      <!-- 06: Piano -->
-                     <article class="project-card min-h-[500px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="top: 20vh; --i:5" onclick="openModal('piano')">
+                     <article class="project-card min-h-[500px] md:h-[50vh] bg-[#111] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[60]" style="--i:5" onclick="openModal('piano')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#111] pointer-events-none">
                              <div>
                                 <div class="font-mono text-yellow-400 text-xs mb-4 tracking-widest">06 // EMBEDDED CLASSIC</div>
@@ -664,13 +664,13 @@ VOID</div>
                     </article>
 
                     <!-- 07: LLM-PID-Tuner -->
-                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0b0b0b] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[70]" style="top: 22vh; --i:6" onclick="openModal('llmPidTuner')">
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0b0b0b] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[70]" style="--i:6" onclick="openModal('llmPidTuner')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0b0b0b] pointer-events-none">
                             <div>
                                 <div class="font-mono text-cyan-300 text-xs mb-4 tracking-widest">07 // CONTROL + LLM ENGINEERING</div>
                                 <h3 class="text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white">LLM-PID-Tuner 智能调参系统</h3>
                                 <p class="text-gray-400 font-sans text-sm md:text-base leading-relaxed mb-6">
-                                    面向温控与运动控制闭环的 <span class="text-white">LLM-assisted PID</span> 工具链。支持真实硬件串口数据与本地仿真双模式，内置参数安全边界、自动回退、系统辨识与 benchmark 流程，并在 Git 开源平台获得 <span class="text-white">350+ Stars</span>。
+                                    面向温控与运动控制闭环的 <span class="text-white">LLM-assisted PID</span> 工具链。支持真实硬件串口数据与本地仿真双模式，内置参数安全边界、自动回退、系统辨识与 benchmark 流程，并在 GitHub 开源获得 <span class="text-white"><span class="gh-stars">700+</span> Stars</span>。
                                 </p>
                                 <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
                                     <span class="px-3 py-1 border border-white/20 rounded-full">Python</span>
@@ -692,7 +692,7 @@ VOID</div>
                     </article>
 
                     <!-- 08: Personal Website -->
-                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0c0f0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[80]" style="top: 24vh; --i:7" onclick="openModal('portfolioSite')">
+                    <article class="project-card min-h-[500px] md:h-[50vh] bg-[#0c0f0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-[80]" style="--i:7" onclick="openModal('portfolioSite')">
                         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative z-10 bg-[#0c0f0a] pointer-events-none">
                             <div>
                                 <div class="font-mono text-emerald-300 text-xs mb-4 tracking-widest">08 // OPEN SOURCE + WEB EXPERIENCE</div>
@@ -1217,15 +1217,16 @@ VOID</div>
 
         function expandDeck() {
             if(deckContainer) {
+                gsap.killTweensOf(projectCards);
                 deckContainer.classList.remove('deck-collapsed');
                 retractBtn.classList.add('visible');
-                
+
                 // Force CSS reset via JS to ensure clean state
                 projectCards.forEach(card => {
                     // Restore Sticky Behavior
                     card.style.position = 'sticky';
                     card.style.top = '15vh';
-                    card.style.minHeight = '50vh';
+                    card.style.minHeight = ''; // 交给 CSS 的 max(50vh, 500px)
                     card.style.zIndex = '1';
                     card.style.transform = 'none';
                     card.style.filter = 'none';
@@ -1237,6 +1238,9 @@ VOID</div>
                     card.style.margin = ''; // Clear collapsed margins
                     gsap.set(card.querySelector('.project-card-dimmer'), { opacity: 0 });
                 });
+
+                // 展开入场：错落浮现，避免布局瞬切的跳变（y/scale 分量独立，不与滚动缩放冲突）
+                gsap.from(projectCards, { y: 60, autoAlpha: 0, duration: 0.5, stagger: 0.06, ease: "power2.out", clearProps: "opacity,visibility" });
 
                 // Re-init animations
                 projectCards.forEach((card, index) => {
@@ -1264,6 +1268,7 @@ VOID</div>
 
         function collapseDeck() {
              if(deckContainer) {
+                gsap.killTweensOf(projectCards);
                 // Kill all ScrollTriggers to prevent conflict
                 cardTriggers.forEach(t => t?.kill(true));
                 cardTriggers = [];
@@ -1288,8 +1293,13 @@ VOID</div>
                 
                 deckContainer.classList.add('deck-collapsed');
                 retractBtn.classList.remove('visible');
-                
-                lenis.scrollTo('#projects', { offset: -100 });
+
+                // 收起入场：整叠错落淡入，掩盖 sticky→absolute 的布局切换
+                gsap.fromTo(projectCards, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, stagger: 0.04, ease: "power1.out", clearProps: "opacity,visibility" });
+
+                // 滚动到牌堆本身，保证收起后的卡包完整出现在视口内
+                lenis.scrollTo('#deck-container', { offset: -140 });
+                requestAnimationFrame(() => ScrollTrigger.refresh());
             }
         }
 
@@ -1546,7 +1556,7 @@ VOID</div>
                     <h3>3. 工程亮点</h3>
                     <p>支持 OpenAI 兼容 API（OpenAI / DeepSeek / Ollama / LM Studio），提供 <code>system_id.py</code> 初值建议和 <code>benchmark.py</code> 对比验证，并打包为可直接使用的 <code>llm-pid-tuner.exe</code>。</p>
                     <h3>4. 结果与价值</h3>
-                    <p>项目已在 Git 开源平台收获 <strong>350+ Stars</strong>，在温控与运动控制场景中显著降低手动调参轮次，提升参数收敛效率和稳定性。</p>
+                    <p>项目已在 GitHub 收获 <strong><span class="gh-stars">700+</span> Stars</strong>，在温控与运动控制场景中显著降低手动调参轮次，提升参数收敛效率和稳定性。</p>
                     <p class="mt-4"><a href="https://github.com/KINGSTON-115/llm-pid-tuner" target="_blank" rel="noopener noreferrer" class="underline">查看项目仓库</a></p>
                 `
             },
@@ -1608,6 +1618,32 @@ VOID</div>
             });
         });
 
+        // === GitHub Stars 自动更新 ===
+        const GH_REPO = 'KINGSTON-115/llm-pid-tuner';
+        const GH_STARS_CACHE_KEY = 'gh-stars:' + GH_REPO;
+        let latestStars = null;
+        function formatStars(n) { return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n); }
+        function applyStars(n) {
+            latestStars = n;
+            document.querySelectorAll('.gh-stars').forEach(el => { el.textContent = formatStars(n); });
+        }
+        async function refreshStars() {
+            let cached = null;
+            try { cached = JSON.parse(localStorage.getItem(GH_STARS_CACHE_KEY)); } catch (e) {}
+            if (cached && typeof cached.v === 'number') applyStars(cached.v);
+            if (cached && Date.now() - cached.t < 3600 * 1000) return; // 1 小时内直接用缓存，避免触发 API 限流
+            try {
+                const res = await fetch('https://api.github.com/repos/' + GH_REPO);
+                if (!res.ok) return;
+                const data = await res.json();
+                if (typeof data.stargazers_count === 'number') {
+                    applyStars(data.stargazers_count);
+                    try { localStorage.setItem(GH_STARS_CACHE_KEY, JSON.stringify({ v: data.stargazers_count, t: Date.now() })); } catch (e) {}
+                }
+            } catch (e) { /* 请求失败时保留页面默认文案 */ }
+        }
+        refreshStars();
+
         function openModal(id) {
             const d = modalData[id];
             if(!d) return;
@@ -1615,6 +1651,7 @@ VOID</div>
             mTitle.innerText = d.title;
             mTags.innerHTML = d.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
             mBody.innerHTML = d.content;
+            if (latestStars !== null) applyStars(latestStars);
             mImages.innerHTML = '';
             if(d.images) {
                 d.images.forEach(src => {
