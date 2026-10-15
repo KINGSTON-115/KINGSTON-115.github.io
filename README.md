@@ -1,64 +1,41 @@
-# CHARLES // PERSONAL_SYSTEM_PORTFOLIO
+# Charles — Personal Portfolio
 
-![System Status](https://img.shields.io/badge/SYSTEM-ONLINE-brightgreen?style=for-the-badge&logo=linux)
-![Design Style](https://img.shields.io/badge/STYLE-CYBERPUNK_TERMINAL-000000?style=for-the-badge)
-![Tech Stack](https://img.shields.io/badge/CORE-HTML5%20%2F%20CSS3-orange?style=for-the-badge)
+个人作品、摄影与技术笔记。使用原生 HTML、CSS、JavaScript 构建，部署于 GitHub Pages。
 
-> "Stay Hungry, Stay Foolish. Code is the new alchemy."
+[访问网站](https://kingston-115.github.io/)
 
-## 0x00 // INTRODUCTION (项目简介)
+## 设计与交互
 
-此仓库托管了 **Charles** 的个人主页与技术归档。
-作为一个游走在 **模拟电路** 与 **生成式 AI** 边缘的开发者，这个网站摒弃了现代 Web 繁杂的框架，回归纯粹的 HTML/CSS。
+- 石墨黑、暖白与荧光绿的作品集版式，搭配本地 Syne / JetBrains Mono 字体。
+- SVG 线框雕塑、标题入场、滚动揭示、控制曲线描绘与轻量视差。
+- 八个项目、四项竞赛经历、本地摄影预览和学习资源。
+- 手机导航、键盘可操作的项目弹窗与摄影横向浏览。
+- 动效暂停开关与系统「减少动态效果」支持；装饰动画离开视口后暂停。
+- GSAP 与 Lenis 本地打包；禁用 JavaScript 时，项目仍可通过原生 details 展开阅读。
 
-设计灵感来源于旧时代终端机与赛博朋克美学：
-* **极简主义 (Minimalism)**：无多余脚本，加载速度极快。
-* **终端风格 (Terminal aesthetic)**：单宽字体、黑底白字、高对比度。
-* **响应式设计 (Responsive)**：适配桌面端与移动端视口。
+## 本地预览与构建
 
-🔗 **Live Demo**: [https://charlesleon.ggff.net](https://charlesleon.ggff.net) (Custom Domain) / [https://kingston-115.github.io](https://kingston-115.github.io) (GitHub Pages)
+```sh
+npm ci
+npm run build
+python -m http.server 4173 --bind 127.0.0.1
+```
 
----
+打开 http://127.0.0.1:4173 。只调整首页时可运行 `npm run build:home`。
 
-## 0x01 // USER_PROFILE (关于作者)
+## 编辑位置
 
-**IDENTITY**: Charles  
-**ROLE**: 电子信息专业本科生 / 嵌入式开发者  
-**LOCATION**: Hainan / Shenzhen (Loading...)  
-**FOCUS**: 
-* 🛠 **Embedded Systems**: ESP32, STM32, C51 (Register-level programming)
-* ⚡ **Industrial Control**: PLC Ladder Logic, Motor Control
-* 🤖 **AI & Robotics**: ROS2, YOLOv8, Computer Vision
-* 🌐 **IoT Full Stack**: Spring Boot, WebSocket, MiniProgram
+| 文件 | 用途 |
+| --- | --- |
+| `scripts/build-home.mjs` | 首页结构、项目摘要、导航与页面文案 |
+| `js/project-data.mjs` | 项目和荣誉详情，由构建脚本生成静态内容，同时供弹窗使用 |
+| `css/home.css` | 首页版式、响应式样式和 CSS 动画 |
+| `js/home.js` | 滚动动效、菜单、弹窗、摄影交互和可选数据更新 |
+| `assets/signal-knot.svg` | 首页线框图形 |
+| `photos/gallery_code.txt` | 摄影原图列表 |
+| `scripts/build-thumbnails.mjs` | 生成 WebP 缩略图与摄影清单 |
+| `articles.html` / `gallery.html` / `game.html` | 文章、完整画廊与小游戏 |
 
----
+`index.html` 和 `js/home.min.js` 是生成文件，修改源文件后运行 `npm run build:home`，并一起提交构建结果。`npm run build` 会依次生成图片、首页、Tailwind 样式和图标包。首页使用独立样式；其他页面继续使用 Tailwind 和共享字体样式。
 
-## 0x02 // FEATURED_PROJECTS (精选案例)
-
-已归档在网站 `CASE_STUDIES` 模块中的核心项目：
-
-| ID | 项目名称 | 核心技术栈 | 简介 |
-|:--:|:---|:---|:---|
-| **01** | **Nexus 智能时钟** | `ESP32-S3`, `WebSocket`, `LLM` | 集成大模型后端的桌面智能终端，支持自然语言语音交互。 |
-| **02** | **共享无人机柜** | `MiniApp`, `Java`, `IoT Protocol` | 低空经济全栈方案，实现云端监控与自动归还检测。 |
-| **03** | **精准激光除草机** | `Jetson Nano`, `YOLOv8`, `OpenCV` | 配合二自由度云台控制高能激光束，实现亚毫米级除草。 |
-| **04** | **北斗水质监测船** | `STM32`, `BeiDou`, `LoRa` | 自主巡航监测平台，集成双模定位与 PID 路径跟踪算法。 |
-| **05** | **黎族文化 AIGC** | `Stable Diffusion`, `LoRA` | 基于传统纹样训练的生成式艺术模型。 |
-
----
-
-## 0x03 // SYSTEM_ARCHITECTURE (目录结构)
-
-本站采用原生文件系统路由，结构清晰，便于维护。
-
-```text
-root/
-├── index.html          # [Level 1] 系统入口 / 个人主页
-├── articles.html       # [Level 2] 思考归档 / 文章列表区
-├── assets/             # 静态资源库
-│   ├── css/            # 样式表 (如分离样式时使用)
-│   └── images/         # 项目演示图与摄影作品
-├── posts/              # [Level 3] 文章详情子系统
-│   ├── 001-nexus.html  # 具体技术文档页面
-│   └── ...
-└── README.md           # 系统说明文档 (You are here)
+项目卡片的时钟、无人机及响应曲线为概念图形；具体技术内容见项目详情。GitHub Stars 与访问计数是可选的外部数据，加载失败不影响浏览。
