@@ -63,15 +63,15 @@ export const projectDetails = {
                 `
             },
             culture: {
-                title: "黎族文化 AIGC 传承",
-                tags: ["Stable Diffusion", "LoRA", "Dataset", "AI Art"],
+                title: "非遗文化 AIGC · 模型训练与 Web 应用",
+                tags: ["Stable Diffusion", "LoRA", "Captioning", "Web"],
                 content: `
-                    <h3>1. 项目意义</h3>
-                    <p>黎族传统纺染织绣技艺是世界级非物质文化遗产，但面临纹样数字化程度低、创新应用少的困境。本项目利用 AIGC 技术为传统文化注入数字生命力。</p>
-                    <h3>2. 模型训练</h3>
-                    <p>实地采集并清洗了 2000+ 张高质量黎族纹样图片，进行人工打标（Captioning）。基于 Stable Diffusion 1.5 基底模型，训练了专属的 <strong>LoRA (Low-Rank Adaptation)</strong> 模型。该模型能够精准理解“大力神纹”、“甘工鸟”等特定文化符号。</p>
-                    <h3>3. 落地应用</h3>
-                    <p>搭建了 Web 端生成工具，设计师只需输入简单的提示词，即可生成融合黎族元素的现代服饰设计草图，大幅降低了文创设计的门槛。</p>
+                    <h3>1. 数据处理与标注</h3>
+                    <p>围绕非遗文化的生成式表达，完成图像清洗与 <strong>Captioning</strong> 标注整理，将数据准备衔接到模型训练流程。个人技术实践侧重数据质量、标注一致性与抽象纹样的表达。</p>
+                    <h3>2. 生成模型与适配</h3>
+                    <p>基于 <strong>Stable Diffusion</strong>，使用 <strong>LoRA（低秩适配）</strong>开展轻量微调，结合提示词组织与生成结果检查，积累从数据预处理到模型适配的实践经验。</p>
+                    <h3>3. Web 端应用集成</h3>
+                    <p>搭建基于提示词的 Web 生成工具，将模型能力接入交互页面，串联用户输入与图像生成流程，体现从模型训练到应用集成的个人工程实践。</p>
                 `
             },
             piano: {
