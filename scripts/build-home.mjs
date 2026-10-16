@@ -1,6 +1,7 @@
 import { writeFile, readFile } from 'node:fs/promises';
 import { projectDetails } from '../js/project-data.mjs';
 import { localizeMarkup, languagePicker } from './i18n-markup.mjs';
+import { projectVisual } from './project-art.mjs';
 
 const arrow = '<span aria-hidden="true">↗</span>';
 const projects = [
@@ -14,17 +15,9 @@ const projects = [
   ['portfolioSite', '08', 'DIGITAL PLAYGROUND', '你正在浏览的作品', '一个持续生长的数字空间，收集工程、影像与新的想法。', 'HTML / JavaScript / Motion', 'web'],
 ];
 
-const chart = `<svg class="response-chart" viewBox="0 0 640 360" fill="none" aria-hidden="true"><path class="chart-grid" d="M40 40V310H610M40 100H610M40 170H610M40 240H610M180 40V310M320 40V310M460 40V310M600 40V310"/><path class="chart-target" d="M40 128H610"/><path class="chart-before" d="M40 300C92 300 94 40 152 48S210 245 266 218S310 84 369 98S415 166 475 155S540 119 610 128"/><path class="chart-after" d="M40 300C100 300 100 112 170 112S235 132 280 128H610"/><circle cx="610" cy="128" r="5" fill="currentColor"/></svg>`;
-function visual(kind) {
-  if (kind === 'signal') return `<div class="chart-top"><span>RESPONSE / CLOSED LOOP</span><span class="live-dot">SIM → REAL</span></div>${chart}<div class="chart-legend"><span><i></i> TUNED RESPONSE</span><span>概念示意 / CONCEPT</span></div>`;
-  if (kind === 'clock') return '<div class="clock-object"><div class="clock-face"><span>NEXUS / CONNECTED</span><strong>09<span>:</span>41</strong><small>MAKE TIME FOR IDEAS.</small><div class="clock-wave">▂ ▄ ▆ ▃ █ ▅ ▂ ▄ ▇ ▅ ▂</div></div></div><span class="object-caption">FORM STUDY / 02</span>';
-  if (kind === 'drone') return '<div class="drone-object"><i></i><i></i><i></i><i></i><b>+</b></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="object-caption">CONNECTED / 03</span>';
-  const symbols = {laser:'⌖',ship:'↗',culture:'✳',piano:'≋',web:'{ }'};
-  return `<span class="project-symbol" aria-hidden="true">${symbols[kind]}</span>`;
-}
-const cards = projects.map(([id, no, label, title, description, tags, kind], i) => `<details class="project-card ${i===0?'project-featured':i<3?'project-large':'project-small'} reveal" id="project-${id}">
+const cards = projects.map(([id, no, label, title, description, tags, kind], i) => `<details class="project-card ${i===0?'project-featured':'project-large'}${i===7?' project-finale':''} reveal" id="project-${id}">
   <summary data-project="${id}" aria-haspopup="dialog">
-    <div class="project-art art-${kind}" aria-hidden="true">${visual(kind)}</div>
+    <div class="project-art art-${kind}" aria-hidden="true">${projectVisual(kind)}</div>
     <div class="project-copy"><div class="eyebrow"><span>${no} / ${label}</span>${i===0?'<span class="star-badge">★ <span class="gh-stars">700+</span> STARS</span>':''}</div><h3>${title}</h3><p>${description}</p><div class="project-bottom"><span>${tags}</span><span class="round-arrow" aria-hidden="true">↗</span></div></div>
   </summary><div class="project-fallback detail-body" data-project-content="${id}">${projectDetails[id].content}</div>
 </details>`).join('\n');
@@ -64,6 +57,7 @@ const html = `<!DOCTYPE html>
   <link rel="preload" href="assets/signal-knot.svg" as="image">
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/project-art.css">
   <script src="js/i18n.min.js"></script>
   <script src="js/home.min.js" defer></script>
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

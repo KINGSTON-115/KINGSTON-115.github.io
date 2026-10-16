@@ -54,6 +54,7 @@ document.querySelectorAll('[data-project]').forEach(summary => {
     dialogTrigger = summary;
     renderProject(summary.dataset.project);
     dialog.showModal();
+    updateDecoration();
     dialog.scrollTop = 0;
     document.documentElement.style.overflow = 'hidden';
     lenis?.stop();
@@ -84,6 +85,7 @@ dialog.addEventListener('close', () => {
   dialog.style.removeProperty('transform');
   document.documentElement.style.overflow = '';
   lenis?.start();
+  updateDecoration();
   dialogTrigger?.focus({ preventScroll: true });
 });
 
@@ -264,6 +266,24 @@ function configureMotion() {
     gsap.fromTo(path, { strokeDasharray: length, strokeDashoffset: length }, { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut', scrollTrigger: { trigger: '.project-featured', start: 'top 80%', once: true }, clearProps: 'strokeDasharray,strokeDashoffset' });
 
     if (finePointer.matches && innerWidth > 760) {
+      document.querySelectorAll('.project-art').forEach(art => {
+        const scene = art.querySelector('.scene-parallax');
+        if (!scene) return;
+        const toX = gsap.quickTo(scene, 'x', { duration: .8, ease: 'power3.out' });
+        const toY = gsap.quickTo(scene, 'y', { duration: .8, ease: 'power3.out' });
+        const toRotateX = gsap.quickTo(scene, 'rotationX', { duration: .8, ease: 'power3.out' });
+        const toRotateY = gsap.quickTo(scene, 'rotationY', { duration: .8, ease: 'power3.out' });
+        const move = event => {
+          const bounds = art.getBoundingClientRect();
+          const x = (event.clientX - bounds.left) / bounds.width - .5;
+          const y = (event.clientY - bounds.top) / bounds.height - .5;
+          toX(x * 14); toY(y * 10); toRotateX(-y * 5); toRotateY(x * 6);
+        };
+        const leave = () => { toX(0); toY(0); toRotateX(0); toRotateY(0); };
+        art.addEventListener('pointermove', move, { passive: true });
+        art.addEventListener('pointerleave', leave);
+        removals.push(() => { art.removeEventListener('pointermove', move); art.removeEventListener('pointerleave', leave); });
+      });
       gsap.to('.hero-art', { y: 65, rotation: 7, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 } });
       const sculpture = document.querySelector('.sculpture-parallax');
       const xTo = gsap.quickTo(sculpture, 'x', { duration: 1.1, ease: 'power3.out' });
@@ -299,11 +319,11 @@ window.addEventListener('site:languagechange', () => {
 });
 
 // Continuous decoration runs only while visible, including when the tab is hidden.
-const animatedElements = [...document.querySelectorAll('.sculpture-float, .strip-track, .scroll-line')];
+const animatedElements = [...document.querySelectorAll('.sculpture-float, .strip-track, .scroll-line, .project-art')];
 const visibleAnimations = new Set();
 function updateDecoration() {
   animatedElements.forEach(element => {
-    const playing = visibleAnimations.has(element) && !document.hidden && motionEnabled();
+    const playing = visibleAnimations.has(element) && !document.hidden && !dialog.open && motionEnabled();
     element.style.animationPlayState = playing ? 'running' : 'paused';
     element.style.setProperty('--motion-state', playing ? 'running' : 'paused');
   });

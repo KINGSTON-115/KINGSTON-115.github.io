@@ -1,0 +1,134 @@
+/* Each project has a complete scene, with one shared motion lifecycle. */
+.project-art { --motion-state: paused; --scene-accent: #c6e791; perspective: 900px; isolation: isolate; }
+.project-art *, .project-art *::before, .project-art *::after { animation-play-state: var(--motion-state) !important; }
+.project-large summary { display: flex; flex-direction: column; }
+.project-large .project-art { height: clamp(270px, 25vw, 370px); min-height: 0; width: 100%; border-right: 0; flex-shrink: 0; }
+.project-large .project-copy { flex: 1; padding: 30px; }
+.project-large .project-bottom { margin-top: auto; padding-top: 28px; }
+.project-large .project-copy h3 { font-size: clamp(24px, 2.5vw, 38px); line-height: 1.2; }
+.project-large .project-copy p { max-width: 470px; }
+.project-art::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(130deg,#e2f5bb09,transparent 55%); z-index: 3; }
+.scene-parallax { width: 100%; height: 100%; display: grid; place-items: center; position: relative; z-index: 1; transform-style: preserve-3d; }
+.object-stage { position: absolute; inset: 0; }
+.project-scene { width: 100%; height: 100%; max-width: 660px; max-height: 400px; color: var(--scene-accent); overflow: visible; }
+.scene-caption { position: absolute; inset: auto 24px 18px; display: flex; justify-content: space-between; gap: 16px; font: 8px/1.5 'JetBrains Mono',monospace; letter-spacing: .04em; color: #a7b697; z-index: 4; }
+.project-card summary:focus-visible .project-art { outline: 1px solid var(--acid); outline-offset: -6px; }
+.project-card summary:is(:hover,:focus-visible) .project-art::after { background: linear-gradient(130deg,#e2f5bb12,transparent 60%); }
+.project-finale { grid-column: 1/-1; }
+.project-finale summary { display: grid; grid-template-columns: 1.15fr 1fr; }
+.project-finale .project-art { height: 370px; border-bottom: 0; border-right: 1px solid var(--line); }
+.project-finale .project-copy { padding: clamp(28px,4vw,56px); justify-content: center; }
+.project-finale .project-bottom { margin-top: 4px; }
+
+/* Closed-loop control: a moving measurement and a luminous response trace. */
+.signal-stage { height: auto; }
+.signal-runner { stroke: #f4ffd6; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 8 92; animation: signal-flow 6s linear infinite; }
+.signal-readhead { animation: signal-read 8s ease-in-out infinite alternate; }
+.signal-ping { transform-box: fill-box; transform-origin: center; animation: signal-pulse 3s ease-out infinite; }
+@keyframes signal-flow { to { stroke-dashoffset: -100; } }
+@keyframes signal-read { from { transform: translateX(-70px); } to { transform: translateX(220px); } }
+@keyframes signal-pulse { 0% { opacity: .6; transform: scale(.6); } 100% { opacity: 0; transform: scale(1.7); } }
+
+/* Connected objects: audio bars, orbital markers, and slow propellers. */
+.clock-wave { height: 25px; display: flex; gap: 3px; align-items: center; margin-top: 12px; opacity: .8; }
+.clock-wave i { width: 3px; height: var(--height); background: #c4e58a; border-radius: 2px; animation: audio-bars 2.1s ease-in-out infinite alternate; animation-delay: calc(var(--bar) * -.17s); transform-origin: center; }
+.clock-colon { animation: clock-breathe 3s ease-in-out infinite; }
+.clock-orbit { position: absolute; width: 270px; height: 270px; border: 1px solid #71845844; border-radius: 50%; transform: rotateX(54deg) rotate(-20deg); }
+.clock-orbit::after { content: ''; position: absolute; inset: -5px; border: 1px dashed #b2cd7c44; border-radius: 50%; animation: orbit-turn 32s linear infinite; }
+.clock-orbit::before { content: ''; position: absolute; top: 12%; left: 15%; width: 5px; height: 5px; background: #c7ee91; border-radius: 50%; }
+.drone-object i::after { animation: rotor-turn 2.6s linear infinite; }
+.drone-object i:nth-child(even)::after { animation-direction: reverse; }
+.orbit-two { animation: orbit-turn 42s linear infinite; }
+.drone-signal { position: absolute; width: 250px; height: 250px; border: 1px solid #b5d492; border-radius: 50%; animation: signal-pulse 5s ease-out infinite; opacity: .2; }
+@keyframes audio-bars { from { transform: scaleY(.28); opacity: .4; } to { transform: scaleY(1); opacity: 1; } }
+@keyframes clock-breathe { 50% { opacity: .35; } }
+@keyframes rotor-turn { to { transform: rotate(335deg); } }
+@keyframes orbit-turn { to { transform: rotate(360deg); } }
+
+/* Machine vision: the field is scanned, then a target is acquired. */
+.project-large .art-laser { background: radial-gradient(ellipse at 48% 50%,#42563455,transparent 65%),#1c281c; }
+.laser-scan { animation: field-scan 8s cubic-bezier(.45,0,.55,1) infinite alternate; }
+.laser-lock { transform-origin: 274px 161px; animation: target-lock 8s ease-in-out infinite; }
+.laser-beam { animation: beam-breathe 8s ease-in-out infinite; }
+@keyframes field-scan { from { transform: translateX(-140px); } to { transform: translateX(240px); } }
+@keyframes target-lock { 0%,100% { opacity: .35; transform: scale(1.15); } 40%,70% { opacity: 1; transform: scale(1); } }
+@keyframes beam-breathe { 0%,20%,100% { opacity: .12; } 45%,65% { opacity: .85; } }
+
+/* Autonomous vessel: contour map, sonar, telemetry and a gentle wake. */
+.project-large .art-ship { --scene-accent: #b3dcca; background-color: #152d2a; background-image: none; }
+.sonar-sweep { transform-origin: 280px 160px; animation: orbit-turn 16s linear infinite; }
+.vessel-route { animation: route-flow 12s linear infinite; }
+.vessel-bob { animation: vessel-drift 7s ease-in-out infinite alternate; }
+.vessel-wake { animation: wake-breathe 4s ease-in-out infinite; }
+.buoy-ping { transform-box: fill-box; transform-origin: center; animation: signal-pulse 4s ease-out infinite; }
+@keyframes route-flow { to { stroke-dashoffset: -110; } }
+@keyframes vessel-drift { from { transform: translate(-5px,4px) rotate(-2deg); } to { transform: translate(5px,-4px) rotate(2deg); } }
+.vessel-bob { transform-origin: 280px 160px; }
+@keyframes wake-breathe { 50% { opacity: .16; transform: translateY(5px); } }
+
+/* Generative textile: woven diamonds and a moving thread. */
+.project-large .art-culture { --scene-accent: #e6b68d; background: #30251f; }
+.art-culture .scene-caption { color: #c3a993; }
+.weave-tile { transform-box: fill-box; transform-origin: center; animation: weave-reveal 7s ease-in-out infinite; animation-delay: calc(var(--tile) * -.32s); }
+.weave-medallion { transform-origin: 280px 160px; animation: medallion-breathe 10s ease-in-out infinite; }
+.weave-thread { animation: weave-stitch 16s linear infinite; }
+.weave-shuttle { animation: shuttle-pass 9s ease-in-out infinite alternate; }
+@keyframes weave-reveal { 0%,100% { opacity: .3; transform: scale(.92); } 50% { opacity: .85; transform: scale(1); } }
+@keyframes medallion-breathe { 50% { transform: rotate(5deg) scale(1.025); } }
+@keyframes weave-stitch { to { stroke-dashoffset: -96; } }
+@keyframes shuttle-pass { from { transform: translateY(-110px); } to { transform: translateY(110px); } }
+
+/* Embedded synthesizer: physical keys, oscilloscope and spectrum. */
+.project-large .art-piano { background: radial-gradient(ellipse at center,#474b3155,transparent 65%),#24271c; }
+.synth-body { transform-origin: 280px 160px; animation: synth-float 9s ease-in-out infinite alternate; }
+.synth-wave { stroke-dasharray: 85 15; animation: signal-flow 5s linear infinite; }
+.piano-key { animation: key-press 6s ease-in-out infinite; animation-delay: var(--key-delay); }
+.piano-spectrum { transform-box: fill-box; transform-origin: bottom; animation: audio-bars 2.5s ease-in-out infinite alternate; animation-delay: calc(var(--bar) * -.23s); }
+@keyframes synth-float { from { transform: translateY(3px) rotate(-3deg); } to { transform: translateY(-3px) rotate(0deg); } }
+@keyframes key-press { 0%,8%,24%,100% { transform: translateY(0); fill: #dddcc9; } 12%,20% { transform: translateY(3px); fill: #badc7c; } }
+
+/* Digital portfolio: layered browser planes and a live composition. */
+.project-large .art-web { background: radial-gradient(ellipse at 50% 40%,#5c71474d,transparent 65%),#20291b; }
+.browser-main { transform-origin: 280px 160px; animation: browser-float 8s ease-in-out infinite alternate; }
+.browser-back { animation: browser-depth 9s ease-in-out infinite alternate; }
+.browser-chip { animation: chip-float 6s ease-in-out infinite alternate; }
+.browser-cursor { animation: cursor-drift 9s ease-in-out infinite; }
+.browser-orbit { transform-origin: 347px 160px; animation: orbit-turn 24s linear infinite; }
+.browser-tiles { animation: clock-breathe 8s ease-in-out infinite; }
+@keyframes browser-float { from { transform: translateY(4px) rotate(-3deg); } to { transform: translateY(-4px) rotate(-1deg); } }
+@keyframes browser-depth { from { transform: translate(0,-3px); } to { transform: translate(8px,4px); } }
+@keyframes chip-float { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-10px) rotate(2deg); } }
+@keyframes cursor-drift { 0%,100% { transform: translate(0,0); } 45%,65% { transform: translate(-50px,-30px); } }
+
+@media (max-width: 760px) {
+  .project-large { grid-column: auto; }
+  .project-large .project-art { height: 250px; }
+  .project-large .project-copy { padding: 24px; }
+  .project-large .project-copy h3 { font-size: 26px; }
+  .project-large .project-bottom { gap: 12px; }
+  .project-large .project-bottom > span:first-child { font-size: 8px; }
+  .project-finale { grid-column: 1/-1; }
+  .project-finale summary { display: flex; flex-direction: column; }
+  .project-finale .project-art { border-right: 0; border-bottom: 1px solid var(--line); }
+  .scene-caption { inset-inline: 18px; bottom: 14px; font-size: 7px; }
+  .clock-wave { height: 18px; gap: 2px; margin-top: 7px; }
+  .clock-wave i { width: 2px; max-height: 18px; }
+  .clock-orbit { width: 210px; height: 210px; }
+}
+@media (max-width: 600px) {
+  .project-large { grid-column: 1/-1; }
+  .project-large .project-art { height: clamp(220px,64vw,310px); }
+  .project-large .project-copy h3 { font-size: 27px; }
+  .project-large .project-copy { padding: 25px; }
+}
+@media (min-width: 601px) and (max-width: 760px) {
+  .project-large .project-art { height: 210px; }
+  .scene-caption { font-size: 6px; inset-inline: 12px; gap: 6px; }
+}
+html.motion-paused .scene-parallax { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .project-art *, .project-art *::before, .project-art *::after { animation: none !important; transition: none !important; }
+  .scene-parallax { transform: none !important; }
+  .signal-runner { stroke-dasharray: none; opacity: .2; }
+  .drone-signal { opacity: .15; }
+}
