@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { mobiusPoint, mobiusSurface } from './mobius-geometry.mjs';
 
 const lime = 0xd1ff54;
 const ivory = 0xe1e7ce;
@@ -56,7 +57,7 @@ function stage(kind) {
   const rim = new T.DirectionalLight(kind === 'culture' ? 0xf9b082 : 0xb6f573, 3.5);
   rim.position.set(4, 2, -4);
   scene.add(rim);
-  const fill = new T.DirectionalLight(0x98bdcf, 1.3);
+  const fill = new T.DirectionalLight(kind === 'hero' ? ivory : 0x98bdcf, 1.3);
   fill.position.set(0, -1, 4);
   scene.add(fill);
   if (kind !== 'hero') {
@@ -75,27 +76,41 @@ function stage(kind) {
 
 function hero(s) {
   const body = new T.Group(); s.root.add(body);
-  const tubular = 192, radial = 24;
-  const geometry = new T.TorusKnotGeometry(1.36, .43, tubular, radial, 2, 3);
-  mesh(body, geometry, material(0x466520, { roughness: .3, metalness: .65, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
-  // Quad contours follow the actual tube; the solid surface occludes rear lines.
-  const positions = geometry.attributes.position;
-  const points = [];
-  const segment = (a, b) => { points.push(v().fromBufferAttribute(positions, a), v().fromBufferAttribute(positions, b)); };
-  for (let i = 0; i < tubular; i++) for (let j = 0; j < radial; j++) {
-    const n = i * (radial + 1) + j;
-    if (i % 3 === 0) segment(n, n + 1);
-    if (j % 4 === 0) segment(n, n + radial + 1);
+  const { positions, indices } = mobiusSurface();
+  const geometry = new T.BufferGeometry();
+  geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  mesh(body, geometry, material(0x343b2d, { side: T.DoubleSide, roughness: .48, metalness: .55, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
+  // Fine transverse etching and longitudinal circuits describe the ribbon's twist.
+  const etching = [];
+  for (let i = 0; i < 160; i++) {
+    const u = i / 160 * Math.PI * 2;
+    etching.push(v(...mobiusPoint(u, -.31)), v(...mobiusPoint(u, .31)));
   }
-  body.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(points), new T.LineBasicMaterial({ color: 0xe1ff8b, transparent: true, opacity: .65 })));
-  const orbit = ring(s.root, 2.38, .008, material(0x7e945c, { emissive: 0x334024, emissiveIntensity: .4 }));
-  orbit.rotation.set(.9, .4, .1);
-  const satellite = ball(orbit, .05, material(lime, { emissive: lime, emissiveIntensity: .4 }));
-  s.radius = 2.65;
+  body.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(etching), new T.LineBasicMaterial({ color: ivory, transparent: true, opacity: .32 })));
+  for (const width of [-.19, 0, .19]) {
+    line(body, Array.from({ length: 241 }, (_, i) => v(...mobiusPoint(i / 240 * Math.PI * 2, width))), 0xa6b88b, .42);
+  }
+  // A Möbius strip has one continuous edge, traced over two revolutions.
+  const edgePoints = Array.from({ length: 481 }, (_, i) => v(...mobiusPoint(i / 480 * Math.PI * 4, .32)));
+  const edgeCurve = new T.CatmullRomCurve3(edgePoints, true);
+  mesh(body, new T.TubeGeometry(edgeCurve, 480, .009, 6, true), new T.MeshBasicMaterial({ color: lime, toneMapped: false }));
+  const pulse = ball(body, .025, material(0xeeffbd, { emissive: lime, emissiveIntensity: 2 }));
+  const orbit = ring(s.root, 2.23, .004, material(0x66714f, { emissive: 0x303a21, emissiveIntensity: .3 }));
+  orbit.rotation.set(.35, -.1, -.03);
+  orbit.scale.set(1, .65, 1);
+  const ticks = [];
+  for (let i = 0; i < 64; i++) {
+    const a = i / 64 * Math.PI * 2;
+    ticks.push(v(2.26 * Math.cos(a), 2.26 * Math.sin(a), 0), v((i % 8 ? 2.29 : 2.34) * Math.cos(a), (i % 8 ? 2.29 : 2.34) * Math.sin(a), 0));
+  }
+  orbit.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(ticks), new T.LineBasicMaterial({ color: 0x9ba985, transparent: true, opacity: .35 })));
+  s.radius = 2.48;
   return t => {
-    body.rotation.set(.38 + Math.sin(t * .18) * .24, t * .2 - .55, .12 + Math.cos(t * .13) * .12);
-    body.position.y = Math.sin(t * .6) * .07;
-    satellite.position.set(2.38 * Math.cos(t * .3), 2.38 * Math.sin(t * .3), 0);
+    body.rotation.set(.12 + Math.sin(t * .17) * .12, -.12 + Math.sin(t * .13) * .26, Math.sin(t * .11) * .045);
+    body.position.y = Math.sin(t * .6) * .035;
+    pulse.position.set(...mobiusPoint(t * .4, .32));
   };
 }
 
