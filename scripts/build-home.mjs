@@ -17,7 +17,7 @@ const projects = [
 
 const cards = projects.map(([id, no, label, title, description, tags, kind], i) => `<details class="project-card ${i===0?'project-featured':'project-large'}${i===7?' project-finale':''} reveal" id="project-${id}">
   <summary data-project="${id}" aria-haspopup="dialog">
-    <div class="project-art art-${kind}" aria-hidden="true">${projectVisual(kind)}</div>
+    <div class="project-art art-${kind}" data-spatial="${kind}" aria-hidden="true">${projectVisual(kind)}</div>
     <div class="project-copy"><div class="eyebrow"><span>${no} / ${label}</span>${i===0?'<span class="star-badge">★ <span class="gh-stars">700+</span> STARS</span>':''}</div><h3>${title}</h3><p>${description}</p><div class="project-bottom"><span>${tags}</span><span class="round-arrow" aria-hidden="true">↗</span></div></div>
   </summary><div class="project-fallback detail-body" data-project-content="${id}">${projectDetails[id].content}</div>
 </details>`).join('\n');
@@ -81,10 +81,10 @@ const html = `<!DOCTYPE html>
           <div class="hero-description"><span class="tiny-cross" aria-hidden="true">+</span><p>游走在模拟电路与生成式 AI 之间。<br>用工程实现想法，用好奇心探索边界。</p></div>
           <div class="hero-actions"><a class="primary-button" href="#projects">探索我的作品 <span aria-hidden="true">↘</span></a><a class="text-link" href="https://github.com/KINGSTON-115" target="_blank" rel="noopener noreferrer">GITHUB ${arrow}</a></div>
         </div>
-        <div class="hero-art" aria-label="由连续曲线组成的抽象线框雕塑">
+        <div class="hero-art" role="img" aria-label="由连续曲线组成的抽象线框雕塑">
           <div class="art-guide guide-horizontal" aria-hidden="true"></div><div class="art-guide guide-vertical" aria-hidden="true"></div>
           <span class="art-coordinate coord-top">FIG. 001 / CONTINUOUS EXPLORATION</span>
-          <div class="sculpture-parallax"><div class="sculpture-float"><img class="signal-sculpture" src="assets/signal-knot.svg" width="600" height="600" alt="荧光绿线框交织形成的三维环结" fetchpriority="high"></div></div>
+          <div class="sculpture-parallax" data-spatial="hero"><div class="sculpture-float"><img class="signal-sculpture" src="assets/signal-knot.svg" width="600" height="600" alt="荧光绿线框交织形成的三维环结" fetchpriority="high"></div></div>
           <span class="art-coordinate coord-bottom">ANALOG SOUL.<br>DIGITAL MIND.</span><span class="art-plus" aria-hidden="true">+</span>
         </div>
       </div>

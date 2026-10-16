@@ -1,5 +1,12 @@
 /* Each project has a complete scene, with one shared motion lifecycle. */
 .project-art { --motion-state: paused; --scene-accent: #c6e791; perspective: 900px; isolation: isolate; }
+.spatial-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 2; opacity: 0; }
+.spatial-ready > .spatial-canvas { opacity: 1; }
+.spatial-ready > :is(.scene-parallax,.sculpture-float,.clock-orbit,.orbit,.drone-signal) { visibility: hidden; }
+.project-art.spatial-ready > :is(.scene-parallax,.clock-orbit,.orbit,.drone-signal) { --motion-state: paused; }
+.spatial-ready .chart-top,.spatial-ready .chart-legend { position: absolute; inset-inline: 24px; z-index: 4; }
+.spatial-ready .chart-top { top: 22px; }
+.spatial-ready .chart-legend { bottom: 20px; }
 .project-art *, .project-art *::before, .project-art *::after { animation-play-state: var(--motion-state) !important; }
 .project-large summary { display: flex; flex-direction: column; }
 .project-large .project-art { height: clamp(270px, 25vw, 370px); min-height: 0; width: 100%; border-right: 0; flex-shrink: 0; }

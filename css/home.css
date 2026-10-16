@@ -73,9 +73,8 @@ html[lang="zh-CN"] .hero h1, html[lang="zh-CN"] .contact-title { line-height: 1.
 .hero-art::before { content: ''; position: absolute; inset: 9%; border: 1px solid #292c22; border-radius: 50%; }
 .hero-art::after { content: ''; position: absolute; inset: 20%; border: 1px dashed #25281f; border-radius: 50%; }
 .sculpture-parallax { position: absolute; inset: -3%; z-index: 1; }
-.sculpture-float { width: 100%; height: 100%; animation: sculpture-drift 12s ease-in-out infinite alternate; }
+.sculpture-float { width: 100%; height: 100%; }
 .signal-sculpture { width: 100%; height: 100%; object-fit: contain; }
-@keyframes sculpture-drift { from { transform: translateY(-6px) rotate(-7deg); } to { transform: translateY(6px) rotate(7deg); } }
 .art-coordinate { position: absolute; font: 8px/1.6 'JetBrains Mono',monospace; letter-spacing: .05em; color: #929781; z-index: 2; }
 .coord-top { right: 12%; top: 7%; }
 .coord-bottom { left: 9%; bottom: 8%; }

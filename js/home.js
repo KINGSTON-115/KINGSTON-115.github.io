@@ -19,6 +19,7 @@ let removeMotionListeners = () => {};
 const dialog = document.querySelector('#project-dialog');
 let dialogTrigger;
 let latestStars;
+let spatialScenes;
 
 function renderProject(id) {
   const data = localizedProjects()[id];
@@ -266,34 +267,7 @@ function configureMotion() {
     gsap.fromTo(path, { strokeDasharray: length, strokeDashoffset: length }, { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut', scrollTrigger: { trigger: '.project-featured', start: 'top 80%', once: true }, clearProps: 'strokeDasharray,strokeDashoffset' });
 
     if (finePointer.matches && innerWidth > 760) {
-      document.querySelectorAll('.project-art').forEach(art => {
-        const scene = art.querySelector('.scene-parallax');
-        if (!scene) return;
-        const toX = gsap.quickTo(scene, 'x', { duration: .8, ease: 'power3.out' });
-        const toY = gsap.quickTo(scene, 'y', { duration: .8, ease: 'power3.out' });
-        const toRotateX = gsap.quickTo(scene, 'rotationX', { duration: .8, ease: 'power3.out' });
-        const toRotateY = gsap.quickTo(scene, 'rotationY', { duration: .8, ease: 'power3.out' });
-        const move = event => {
-          const bounds = art.getBoundingClientRect();
-          const x = (event.clientX - bounds.left) / bounds.width - .5;
-          const y = (event.clientY - bounds.top) / bounds.height - .5;
-          toX(x * 14); toY(y * 10); toRotateX(-y * 5); toRotateY(x * 6);
-        };
-        const leave = () => { toX(0); toY(0); toRotateX(0); toRotateY(0); };
-        art.addEventListener('pointermove', move, { passive: true });
-        art.addEventListener('pointerleave', leave);
-        removals.push(() => { art.removeEventListener('pointermove', move); art.removeEventListener('pointerleave', leave); });
-      });
-      gsap.to('.hero-art', { y: 65, rotation: 7, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 } });
-      const sculpture = document.querySelector('.sculpture-parallax');
-      const xTo = gsap.quickTo(sculpture, 'x', { duration: 1.1, ease: 'power3.out' });
-      const yTo = gsap.quickTo(sculpture, 'y', { duration: 1.1, ease: 'power3.out' });
-      const hero = document.querySelector('.hero');
-      const move = event => { const rect = hero.getBoundingClientRect(); xTo((event.clientX / rect.width - .5) * 28); yTo(((event.clientY - rect.top) / rect.height - .5) * 20); };
-      const leave = () => { xTo(0); yTo(0); };
-      hero.addEventListener('pointermove', move, { passive: true });
-      hero.addEventListener('pointerleave', leave);
-      removals.push(() => { hero.removeEventListener('pointermove', move); hero.removeEventListener('pointerleave', leave); });
+      gsap.to('.hero-art', { y: 45, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 } });
       gsap.to('.contact-arrow', { y: -24, ease: 'none', scrollTrigger: { trigger: '.contact-section', start: 'top bottom', end: 'bottom bottom', scrub: 1 } });
     }
   });
@@ -322,6 +296,7 @@ window.addEventListener('site:languagechange', () => {
 const animatedElements = [...document.querySelectorAll('.sculpture-float, .strip-track, .scroll-line, .project-art')];
 const visibleAnimations = new Set();
 function updateDecoration() {
+  spatialScenes?.sync();
   animatedElements.forEach(element => {
     const playing = visibleAnimations.has(element) && !document.hidden && !dialog.open && motionEnabled();
     element.style.animationPlayState = playing ? 'running' : 'paused';
@@ -338,3 +313,12 @@ motionButton.addEventListener('click', updateDecoration);
 reducedMotion.addEventListener('change', updateDecoration);
 document.fonts.ready.then(() => { ScrollTrigger.refresh(); queueScrollUI(); });
 addEventListener('load', () => { ScrollTrigger.refresh(); queueScrollUI(); }, { once: true });
+
+// Keep the content bundle small. The static artwork is visible while the local
+// renderer loads; unsupported WebGL or a failed request simply retains it.
+const loadSpatial = () => import('./spatial.min.js').then(({ createSpatialScenes }) => {
+  spatialScenes = createSpatialScenes({ isEnabled: motionEnabled, isBlocked: () => dialog.open });
+  spatialScenes.sync();
+}).catch(() => {});
+if ('requestIdleCallback' in window) requestIdleCallback(loadSpatial, { timeout: 1200 });
+else setTimeout(loadSpatial, 100);

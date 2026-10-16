@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "npm run build:images && npm run build:home && npm run build:css && npm run build:icons",
-    "build:home": "npm run build:i18n && node scripts/build-home.mjs && esbuild js/home.js --bundle --minify --format=iife --outfile=js/home.min.js --legal-comments=inline",
+    "build:home": "npm run build:i18n && node scripts/build-home.mjs && esbuild js/spatial-scenes.js --bundle --minify --format=esm --supported:template-literal=false --outfile=js/spatial.min.js --legal-comments=inline && esbuild js/home.js --bundle --minify --format=iife --external:./spatial.min.js --outfile=js/home.min.js --legal-comments=inline",
     "build:i18n": "node scripts/build-i18n.mjs",
     "test:i18n": "node --test tests/i18n.test.mjs",
     "build:css": "tailwindcss -i ./css/tailwind.css -o ./css/tailwind.min.css --minify",
@@ -17,6 +17,7 @@
     "lucide": "0.468.0",
     "parse5": "7.3.0",
     "sharp": "0.35.3",
-    "tailwindcss": "3.4.17"
+    "tailwindcss": "3.4.17",
+    "three": "0.180.0"
   }
 }
