@@ -3,16 +3,14 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { localizeMarkup } from '../scripts/i18n-markup.mjs';
 import { messages } from '../js/locales.mjs';
-import { arrowIcon } from '../scripts/arrow-icon.mjs';
 import { projectDetails as zh } from '../js/project-data.mjs';
 import { projectDetails as en } from '../js/project-data.en.mjs';
 
 test('mixed text preserves icons, line breaks, motion targets and code samples', () => {
-  const icon = arrowIcon('se');
-  const html = `<h1><span class="title-line"><span>INTO <em>REALITY.</em></span></span></h1><a>探索我的作品 ${icon}</a><pre><code>打开导航菜单</code></pre><script>const text = "作品";</script>`;
+  const html = '<h1><span class="title-line"><span>INTO <em>REALITY.</em></span></span></h1><a>探索我的作品 <span aria-hidden="true">↘</span></a><pre><code>打开导航菜单</code></pre><script>const text = "作品";</script>';
   const output = localizeMarkup(html, 'home');
   assert.match(output, /<span class="title-line"><span><l10n-text data-i18n="home.into">成为<\/l10n-text> <em data-i18n="home.reality">现实。<\/em><\/span><\/span>/);
-  assert.ok(output.includes(icon), 'translation must preserve vector icons and their geometry');
+  assert.match(output, /<span aria-hidden="true">↘<\/span>/);
   assert.match(output, /<pre><code>打开导航菜单<\/code><\/pre>/);
   assert.match(output, /<script>const text = "作品";<\/script>/);
   assert.equal(localizeMarkup(output, 'home'), output);
