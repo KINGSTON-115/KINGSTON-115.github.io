@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHIVES // CHARLES</title>
-    <meta name="description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记与外部资料。">
+    <title data-i18n="archive.title">技术归档 // CHARLES</title>
+    <meta name="description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记与外部资料。" data-i18n-content="archive.description">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#050505">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='42' fill='%23ccff00'%3EC%3C/text%3E%3C/svg%3E">
     <link rel="canonical" href="https://kingston-115.github.io/articles.html">
-    <meta property="og:title" content="ARCHIVES // CHARLES">
-    <meta property="og:description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记。">
+    <meta property="og:title" content="技术归档 // CHARLES" data-i18n-content="archive.title">
+    <meta property="og:description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记。" data-i18n-content="archive.shortDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingston-115.github.io/articles.html">
     <meta property="og:image" content="https://kingston-115.github.io/photos/IMG_3898.JPG">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ARCHIVES // CHARLES">
-    <meta name="twitter:description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记。">
+    <meta name="twitter:title" content="技术归档 // CHARLES" data-i18n-content="archive.title">
+    <meta name="twitter:description" content="Charles 的技术归档页，整理嵌入式、硬件、ROS2 与 AI 相关学习笔记。" data-i18n-content="archive.shortDescription">
     <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_3898.JPG">
     <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
     
@@ -152,6 +152,7 @@
             border-color: #CCFF00;
         }
     </style>
+    <script src="js/i18n.min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#CCFF00] selection:text-black">
 
@@ -161,14 +162,14 @@
             <a href="index.html" class="text-lg font-bold tracking-tighter hover:text-white transition-colors glow-text">
                 CHARLES // v5.0
             </a>
-            <span class="text-xs opacity-70 mt-1">SYSTEM_STATUS: <span class="animate-pulse text-white">ONLINE</span></span>
+            <span class="text-xs opacity-70 mt-1"><l10n-text data-i18n="archive.status">系统状态：</l10n-text> <span class="animate-pulse text-white" data-i18n="common.online">在线</span></span>
         </div>
 
         <div class="flex gap-4 md:gap-6 text-xs md:text-sm font-bold">
-            <a href="gallery.html" class="hidden sm:inline hover:text-white transition-colors">GALLERY</a>
+            <a href="gallery.html" class="hidden sm:inline hover:text-white transition-colors" data-i18n="common.gallery">摄影集</a>
             <a href="index.html" class="group flex items-center gap-2 hover:text-white transition-colors">
                 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-acid">[</span>
-                RETURN_ROOT
+                <l10n-text data-i18n="common.home">返回首页</l10n-text>
                 <span class="opacity-0 group-hover:opacity-100 transition-opacity text-acid">]</span>
             </a>
         </div>
@@ -180,30 +181,30 @@
         <!-- 页面标题区域 -->
         <header class="mb-20">
             <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-tighter text-acid">
-                ARCHIVES <span class="animate-blink text-white">_</span>
+                <l10n-text data-i18n="archive.heading">技术归档</l10n-text> <span class="animate-blink text-white">_</span>
             </h1>
             <!-- 左侧酸绿粗边框 -->
             <div class="border-l-4 border-acid pl-6 mt-8 py-2 bg-acid-dim">
                 <p class="opacity-80 max-w-2xl text-sm md:text-base leading-relaxed font-medium">
-                    // 这里的每一行代码都是记忆的快照。<br>
-                    // 这里存放着我在 模拟电路 与 生成式 AI 边缘的思考碎片。<br>
-                    // DATA_RETRIEVAL_INITIATED...
+                    <l10n-text data-i18n="archive.intro1">// 这里的每一行代码都是记忆的快照。</l10n-text><br>
+                    <l10n-text data-i18n="archive.intro2">// 这里存放着我在 模拟电路 与 生成式 AI 边缘的思考碎片。</l10n-text><br>
+                    <l10n-text data-i18n="archive.intro3">// 开始检索记录……</l10n-text>
                 </p>
             </div>
         </header>
 
         <!-- 搜索与过滤器 -->
-        <section class="mb-12 border-y border-acid py-5" aria-label="文章检索">
+        <section class="mb-12 border-y border-acid py-5" aria-label="文章检索" data-i18n-aria-label="archive.searchLabel">
             <div class="flex flex-col lg:flex-row lg:items-center gap-4 mb-5">
-                <label for="archive-search" class="text-acid font-bold text-sm shrink-0">>> SEARCH:</label>
-                <input id="archive-search" class="archive-search font-mono text-sm" type="search" autocomplete="off" placeholder="标题、标签或正文关键字（按 / 聚焦）">
+                <label for="archive-search" class="text-acid font-bold text-sm shrink-0" data-i18n="archive.search">&gt;&gt; 搜索：</label>
+                <input id="archive-search" class="archive-search font-mono text-sm" type="search" autocomplete="off" placeholder="标题、标签或正文关键字（按 / 聚焦）" data-i18n-placeholder="archive.placeholder">
             </div>
-            <div id="archive-filters" class="flex flex-wrap gap-3 items-center text-xs md:text-sm font-bold" role="group" aria-label="文章分类">
-                <span class="mr-1 text-acid opacity-70">>> FILTER:</span>
-                <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">[ ALL ]</button>
-                <button class="filter-btn" type="button" data-filter="system" aria-pressed="false">[ SYSTEM_LOGS ]</button>
-                <button class="filter-btn" type="button" data-filter="thoughts" aria-pressed="false">[ THOUGHTS ]</button>
-                <button class="filter-btn" type="button" data-filter="hardware" aria-pressed="false">[ HARDWARE ]</button>
+            <div id="archive-filters" class="flex flex-wrap gap-3 items-center text-xs md:text-sm font-bold" role="group" aria-label="文章分类" data-i18n-aria-label="archive.categories">
+                <span class="mr-1 text-acid opacity-70" data-i18n="archive.filter">&gt;&gt; 分类：</span>
+                <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true" data-i18n="archive.all">[ 全部 ]</button>
+                <button class="filter-btn" type="button" data-filter="system" aria-pressed="false" data-i18n="archive.system">[ 系统日志 ]</button>
+                <button class="filter-btn" type="button" data-filter="thoughts" aria-pressed="false" data-i18n="archive.thoughts">[ 思考 ]</button>
+                <button class="filter-btn" type="button" data-filter="hardware" aria-pressed="false" data-i18n="archive.hardware">[ 硬件 ]</button>
                 <div id="entry-status" class="w-full lg:w-auto lg:ml-auto text-acid opacity-70" aria-live="polite">SHOWING: 00 / 00</div>
             </div>
         </section>
@@ -223,27 +224,27 @@
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">LLM</span>
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">QUANTIZATION</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid" data-i18n="archive.tagQuantization">量化</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
                             <!-- 真实跳转：Hugging Face 博客 -->
-                            <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" rel="noopener noreferrer" class="block">
+                            <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" rel="noopener noreferrer" class="block" data-i18n="archive.int8Title">
                                 LLM.int8()：Transformers 大规模 8 位矩阵乘法
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300" data-i18n="archive.int8Body">
                             Tim Dettmers 与 Hugging Face 的这篇经典合作文章详细介绍了如何将大模型显存占用减半而不损失精度。其核心在于混合精度分解：将绝大多数参数进行 int8 量化，而对异常值（Outliers）保留 fp16 计算。这对我们在边缘端部署小参数模型极具参考价值。
                         </p>
                         <!-- 精华内容：终端风格代码块 -->
                         <div class="bg-black p-3 border-l-2 border-acid mb-6 max-w-2xl font-mono text-xs opacity-90">
-                            <span class="text-gray-500">// Key Takeaway: Memory Saving</span><br>
+                            <span class="text-gray-500" data-i18n="archive.takeaway">// 要点：节省显存</span><br>
                             BLOOM-176B (FP16): <span class="text-red-400">~350GB VRAM</span><br>
                             BLOOM-176B (INT8): <span class="text-acid">~175GB VRAM</span><br>
-                            Performance Degradation: <span class="text-acid">0.0%</span>
+                            <l10n-text data-i18n="archive.degradation">性能损失：</l10n-text> <span class="text-acid">0.0%</span>
                         </div>
 
                         <a href="https://huggingface.co/blog/hf-bitsandbytes-integration" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
-                            Read_Full_Log <span class="ml-2">-></span>
+                            <l10n-text data-i18n="archive.read">阅读原文</l10n-text> <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
@@ -259,32 +260,32 @@
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">HARDWARE</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid" data-i18n="common.hardware">硬件</span>
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">PCB</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
                             <!-- 真实跳转：Altium 资源中心 -->
-                            <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" rel="noopener noreferrer" class="block">
+                            <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" rel="noopener noreferrer" class="block" data-i18n="archive.ddrTitle">
                                 DDR3/DDR4 走线指南：Fly-by 拓扑设计规范
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300" data-i18n="archive.ddrBody">
                             Altium 官方关于 Fly-by 拓扑的深度解析。相比于 DDR2 时代的 T 型拓扑，Fly-by 利用菊花链结构减少了桩线（Stubs）反射，极大提升了信号完整性，但代价是引入了必须通过 Write Leveling 解决的时钟偏斜。这是绘制 V3s 或 RK3588 核心板的必读材料。
                         </p>
                          <!-- 精华内容：参数高亮 -->
                         <div class="flex gap-4 mb-6 text-xs font-mono">
                             <div class="bg-acid-dark px-3 py-2 border border-acid/30">
-                                <span class="text-gray-400">Topology Type:</span><br>
-                                <span class="text-white">Daisy Chain (Fly-by)</span>
+                                <span class="text-gray-400" data-i18n="archive.topology">拓扑类型：</span><br>
+                                <span class="text-white" data-i18n="archive.daisy">菊花链（Fly-by）</span>
                             </div>
                              <div class="bg-acid-dark px-3 py-2 border border-acid/30">
-                                <span class="text-gray-400">Required Termination:</span><br>
-                                <span class="text-white">VTT at End of Chain</span>
+                                <span class="text-gray-400" data-i18n="archive.termination">终端匹配：</span><br>
+                                <span class="text-white" data-i18n="archive.vtt">链路末端接 VTT</span>
                             </div>
                         </div>
 
                         <a href="https://resources.altium.com/p/fly-topology-routing-ddr3-and-ddr4-memory" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
-                            Read_Full_Log <span class="ml-2">-></span>
+                            <l10n-text data-i18n="archive.read">阅读原文</l10n-text> <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
@@ -300,29 +301,29 @@
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SYSTEM</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid" data-i18n="archive.tagSystem">系统</span>
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">ROS2</span>
                         </div>
                         <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
                             <!-- 真实跳转：ROS 2 官方文档 -->
-                            <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" rel="noopener noreferrer" class="block">
+                            <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" rel="noopener noreferrer" class="block" data-i18n="archive.ddsTitle">
                                 ROS 2 DDS 调优指南：处理高延迟与丢包
                             </a>
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300" data-i18n="archive.ddsBody">
                             当在 WiFi 环境下运行 ROS 2 时，默认的 DDS 配置往往会导致通信卡顿。官方指南详细列出了 Fast DDS 和 Cyclone DDS 的 OS 缓冲区调整策略。对于水质监测船这种远距离 WiFi 图传场景，增加 `rmem_max` 和 `wmem_max` 是救命稻草。
                         </p>
                         
                         <!-- 精华内容：XML 配置片段 -->
                         <div class="bg-black p-3 border border-gray-800 mb-6 max-w-2xl font-mono text-xs opacity-80 overflow-hidden">
-                            <span class="text-gray-500"># Linux Kernel Tuning (sysctl)</span><br>
+                            <span class="text-gray-500" data-i18n="archive.kernel"># Linux 内核调优（sysctl）</span><br>
                             net.core.rmem_max = <span class="text-acid">2147483647</span><br>
                             net.core.rmem_default = <span class="text-acid">2147483647</span><br>
-                            <span class="text-gray-500"># Important for Image Transport over WiFi</span>
+                            <span class="text-gray-500" data-i18n="archive.transport"># 对 WiFi 图像传输尤为重要</span>
                         </div>
 
                         <a href="https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold hover-acid border border-acid px-4 py-2 uppercase tracking-wider text-acid">
-                            Read_Full_Log <span class="ml-2">-></span>
+                            <l10n-text data-i18n="archive.read">阅读原文</l10n-text> <span class="ml-2">-></span>
                         </a>
                     </div>
                 </div>
@@ -338,21 +339,21 @@
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">AI_ART</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid" data-i18n="archive.tagArt">AI 艺术</span>
                             <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SD</span>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white group-hover:text-acid transition-colors" data-i18n="archive.loraTitle">
                             训练黎族图腾 LoRA：从数据集清洗到过拟合测试
                         </h2>
-                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300">
+                        <p class="opacity-70 text-sm leading-relaxed max-w-3xl mb-6 font-medium text-gray-300" data-i18n="archive.loraBody">
                             尝试训练一个专门生成黎族传统织锦纹样的 LoRA 模型。发现最大的坑不在参数，而在数据集的 tag 标注。使用了 DeepDanbooru 进行自动标注，但对于抽象几何纹样，人工修正仍然必不可少。
                         </p>
                         <details class="local-note">
-                            <summary>OPEN_LOCAL_LOG <span aria-hidden="true">[+]</span></summary>
+                            <summary><l10n-text data-i18n="archive.openLog">展开笔记</l10n-text> <span aria-hidden="true">[+]</span></summary>
                             <div class="p-4 md:p-5 grid md:grid-cols-3 gap-4 text-xs leading-relaxed">
-                                <div><span class="block text-acid mb-2">01 // DATASET</span><span class="text-gray-300">优先清理重复图样、低清图片和带有现代元素的样本，保持传统几何纹样的一致性。</span></div>
-                                <div><span class="block text-acid mb-2">02 // LABELS</span><span class="text-gray-300">自动标签只作为初稿，抽象纹样仍需人工统一主体、颜色与构图标签。</span></div>
-                                <div><span class="block text-acid mb-2">03 // NEXT_STEP</span><span class="text-gray-300">继续对比不同 rank、学习率和重复次数，并建立固定提示词的版本对照集。</span></div>
+                                <div><span class="block text-acid mb-2" data-i18n="archive.dataset">01 // 数据集</span><span class="text-gray-300" data-i18n="archive.datasetBody">优先清理重复图样、低清图片和带有现代元素的样本，保持传统几何纹样的一致性。</span></div>
+                                <div><span class="block text-acid mb-2" data-i18n="archive.labels">02 // 标注</span><span class="text-gray-300" data-i18n="archive.labelsBody">自动标签只作为初稿，抽象纹样仍需人工统一主体、颜色与构图标签。</span></div>
+                                <div><span class="block text-acid mb-2" data-i18n="archive.next">03 // 下一步</span><span class="text-gray-300" data-i18n="archive.nextBody">继续对比不同 rank、学习率和重复次数，并建立固定提示词的版本对照集。</span></div>
                             </div>
                         </details>
                     </div>
@@ -369,18 +370,18 @@
                     
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid">SNIPPET</span>
+                            <span class="text-[10px] border border-acid px-1.5 py-0.5 font-bold bg-black text-acid" data-i18n="archive.tagSnippet">代码片段</span>
                         </div>
-                        <h2 class="text-xl font-bold mb-2 text-white">
+                        <h2 class="text-xl font-bold mb-2 text-white" data-i18n="archive.pidTitle">
                            #Snippet: 增量式 PID 算法 C 语言实现
                         </h2>
-                        <p class="opacity-50 text-xs italic mb-4 text-acid">
-                            // Quick copy-paste ready code for STM32 motor control tasks.
+                        <p class="opacity-50 text-xs italic mb-4 text-acid" data-i18n="archive.pidIntro">
+                            // 可直接复制，用于 STM32 电机控制。
                         </p>
                         <div class="code-shell">
                             <div class="flex items-center justify-between border-b border-acid/30 px-4 py-2 text-[10px] text-gray-500">
                                 <span>incremental_pid.c</span>
-                                <button type="button" class="hover-acid border border-acid px-3 py-1 text-acid" data-copy-target="pid-snippet">COPY_CODE</button>
+                                <button type="button" class="hover-acid border border-acid px-3 py-1 text-acid" data-copy-target="pid-snippet" data-i18n="archive.copy">复制代码</button>
                             </div>
                             <pre><code id="pid-snippet">float PID_Calc(PID_TypeDef *pid, float target, float current) {
     const float error = target - current;
@@ -400,14 +401,14 @@
 
         </div>
 
-        <div id="archive-empty" class="mt-12 border border-dashed border-acid/50 p-8 text-center text-sm text-acid" hidden>
-            NO_MATCHING_DATA // 尝试更换关键词或分类
+        <div id="archive-empty" class="mt-12 border border-dashed border-acid/50 p-8 text-center text-sm text-acid" hidden data-i18n="archive.empty">
+            没有匹配结果 // 尝试更换关键词或分类
         </div>
 
         <!-- 底部分页 -->
         <div class="mt-12 text-center">
-            <button id="load-more" type="button" aria-controls="article-list" class="text-xs font-bold text-acid border border-acid px-6 py-3 hover:bg-acid hover:text-black hover:shadow-[0_0_20px_#CCFF00] transition-colors uppercase tracking-widest">
-                [ LOAD_MORE_DATA ]
+            <button id="load-more" type="button" aria-controls="article-list" class="text-xs font-bold text-acid border border-acid px-6 py-3 hover:bg-acid hover:text-black hover:shadow-[0_0_20px_#CCFF00] transition-colors uppercase tracking-widest" data-i18n="archive.load">
+                [ 加载更多 ]
             </button>
         </div>
 
@@ -415,8 +416,8 @@
 
     <!-- 装饰性跑马灯：酸绿背景，黑字 -->
     <div class="w-full overflow-hidden bg-acid text-black border-y-2 border-black py-2 select-none">
-        <div class="whitespace-nowrap animate-[marquee_20s_linear_infinite] text-xs font-bold font-mono tracking-widest">
-            SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// SYSTEM_LOGS /// THOUGHTS /// ALGORITHMS /// DEBUGGING /// 
+        <div class="whitespace-nowrap animate-[marquee_20s_linear_infinite] text-xs font-bold font-mono tracking-widest" data-i18n="archive.marquee">
+            系统日志 /// 思考 /// 算法 /// 调试 /// 系统日志 /// 思考 /// 算法 /// 调试 /// 系统日志 /// 思考 /// 算法 /// 调试 ///
         </div>
     </div>
     <style>
@@ -429,9 +430,9 @@
     <!-- 页脚 -->
     <footer class="px-6 py-12 border-t border-acid text-xs text-acid opacity-80 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-black">
         <div>
-            <p class="mb-2 font-bold text-white">INITIATE CONTACT PROTOCOL:</p>
+            <p class="mb-2 font-bold text-white" data-i18n="archive.contact">发起联系：</p>
             <div class="flex flex-col gap-1">
-                <a href="mailto:liangchengchao16@gmail.com" class="hover:text-white hover:underline transition-colors font-medium">[ EMAIL_ENCRYPTED ]</a>
+                <a href="mailto:liangchengchao16@gmail.com" class="hover:text-white hover:underline transition-colors font-medium" data-i18n="archive.email">[ 发送邮件 ]</a>
                 <span class="cursor-help hover:text-white transition-colors font-medium" onclick="copyToClipboard('C877616326')">WC: C877616326</span>
             </div>
         </div>
@@ -451,9 +452,9 @@
         const toast = document.getElementById('copy-toast');
         let toastTimer = null;
 
-        function showToast(message) {
+        function showToast(key) {
             clearTimeout(toastTimer);
-            toast.textContent = message;
+            window.siteI18n.setText(toast, key);
             toast.classList.add('is-visible');
             toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1800);
         }
@@ -475,9 +476,9 @@
             try {
                 if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
                 else if (!legacyCopy(text)) throw new Error('Copy command failed');
-                showToast('DATA_COPIED_TO_CLIPBOARD');
+                showToast('common.copySuccess');
             } catch (error) {
-                showToast('COPY_FAILED // SELECT_MANUALLY');
+                showToast('common.copyFailure');
             }
         }
 
@@ -532,12 +533,12 @@
             });
 
             const shownCount = Math.min(matches.length, visibleLimit);
-            entryStatus.textContent = `SHOWING: ${String(shownCount).padStart(2, '0')} / ${String(matches.length).padStart(2, '0')}`;
+            window.siteI18n.setText(entryStatus, 'archive.count', { shown: String(shownCount).padStart(2, '0'), total: String(matches.length).padStart(2, '0') });
             emptyState.hidden = matches.length !== 0;
             loadMoreButton.hidden = matches.length <= shownCount;
             if (!loadMoreButton.hidden) {
                 const remaining = Math.min(PAGE_SIZE, matches.length - shownCount);
-                loadMoreButton.textContent = `[ LOAD_MORE_DATA // +${String(remaining).padStart(2, '0')} ]`;
+                window.siteI18n.setText(loadMoreButton, 'archive.more', { count: String(remaining).padStart(2, '0') });
             }
         }
 
@@ -578,6 +579,8 @@
         });
 
         renderArchive({ animate: false });
+        window.addEventListener('site:languagechange', () => renderArchive({ animate: false }));
     </script>
+    <div class="language-picker language-floating" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
 </body>
 </html>

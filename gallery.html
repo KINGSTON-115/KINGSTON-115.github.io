@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GALLERY_VIEW // KINGSTON-115 // V3.1</title>
-    <meta name="description" content="Charles 的个人摄影与视觉归档页面，支持筛选、灯箱预览和动态画廊展示。">
+    <title data-i18n="gallery.title">摄影集 // KINGSTON-115</title>
+    <meta name="description" content="Charles 的个人摄影与视觉归档页面，支持筛选、灯箱预览和动态画廊展示。" data-i18n-content="gallery.description">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#050505">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='42' fill='%23ccff00'%3EC%3C/text%3E%3C/svg%3E">
     <link rel="canonical" href="https://kingston-115.github.io/gallery.html">
-    <meta property="og:title" content="GALLERY_VIEW // KINGSTON-115">
-    <meta property="og:description" content="Charles 的个人摄影与视觉归档页面。">
+    <meta property="og:title" content="摄影集 // KINGSTON-115" data-i18n-content="gallery.ogTitle">
+    <meta property="og:description" content="Charles 的个人摄影与视觉归档页面。" data-i18n-content="gallery.shortDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingston-115.github.io/gallery.html">
     <meta property="og:image" content="https://kingston-115.github.io/photos/IMG_7422.JPG">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="GALLERY_VIEW // KINGSTON-115">
-    <meta name="twitter:description" content="Charles 的个人摄影与视觉归档页面。">
+    <meta name="twitter:title" content="摄影集 // KINGSTON-115" data-i18n-content="gallery.ogTitle">
+    <meta name="twitter:description" content="Charles 的个人摄影与视觉归档页面。" data-i18n-content="gallery.shortDescription">
     <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_7422.JPG">
 
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -33,6 +33,9 @@
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
             min-height: 100vh;
+        }
+        @media (max-width: 767px) {
+            main header h1.text-6xl { font-size: clamp(2.6rem, 12vw, 3.75rem); }
         }
 
         /* --- 3D PERSPECTIVE GRID --- */
@@ -118,6 +121,7 @@
         /* --- UTILS --- */
         .writing-vertical-rl { writing-mode: vertical-rl; }
     </style>
+    <script src="js/i18n.min.js"></script>
 </head>
 <body class="selection-acid">
 
@@ -130,13 +134,13 @@
 
     <!-- Fixed UI -->
     <div class="fixed top-6 left-6 z-50 flex flex-col gap-1 pointer-events-none mix-blend-difference text-acid-green">
-        <div class="text-[10px] tracking-[0.3em] font-bold">SYS.STATUS: ONLINE</div>
+        <div class="text-[10px] tracking-[0.3em] font-bold" data-i18n="gallery.status">系统状态：在线</div>
         <div class="text-[10px] opacity-70" id="clock">00:00:00:00</div>
     </div>
     <div class="fixed top-6 right-6 z-50">
-        <a href="javascript:history.back()" class="interactive-hover group flex items-center gap-2 text-xs font-mono text-gray-400 hover:text-acid-green transition-colors">
+        <a href="index.html" class="interactive-hover group flex items-center gap-2 text-xs font-mono text-gray-400 hover:text-acid-green transition-colors">
             <span>[ ESC ]</span>
-            <span class="group-hover:translate-x-1 transition-transform">BACK_TO_ROOT</span>
+            <span class="group-hover:translate-x-1 transition-transform" data-i18n="gallery.back">返回首页</span>
         </a>
     </div>
 
@@ -146,24 +150,24 @@
             <div class="absolute -left-6 top-2 bottom-2 w-[1px] bg-gradient-to-b from-acid-green to-transparent"></div>
             <div class="flex items-center gap-4 mb-4 text-acid-green/80 text-[10px] tracking-[0.2em] font-mono">
                 <span class="w-4 h-4 border border-current flex items-center justify-center text-[8px] animate-pulse">R</span>
-                <span>ARCHIVE_BATCH_115</span>
+                <span data-i18n="gallery.batch">影像档案_115</span>
             </div>
             <h1 class="font-sans text-6xl md:text-8xl font-bold uppercase leading-[0.85] tracking-tight mb-8 text-white drop-shadow-2xl">
-                <span class="block">NEURAL</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white">SNAPSHOTS</span>
+                <span class="block" data-i18n="gallery.neural">视觉</span>
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white" data-i18n="gallery.snapshots">快照</span>
             </h1>
             <p class="max-w-xl text-gray-500 text-sm font-mono leading-relaxed border-l border-gray-800 pl-6 ml-1">
-                > ACCESSING VISUAL MEMORY BANKS...<br>
-                > RAW DATA INTERPRETATION.<br>
-                > 3D RENDERING ENGINE: ACTIVE.
+                <l10n-text data-i18n="gallery.intro1">&gt; 正在读取视觉记忆……</l10n-text><br>
+                <l10n-text data-i18n="gallery.intro2">&gt; 解读原始影像。</l10n-text><br>
+                <l10n-text data-i18n="gallery.intro3">&gt; 三维展示引擎：已启动。</l10n-text>
             </p>
 
             <div class="mt-12 flex flex-wrap gap-6 text-[11px] font-mono uppercase tracking-widest border-t border-dashed border-gray-800 pt-6">
-                <span class="text-acid-green mr-4">Protocol:</span>
-                <button class="interactive-hover filter-btn text-white relative hover:text-acid-green transition-colors" data-filter="all">[ // ALL ]</button>
-                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="scenery">/ LANDSCAPE</button>
-                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="portrait">/ HUMAN</button>
-                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="urban">/ URBAN</button>
+                <span class="text-acid-green mr-4" data-i18n="gallery.filterLabel">分类：</span>
+                <button class="interactive-hover filter-btn text-white relative hover:text-acid-green transition-colors" data-filter="all" data-i18n="gallery.all">[ // 全部 ]</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="scenery" data-i18n="gallery.scenery">/ 风景</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="portrait" data-i18n="gallery.portrait">/ 人物</button>
+                <button class="interactive-hover filter-btn text-gray-500 relative hover:text-acid-green transition-colors" data-filter="urban" data-i18n="gallery.urban">/ 城市</button>
             </div>
         </header>
 
@@ -192,7 +196,7 @@
     </main>
 
     <!-- LIGHTBOX -->
-    <div id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览" aria-hidden="true" inert class="fixed inset-0 z-[9999] bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览" aria-hidden="true" inert class="fixed inset-0 z-[9999] bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300" data-i18n-aria-label="gallery.preview">
         
         <!-- Background Grid -->
         <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
@@ -201,9 +205,10 @@
         <div class="absolute top-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent"></div>
         <div class="absolute bottom-[10%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-acid-green/50 to-transparent"></div>
         
+        <div class="language-picker language-lightbox" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
         <!-- Close Control -->
-        <button id="lightbox-close" class="interactive-hover absolute top-8 right-8 text-acid-green z-[10000] font-mono text-xs tracking-[0.2em] hover:bg-acid-green hover:text-black px-6 py-2 border border-acid-green transition-all cursor-pointer bg-black">
-            [ CLOSE_VIEW ]
+        <button id="lightbox-close" class="interactive-hover absolute top-8 right-8 text-acid-green z-[10000] font-mono text-xs tracking-[0.2em] hover:bg-acid-green hover:text-black px-6 py-2 border border-acid-green transition-all cursor-pointer bg-black" data-i18n="gallery.close">
+            [ 关闭预览 ]
         </button>
 
         <!-- Container -->
@@ -216,22 +221,22 @@
             <div class="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-acid-green z-20"></div>
 
             <!-- Image -->
-            <img id="lightbox-img" alt="Enlarged gallery preview" decoding="async" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
-                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';">
+            <img id="lightbox-img" alt="放大的摄影作品" decoding="async" class="block object-contain relative z-10 shadow-2xl" style="max-width: 100%; max-height: 88vh; min-width: 200px; min-height: 200px;"
+                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/111/333?text=CORRUPT_DATA';" data-i18n-alt="gallery.alt">
             
             <!-- Metadata Side Panel -->
             <div class="absolute -right-24 top-0 bottom-0 w-20 hidden lg:flex flex-col justify-center gap-12 py-8 text-[9px] font-mono text-acid-green/60 text-right pointer-events-none border-r border-acid-green/10 pr-4">
                 <div class="flex flex-col gap-2">
                     <span class="block w-2 h-2 bg-acid-green animate-pulse ml-auto"></span>
-                    <span>LIVE_FEED</span>
+                    <span data-i18n="gallery.live">实时影像</span>
                 </div>
                 <div>
                     <div class="mb-1">ISO <span class="text-white">800</span></div>
                     <div class="mb-1">AP <span class="text-white">f/1.8</span></div>
                     <div>SS <span class="text-white">1/250</span></div>
                 </div>
-                <div class="writing-vertical-rl transform rotate-180 tracking-[0.3em] opacity-50">
-                    ENCRYPTED_DATA
+                <div class="writing-vertical-rl transform rotate-180 tracking-[0.3em] opacity-50" data-i18n="gallery.encrypted">
+                    影像数据
                 </div>
             </div>
         </div>
@@ -241,7 +246,7 @@
             <span class="w-3 h-3 border border-acid-green flex items-center justify-center">
                 <span class="w-1 h-1 bg-acid-green"></span>
             </span>
-            <span>IMAGE_BUFFER_LOADED</span> 
+            <span data-i18n="gallery.loaded">图片已加载</span>
         </div>
     </div>
 
@@ -362,7 +367,6 @@
             const src = normalizedItem.src;
             const floatDelay = `-${Math.random() * 5}s`;
             const thumbnailSrc = normalizedItem.thumbnail || toThumbnailUrl(src);
-            const imageName = src.split('/').pop();
             const hasDimensions = normalizedItem.width && normalizedItem.height;
             const aspectStyle = hasDimensions ? `style="aspect-ratio: ${normalizedItem.width} / ${normalizedItem.height}"` : '';
             const placeholderClass = hasDimensions ? '' : 'min-h-[200px]';
@@ -370,7 +374,7 @@
                 <div class="gallery-item-wrapper break-inside-avoid opacity-0" 
                      data-category="${category}"
                      style="animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards ${delay}ms">
-                    <div class="gallery-item group cursor-pointer" role="button" tabindex="0" aria-label="打开图片 ${imageName}" style="--float-delay: ${floatDelay}">
+                    <div class="gallery-item group cursor-pointer" role="button" tabindex="0" style="--float-delay: ${floatDelay}">
                         <div class="relative bg-gray-900 border border-transparent transition-colors duration-300">
                             <div class="item-overlay z-20"></div>
                             <div class="absolute top-3 right-3 flex gap-1 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 meta-floating">
@@ -381,7 +385,7 @@
                             <div class="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-acid-green opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
                             
                             <div class="w-full bg-gray-800 ${placeholderClass} relative overflow-hidden" ${aspectStyle}>
-                                <img src="${thumbnailSrc}" data-full-src="${src}" ${hasDimensions ? `width="${normalizedItem.width}" height="${normalizedItem.height}"` : ''} loading="lazy" decoding="async" alt="Gallery image" class="w-full h-full object-cover block transform origin-center z-10 relative"
+                                <img src="${thumbnailSrc}" data-full-src="${src}" ${hasDimensions ? `width="${normalizedItem.width}" height="${normalizedItem.height}"` : ''} loading="lazy" decoding="async" alt="" class="w-full h-full object-cover block transform origin-center z-10 relative"
                                      onerror="this.onerror=null; this.src=this.dataset.fullSrc;">
                             </div>
                         </div>
@@ -433,13 +437,16 @@
                 if (motionObserver) motionObserver.observe(card);
                 attachTiltEffect(card);
                 const img = card.querySelector('img');
+                const vars = { name: img.dataset.fullSrc.split('/').pop().split('?')[0] };
+                window.siteI18n.setAttribute(card, 'aria-label', 'gallery.openImage', vars);
+                window.siteI18n.setAttribute(img, 'alt', 'gallery.imageAlt', vars);
                 const openLightbox = () => {
                     // Check if img exists and has src
                     if (!img || !img.src) return;
 
                     activeGalleryCard = card;
                     elements.lightboxImg.src = img.dataset.fullSrc || img.src;
-                    elements.lightboxImg.alt = img.alt;
+                    window.siteI18n.setAttribute(elements.lightboxImg, 'alt', 'gallery.imageAlt', vars);
 
                     elements.lightbox.classList.remove('hidden');
                     elements.lightbox.removeAttribute('inert');
@@ -462,13 +469,13 @@
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const filter = e.target.dataset.filter;
+                const filter = e.currentTarget.dataset.filter;
                 document.querySelectorAll('.filter-btn').forEach(b => {
                     b.classList.remove('text-acid-green');
                     b.classList.add('text-gray-500');
                 });
-                e.target.classList.remove('text-gray-500');
-                e.target.classList.add('text-acid-green');
+                e.currentTarget.classList.remove('text-gray-500');
+                e.currentTarget.classList.add('text-acid-green');
 
                 const wrappers = document.querySelectorAll('.gallery-item-wrapper');
                 wrappers.forEach(wrapper => {
@@ -512,5 +519,6 @@
         `;
         document.head.appendChild(styleSheet);
     </script>
+    <div class="language-picker language-floating" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
 </body>
 </html>

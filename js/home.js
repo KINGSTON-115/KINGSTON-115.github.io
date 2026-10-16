@@ -2,6 +2,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { projectDetails } from './project-data.mjs';
+import { projectDetails as englishProjectDetails } from './project-data.en.mjs';
+
+const i18n = window.siteI18n;
+const localizedProjects = () => i18n.language === 'en' ? englishProjectDetails : projectDetails;
 
 gsap.registerPlugin(ScrollTrigger);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -16,23 +20,39 @@ const dialog = document.querySelector('#project-dialog');
 let dialogTrigger;
 let latestStars;
 
+function renderProject(id) {
+  const data = localizedProjects()[id];
+  document.querySelector('#dialog-title').textContent = data.title;
+  dialog.querySelector('.dialog-tags').replaceChildren(...data.tags.map(tag => {
+    const span = document.createElement('span');
+    span.textContent = tag;
+    return span;
+  }));
+  // Authored, local project content; never populate this with remote HTML.
+  dialog.querySelector('.dialog-body').innerHTML = data.content;
+  if (latestStars !== undefined) applyStars(latestStars);
+}
+function translateProjects() {
+  document.querySelectorAll('[data-project-content]').forEach(element => {
+    element.innerHTML = localizedProjects()[element.dataset.projectContent].content;
+  });
+  if (dialog.open && dialogTrigger) {
+    const scroll = dialog.scrollTop;
+    renderProject(dialogTrigger.dataset.project);
+    dialog.scrollTop = scroll;
+  }
+  if (latestStars !== undefined) applyStars(latestStars);
+}
+translateProjects();
+
 // Content, navigation and dialogs are independent of the motion lifecycle.
 document.querySelectorAll('[data-project]').forEach(summary => {
   summary.addEventListener('click', event => {
-    const data = projectDetails[summary.dataset.project];
+    const data = localizedProjects()[summary.dataset.project];
     if (!data || typeof dialog.showModal !== 'function') return;
     event.preventDefault();
     dialogTrigger = summary;
-    document.querySelector('#dialog-title').textContent = data.title;
-    const tags = dialog.querySelector('.dialog-tags');
-    tags.replaceChildren(...data.tags.map(tag => {
-      const span = document.createElement('span');
-      span.textContent = tag;
-      return span;
-    }));
-    // Authored, local project content; never populate this with remote HTML.
-    dialog.querySelector('.dialog-body').innerHTML = data.content;
-    if (latestStars !== undefined) applyStars(latestStars);
+    renderProject(summary.dataset.project);
     dialog.showModal();
     dialog.scrollTop = 0;
     document.documentElement.style.overflow = 'hidden';
@@ -72,14 +92,14 @@ const menu = document.querySelector('#mobile-menu');
 function closeMenu(returnFocus = false) {
   menu.hidden = true;
   menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', '打开导航菜单');
+  i18n.setAttribute(menuButton, 'aria-label', 'home.menuOpen');
   if (returnFocus) menuButton.focus();
 }
 menuButton.addEventListener('click', () => {
   const open = menuButton.getAttribute('aria-expanded') !== 'true';
   menu.hidden = !open;
   menuButton.setAttribute('aria-expanded', String(open));
-  menuButton.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+  i18n.setAttribute(menuButton, 'aria-label', open ? 'home.menuClose' : 'home.menuOpen');
 });
 menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
 document.addEventListener('keydown', event => {
@@ -167,16 +187,16 @@ rail.addEventListener('keydown', event => {
 });
 
 let toastTimeout;
-function toast(message) {
+function toast(key, vars) {
   const element = document.querySelector('#toast');
   clearTimeout(toastTimeout);
-  element.textContent = message;
+  i18n.setText(element, key, vars);
   element.classList.add('visible');
   toastTimeout = setTimeout(() => element.classList.remove('visible'), 2600);
 }
 document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(button.dataset.copy); toast('已复制，期待与你交流。'); }
-  catch { toast(`请手动复制：${button.dataset.copy}`); }
+  try { await navigator.clipboard.writeText(button.dataset.copy); toast('home.copied'); }
+  catch { toast('common.copyManual', { value: button.dataset.copy }); }
 }));
 
 function applyStars(number) {
@@ -205,6 +225,11 @@ async function refreshStars() {
 refreshStars();
 
 function motionEnabled() { return !userPaused && !reducedMotion.matches; }
+function translateMotion() {
+  const key = reducedMotion.matches ? 'home.systemMotion' : motionEnabled() ? 'home.pauseMotion' : 'home.startMotion';
+  i18n.setAttribute(motionButton, 'aria-label', key);
+  i18n.setAttribute(motionButton, 'title', key);
+}
 function configureMotion() {
   removeMotionListeners();
   motionContext?.revert();
@@ -213,8 +238,7 @@ function configureMotion() {
   const enabled = motionEnabled();
   document.documentElement.classList.toggle('motion-paused', !enabled);
   motionButton.setAttribute('aria-pressed', String(!enabled));
-  motionButton.setAttribute('aria-label', reducedMotion.matches ? '系统已启用减少动态效果' : enabled ? '暂停装饰动效' : '开启装饰动效');
-  motionButton.title = motionButton.getAttribute('aria-label');
+  translateMotion();
   motionButton.querySelector('span').textContent = enabled ? 'Ⅱ' : '▷';
   if (!enabled) { removeMotionListeners = () => {}; return; }
 
@@ -258,7 +282,7 @@ function configureMotion() {
   ScrollTrigger.refresh();
 }
 motionButton.addEventListener('click', () => {
-  if (reducedMotion.matches) { toast('已遵循系统的“减少动态效果”设置。'); return; }
+  if (reducedMotion.matches) { toast('home.systemMotionToast'); return; }
   userPaused = !userPaused;
   try { sessionStorage.setItem('charles-motion-paused', String(userPaused)); } catch { /* Optional preference. */ }
   configureMotion();
@@ -267,6 +291,12 @@ reducedMotion.addEventListener('change', configureMotion);
 matchMedia('(min-width: 761px)').addEventListener('change', configureMotion);
 finePointer.addEventListener('change', configureMotion);
 configureMotion();
+
+window.addEventListener('site:languagechange', () => {
+  translateProjects();
+  translateMotion();
+  requestAnimationFrame(() => { lenis?.resize(); ScrollTrigger.refresh(); queueScrollUI(); });
+});
 
 // Continuous decoration runs only while visible, including when the tab is hidden.
 const animatedElements = [...document.querySelectorAll('.sculpture-float, .strip-track, .scroll-line')];

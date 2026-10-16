@@ -30,7 +30,11 @@ h1,h2,h3,p { margin: 0; }
 .desktop-nav a span { font: 9px 'JetBrains Mono',monospace; color: var(--muted); margin-left: 8px; }
 .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--acid); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); }
 .desktop-nav a:hover::after, .desktop-nav a[aria-current]::after { transform: scaleX(1); }
-.nav-actions { display: flex; align-items: center; gap: 24px; }
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.dialog-top > .eyebrow { margin-right: auto; }
+html[lang="en"] .project-large h3 { overflow-wrap: anywhere; }
+html[lang="zh-CN"] .hero h1, html[lang="zh-CN"] .contact-title { line-height: 1.13; letter-spacing: -.05em; }
+@media (max-width: 480px) { .site-header .wordmark-name { display: none; }.site-header .nav-actions { gap: 10px; }.dialog-top { flex-wrap: wrap; }.dialog-top > .eyebrow { width: 100%; } }
 .nav-contact { font: 10px 'JetBrains Mono',monospace; border-bottom: 1px solid #6b6f60; padding-block: 8px; display: flex; gap: 26px; }
 .nav-contact span { color: var(--acid); }
 .motion-toggle { border: 1px solid var(--line); border-radius: 50%; width: 34px; height: 34px; display: grid; place-content: center; font-size: 11px; transition: border-color .3s; }
