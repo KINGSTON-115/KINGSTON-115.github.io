@@ -39,12 +39,12 @@ export const projectDetails = {
       <h3>3. Communications</h3><p>A custom protocol built on <strong>LoRa (SX1278)</strong> supports locations without public network coverage. Transparent data transmission at 433 MHz covers a radius of 5 km, allowing the shore station to receive pH, turbidity and other water-quality readings in real time.</p>`
   },
   culture: {
-    title: 'Li cultural heritage through generative AI',
-    tags: ['Stable Diffusion', 'LoRA', 'Dataset', 'AI Art'],
+    title: 'Cultural heritage AIGC · model training and web application',
+    tags: ['Stable Diffusion', 'LoRA', 'Captioning', 'Web'],
     content: `
-      <h3>1. Purpose</h3><p>Traditional Li textile techniques are recognized as intangible cultural heritage, yet their patterns have limited digital representation and contemporary applications. This project explores new digital forms for that heritage through generative AI.</p>
-      <h3>2. Model training</h3><p>More than 2,000 high-quality images of Li patterns were collected in the field, cleaned and manually captioned. A dedicated <strong>LoRA (Low-Rank Adaptation)</strong> model trained on Stable Diffusion 1.5 recognizes cultural motifs such as the Hercules figure and the Gangong bird.</p>
-      <h3>3. Application</h3><p>A web-based generation tool lets designers use simple prompts to create modern clothing sketches incorporating Li elements, making cultural and creative design more accessible.</p>`
+      <h3>1. Data preparation and captioning</h3><p>Prepared and cleaned images and organized <strong>captions</strong> for generative exploration of intangible cultural heritage. My technical work focuses on data quality, consistent labels and the representation of abstract patterns.</p>
+      <h3>2. Generative models and adaptation</h3><p>Used <strong>Stable Diffusion</strong> with <strong>LoRA (Low-Rank Adaptation)</strong> for lightweight fine-tuning, combining prompt organization and output review to build practical experience from data preprocessing to model adaptation.</p>
+      <h3>3. Web application integration</h3><p>Built a prompt-based web generation tool that connects model capabilities to an interactive page, linking user input with image generation and demonstrating my engineering work from model training to application integration.</p>`
   },
   piano: {
     title: '8051 mini synthesizer',

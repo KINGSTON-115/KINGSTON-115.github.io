@@ -11,7 +11,7 @@ const projects = [
   ['drone', '03', 'IOT ECOSYSTEM', '共享<br> 无人机柜', '连接小程序、云端与实体柜，让设备共享形成完整闭环。', 'MiniApp / Spring Boot / MQTT', 'drone'],
   ['laser', '04', 'MACHINE VISION', '精准激光除草机', '在视觉识别与运动控制之间，探索精准农业的另一种可能。', 'YOLOv8 / OpenCV / Jetson', 'laser'],
   ['ship', '05', 'AUTONOMOUS SYSTEMS', '北斗水质监测船', '从航向控制到远距离遥测，让嵌入式系统走进真实水域。', 'STM32 / BeiDou / LoRa', 'ship'],
-  ['culture', '06', 'GENERATIVE CULTURE', '黎族文化 AIGC', '将传统纹样转化为生成式表达，探索技术与文化的交点。', 'Stable Diffusion / LoRA', 'culture'],
+  ['culture', '06', 'GENERATIVE CULTURE', '非遗文化 AIGC', '以 Stable Diffusion 与 LoRA 串联数据清洗、标注、模型微调和 Web 生成交互，展示生成式 AI 的应用实践。', 'Stable Diffusion / LoRA / Web', 'culture'],
   ['piano', '07', 'BACK TO THE BITS', '51 单片机电子琴', '中断、时序、频率。从寄存器出发，让代码发出声音。', 'C51 / PWM / Hardware', 'piano'],
   ['portfolioSite', '08', 'DIGITAL PLAYGROUND', '你正在浏览的作品', '一个持续生长的数字空间，收集工程、影像与新的想法。', 'HTML / JavaScript / Motion', 'web'],
 ];
