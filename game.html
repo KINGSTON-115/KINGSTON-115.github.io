@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE DEFENSE // SYSTEM_OVERRIDE</title>
-    <meta name="description" content="CORE DEFENSE：Charles 个人站内置的键盘防御小游戏。">
+    <title data-i18n="game.title">核心防御 // 字符挑战</title>
+    <meta name="description" content="CORE DEFENSE：Charles 个人站内置的键盘防御小游戏。" data-i18n-content="game.description">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#050505">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='42' fill='%23ccff00'%3EC%3C/text%3E%3C/svg%3E">
     <link rel="canonical" href="https://kingston-115.github.io/game.html">
-    <meta property="og:title" content="CORE DEFENSE // SYSTEM_OVERRIDE">
-    <meta property="og:description" content="Charles 个人站内置的键盘防御小游戏。">
+    <meta property="og:title" content="核心防御 // 字符挑战" data-i18n-content="game.title">
+    <meta property="og:description" content="Charles 个人站内置的键盘防御小游戏。" data-i18n-content="game.shortDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingston-115.github.io/game.html">
     <meta property="og:image" content="https://kingston-115.github.io/photos/IMG_5069.JPG">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="CORE DEFENSE // SYSTEM_OVERRIDE">
-    <meta name="twitter:description" content="Charles 个人站内置的键盘防御小游戏。">
+    <meta name="twitter:title" content="核心防御 // 字符挑战" data-i18n-content="game.title">
+    <meta name="twitter:description" content="Charles 个人站内置的键盘防御小游戏。" data-i18n-content="game.shortDescription">
     <meta name="twitter:image" content="https://kingston-115.github.io/photos/IMG_5069.JPG">
 
     <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -202,98 +202,108 @@
             .mobile-control-layer { display: none; }
         }
         @media (max-width: 640px) {
-            .hud-top { align-items: stretch; }
-            .hud-panel { padding: 0.55rem; }
+            .hud-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 0.5rem; }
+            .hud-panel { padding: 0.55rem; min-width: 0; }
+            .health-track { width: 100%; }
+            .hud-label { font-size: 0.55rem; letter-spacing: 0.03em; overflow-wrap: anywhere; }
             .hud-stats { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
-            .score-panel { min-width: 8.5rem; }
+            .score-panel { min-width: 0; }
             .control-row { max-width: 11rem; margin-left: auto; }
             .speed-control { display: none; }
             .hud-bottom { font-size: 0.625rem; }
             .btn { font-size: 1rem; padding: 0.8rem 1.5rem; }
         }
+        @media (max-width: 767px) {
+            .language-game { left: auto; right: 16px; bottom: 80px; transform: none; }
+            .mobile-control-layer { left: 16px; transform: none; }
+        }
     </style>
+    <script src="js/i18n.min.js"></script>
 </head>
 <body>
 
     <div class="scanline" aria-hidden="true"></div>
-    <canvas id="gameCanvas" role="img" aria-label="CORE DEFENSE 字符防御游戏画面">当前浏览器不支持 Canvas。</canvas>
+    <canvas id="gameCanvas" role="img" aria-label="CORE DEFENSE 字符防御游戏画面" data-i18n="game.canvasFallback" data-i18n-aria-label="game.canvas">当前浏览器不支持 Canvas。</canvas>
 
     <!-- HUD -->
     <div id="gameHud" class="ui-layer" inert>
         <div class="hud-top">
             <div class="hud-panel">
-                <div class="hud-label">SYSTEM_INTEGRITY</div>
+                <div class="hud-label" data-i18n="game.integrityLabel">系统完整度</div>
                 <div class="health-track">
-                    <div id="healthBar" class="health-fill" role="progressbar" aria-label="系统完整度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+                    <div id="healthBar" class="health-fill" role="progressbar" aria-label="系统完整度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" data-i18n-aria-label="game.integrity"></div>
                 </div>
                 <div class="hud-stats">
-                    <div><div class="hud-label">LEVEL</div><div id="levelDisplay" class="hud-stat-value">01</div></div>
-                    <div><div class="hud-label">COMBO</div><div id="comboDisplay" class="hud-stat-value">x1 / 00</div></div>
-                    <div><div class="hud-label">THREAT</div><div id="threatDisplay" class="hud-stat-value">1.0x</div></div>
+                    <div><div class="hud-label" data-i18n="game.level">关卡</div><div id="levelDisplay" class="hud-stat-value">01</div></div>
+                    <div><div class="hud-label" data-i18n="game.combo">连击</div><div id="comboDisplay" class="hud-stat-value">x1 / 00</div></div>
+                    <div><div class="hud-label" data-i18n="game.threat">威胁</div><div id="threatDisplay" class="hud-stat-value">1.0x</div></div>
                 </div>
             </div>
             <div class="hud-panel score-panel text-right">
-                <div class="hud-label">SCORE / BEST <span id="bestScoreDisplay">000000</span></div>
+                <div class="hud-label"><l10n-text data-i18n="game.scoreBest">得分 / 最佳</l10n-text> <span id="bestScoreDisplay">000000</span></div>
                 <div id="scoreDisplay" class="score-value hud-text">000000</div>
                 <div class="control-row">
                     <label class="speed-control flex items-center gap-2">
-                        <span class="hud-label">BASE_VELOCITY</span>
+                        <span class="hud-label" data-i18n="game.speed">基础速度</span>
                         <input type="range" id="speedSlider" min="0.7" max="1.5" step="0.1" value="1" class="w-20 accent-[#ccff00] cursor-pointer">
                         <span id="speedValue" class="text-xs text-[#ccff00] w-8">1.0x</span>
                     </label>
-                    <button id="pauseButton" class="hud-action" type="button" aria-pressed="false">[ PAUSE // ESC ]</button>
+                    <button id="pauseButton" class="hud-action" type="button" aria-pressed="false" data-i18n="game.pause">[ 暂停 // ESC ]</button>
                 </div>
             </div>
         </div>
         <div class="hud-bottom">
             <div class="text-xs text-gray-500">
-                MODE: DEFENSE<br>
-                BREACH_LINE: ACTIVE
+                <l10n-text data-i18n="game.mode">模式：防御</l10n-text><br>
+                <l10n-text data-i18n="game.line">警戒线：已启用</l10n-text>
             </div>
-            <a href="index.html" class="pointer-events-auto text-gray-500 hover:text-white transition-colors">[ EXIT_SYSTEM ]</a>
+            <a href="index.html" class="pointer-events-auto text-gray-500 hover:text-white transition-colors" data-i18n="game.exit">[ 返回首页 ]</a>
         </div>
     </div>
 
     <!-- Mobile Controls -->
     <div id="mobileControls" class="mobile-control-layer" inert>
-        <button id="keyboardBtn" class="hud-action" type="button">[ DEPLOY_KEYBOARD ]</button>
+        <button id="keyboardBtn" class="hud-action" type="button" data-i18n="game.keyboard">[ 打开键盘 ]</button>
     </div>
     
     <!-- Hidden Input for Mobile -->
     <!-- 优化移动端唤起键盘：将其固定在左上角不可见，防止页面跳动 -->
     <input type="text" id="hiddenInput" tabindex="-1" aria-label="移动端游戏字符输入" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-           style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -1;">
+           style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -1;" data-i18n-aria-label="game.mobileInput">
 
     <!-- Start Screen -->
     <div id="startScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="startTitle">
-        <h1 id="startTitle" class="screen-title font-bold mb-4 hud-text">CORE DEFENSE</h1>
-        <p class="screen-copy">输入坠落字符，在数据包越过底部警戒线前将其拦截。游戏速度会随存活时间逐步提升。</p>
-        <div class="screen-meta" aria-label="操作说明">
-            <span>KEYBOARD // A-Z 0-9</span>
-            <span>PAUSE // ESC</span>
-            <span>HIGH_SCORE // <strong id="startBestScore" class="text-[#ccff00]">000000</strong></span>
+        <h1 id="startTitle" class="screen-title font-bold mb-4 hud-text" data-i18n="game.heading">核心防御</h1>
+        <p class="screen-copy" data-i18n="game.instructions">输入坠落字符，在数据包越过底部警戒线前将其拦截。游戏速度会随存活时间逐步提升。</p>
+        <div class="screen-meta" aria-label="操作说明" data-i18n-aria-label="game.controls">
+            <span data-i18n="game.keys">键盘 // A-Z 0-9</span>
+            <span data-i18n="game.escape">暂停 // ESC</span>
+            <span><l10n-text data-i18n="game.highScore">最高分 //</l10n-text> <strong id="startBestScore" class="text-[#ccff00]">000000</strong></span>
         </div>
-        <button id="startButton" class="btn" type="button">INITIALIZE</button>
+        <button id="startButton" class="btn" type="button" data-i18n="game.start">开始游戏</button>
+        <div class="language-picker language-overlay" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
     </div>
 
     <!-- Pause Screen -->
     <div id="pauseScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" hidden>
-        <h1 id="pauseTitle" class="screen-title font-bold mb-4 hud-text">SYSTEM PAUSED</h1>
-        <p id="pauseReason" class="screen-copy">MANUAL_PAUSE // 当前战局已冻结。</p>
-        <button id="resumeButton" class="btn" type="button">RESUME_SYSTEM</button>
+        <h1 id="pauseTitle" class="screen-title font-bold mb-4 hud-text" data-i18n="game.paused">游戏已暂停</h1>
+        <p id="pauseReason" class="screen-copy" data-i18n="game.manualPause">手动暂停 // 当前战局已冻结。</p>
+        <button id="resumeButton" class="btn" type="button" data-i18n="game.continue">继续游戏</button>
+        <div class="language-picker language-overlay" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
     </div>
 
     <!-- Game Over Screen -->
     <div id="gameOverScreen" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle" hidden>
-        <h1 id="gameOverTitle" class="screen-title font-bold mb-4 danger-text">SYSTEM FAILURE</h1>
-        <p class="text-gray-400 mb-2">FINAL SCORE</p>
+        <h1 id="gameOverTitle" class="screen-title font-bold mb-4 danger-text" data-i18n="game.over">系统失守</h1>
+        <p class="text-gray-400 mb-2" data-i18n="game.finalScore">最终得分</p>
         <div id="finalScore" class="text-5xl font-bold text-white">0</div>
         <div class="screen-meta">
-            <span>BEST // <strong id="finalBestScore" class="text-[#ccff00]">000000</strong></span>
-            <span>LEVEL // <strong id="finalLevel" class="text-[#ccff00]">01</strong></span>
-            <span id="newRecord" class="text-[#ccff00]" hidden>NEW_RECORD</span>
+            <span><l10n-text data-i18n="game.best">最佳 //</l10n-text> <strong id="finalBestScore" class="text-[#ccff00]">000000</strong></span>
+            <span><l10n-text data-i18n="game.finalLevel">关卡 //</l10n-text> <strong id="finalLevel" class="text-[#ccff00]">01</strong></span>
+            <span id="newRecord" class="text-[#ccff00]" hidden data-i18n="game.record">新纪录</span>
         </div>
-        <button id="restartButton" class="btn" type="button">REBOOT_SYSTEM</button>
+        <button id="restartButton" class="btn" type="button" data-i18n="game.restart">重新开始</button>
+        <div class="language-picker language-overlay" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
     </div>
 
     <script>
@@ -520,7 +530,7 @@
             ui.startScreen.hidden = true;
             ui.pauseScreen.hidden = true;
             ui.gameOverScreen.hidden = true;
-            ui.pauseButton.textContent = '[ PAUSE // ESC ]';
+            window.siteI18n.setText(ui.pauseButton, 'game.pause');
             ui.pauseButton.setAttribute('aria-pressed', 'false');
             setGameplayControlsEnabled(true);
             GameState.reset();
@@ -551,14 +561,14 @@
             document.getElementById('restartButton').focus();
         }
 
-        function pauseGame(reason = 'MANUAL_PAUSE // 当前战局已冻结。') {
+        function pauseGame(reason = 'game.manualPause') {
             if (GameState.phase !== 'running') return;
             GameState.phase = 'paused';
             stopLoop();
-            ui.pauseReason.textContent = reason;
+            window.siteI18n.setText(ui.pauseReason, reason);
             ui.pauseScreen.hidden = false;
             setGameplayControlsEnabled(false);
-            ui.pauseButton.textContent = '[ RESUME // ESC ]';
+            window.siteI18n.setText(ui.pauseButton, 'game.resume');
             ui.pauseButton.setAttribute('aria-pressed', 'true');
             ui.hiddenInput.blur();
             document.getElementById('resumeButton').focus();
@@ -568,7 +578,7 @@
             if (GameState.phase !== 'paused' || document.hidden) return;
             GameState.phase = 'running';
             ui.pauseScreen.hidden = true;
-            ui.pauseButton.textContent = '[ PAUSE // ESC ]';
+            window.siteI18n.setText(ui.pauseButton, 'game.pause');
             ui.pauseButton.setAttribute('aria-pressed', 'false');
             setGameplayControlsEnabled(true);
             startLoop();
@@ -712,7 +722,7 @@
             } catch (error) {
                 ui.hiddenInput.focus();
             }
-            ui.keyboardButton.textContent = '[ KEYBOARD_ACTIVE ]';
+            window.siteI18n.setText(ui.keyboardButton, 'game.keyboardActive');
         }
 
         ui.hiddenInput.addEventListener('input', () => {
@@ -726,7 +736,7 @@
         });
 
         ui.hiddenInput.addEventListener('blur', () => {
-            ui.keyboardButton.textContent = '[ DEPLOY_KEYBOARD ]';
+            window.siteI18n.setText(ui.keyboardButton, 'game.keyboard');
         });
 
         window.addEventListener('keydown', (event) => {
@@ -771,7 +781,7 @@
 
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && GameState.phase === 'running') {
-                pauseGame('AUTO_PAUSE // 页面进入后台，战局已安全冻结。');
+                pauseGame('game.autoPause');
             }
         });
 
@@ -790,5 +800,6 @@
         ui.best.textContent = String(GameState.highScore).padStart(6, '0');
         updateProgressUI();
     </script>
+    <div class="language-picker language-floating language-game" data-language-picker role="group" aria-label="选择语言" data-i18n-aria-label="language.label" hidden><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
 </body>
 </html>
