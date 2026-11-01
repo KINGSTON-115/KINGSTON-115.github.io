@@ -1,4 +1,22 @@
 export const projectDetails = {
+  plcAnalog: {
+    title: 'PLC analog expansion · four-layer PCB and production validation',
+    tags: ['Cadence Allegro', '4-Layer PCB', 'Schematic Debug', 'Prototype Validation'],
+    content: `
+      <p class="project-role">June–September 2026 / Independently completed the module layout; collaborated on related board prototyping and assembly validation.</p>
+      <h3>1. From schematic to four-layer board</h3><p>Independently completed the four-layer PCB layout for a PLC analog expansion module in <strong>Cadence Allegro</strong>. The work covered net checks, placement, routing and board-level review, translating circuit connectivity into a manufacturable design.</p>
+      <h3>2. Spacing constraints and connectivity debugging</h3><p>Applied project-specific spacing constraints of <strong>at least 3 mm for 220 V and 2 mm for 24 V</strong>. Traced missing ratsnest connections to incorrect cross-sheet net labels in the schematic, corrected connectivity and continued layout review before fabrication.</p>
+      <h3>3. Prototyping, assembly and collaboration</h3><p>Worked with colleagues on related touch-panel layout, prototyping and assembly validation, connecting layout work to physical boards. Linked schematic debugging, four-layer design and physical validation to build board-level engineering experience for production.</p>`
+  },
+  aiKnowledge: {
+    title: 'AI customer-service knowledge management platform',
+    tags: ['Software Architecture', 'Access Control', 'Alibaba Cloud', 'Windows Deployment'],
+    content: `
+      <p class="project-role">July–August 2026 / Independently handled requirements, software architecture and frontend/backend development; delivered to multiple departments.</p>
+      <h3>1. Turning frontline needs into a workflow</h3><p>A single administrator account handled all knowledge uploads, creating an update bottleneck. Interviews with customer-service staff informed an <strong>open upload permission model with an approval workflow</strong>, balancing participation with content management.</p>
+      <h3>2. Application and cloud integration</h3><p>Designed the software architecture and implemented both frontend and backend, bringing uploads, permissions and review into one management platform. Integrated the <strong>Alibaba Cloud knowledge-base API</strong> to connect the local management interface with cloud knowledge maintenance.</p>
+      <h3>3. Windows delivery and iteration</h3><p>Packaged a <strong>one-click Windows deployment bundle</strong>, delivered it to multiple departments and iterated on feedback. My contribution covered requirements, workflow design, API integration and deployment, taking the project from a business need to usable software.</p>`
+  },
   nexus: {
     title: 'Nexus smart clock',
     tags: ['ESP32-S3', 'WebSocket', 'LLM', 'LVGL'],
@@ -24,11 +42,12 @@ export const projectDetails = {
   },
   laser: {
     title: 'Precision laser weeder',
-    tags: ['OpenCV', 'YOLOv8', 'Jetson Nano', 'Laser'],
+    tags: ['YOLOv11s', 'STM32F103', 'SPI / DAC', 'XY Galvanometer', 'PX4'],
     content: `
-      <h3>1. Background</h3><p>Chemical weed control can contaminate soil and damage crops. Laser weeding offers an alternative, but requires real-time vision and precise beam control.</p>
-      <h3>2. Computer vision</h3><p>A lightweight <strong>YOLOv8n</strong> model is accelerated with TensorRT on a Jetson Nano. HSV filtering and histogram equalization help handle complex field lighting, bringing weed-recognition accuracy above 95%.</p>
-      <h3>3. Servo control</h3><p>A two-axis gimbal maps image pixels to physical angles through coordinate transforms. An incremental PID controller drives the servos to respond quickly and track moving targets.</p>`
+      <p class="project-role">April–July 2025 / Project lead responsible for mechanical construction, hardware debugging and system integration; a provincial student innovation project.</p>
+      <h3>1. Capture and recognition</h3><p>A driver-free USB camera captures live images. A fine-tuned <strong>YOLOv11s</strong> model identifies weed coordinates and sends them over serial to the <strong>STM32F103</strong> controller, linking computer vision to hardware execution.</p>
+      <h3>2. SPI-DAC and XY galvanometers</h3><p>The MCU calculates coordinates and drives a DAC over <strong>SPI to output ±10 V analog signals</strong> for XY galvanometer motors. Integration covers image coordinates, communication, analog output and actuation.</p>
+      <h3>3. Navigation and system integration</h3><p><strong>PX4, GPS and a ground station</strong> provide automatic vehicle navigation. I built the mechanical structure, debugged hardware and integrated vision, laser pointing and the mobile platform.</p>`
   },
   ship: {
     title: 'BeiDou water monitoring vessel',
@@ -55,12 +74,13 @@ export const projectDetails = {
   },
   llmPidTuner: {
     title: 'LLM-PID-Tuner',
-    tags: ['Python', 'PID Control', 'Serial', 'LLM', 'Safety Rollback'],
+    tags: ['Python', 'MATLAB / Simulink', 'System Identification', 'LLM', 'Safety Rollback'],
     content: `
       <h3>1. Purpose</h3><p>An LLM-assisted PID tuning tool for real control systems. It turns experience-based trial and error into an observable, reproducible data loop with rollback support.</p>
-      <h3>2. Architecture</h3><ul><li><strong>Two modes:</strong> local simulation and real hardware connected through serial CSV.</li><li><strong>Decision layer:</strong> the language model proposes the next PID parameters based on response-curve quality.</li><li><strong>Safety layer:</strong> parameter bounds, conservative rollback and best-state memory keep tuning under control.</li></ul>
+      <h3>2. Architecture</h3><ul><li><strong>Three modes:</strong> serial-connected hardware, local Python simulation and MATLAB/Simulink.</li><li><strong>Decision layer:</strong> prompt engineering guides the model to analyze system-response data and suggest PID parameters.</li><li><strong>Safety layer:</strong> system identification, rollback, parameter protection and best-state memory constrain the tuning process.</li><li><strong>Simulink loop:</strong> automatic parameter injection, response-data collection and repeated tuning connect the simulation model with automated decisions.</li></ul>
       <h3>3. Engineering details</h3><p>Supports OpenAI-compatible APIs, including OpenAI, DeepSeek, Ollama and LM Studio. Includes <code>system_id.py</code> for initial parameter suggestions and <code>benchmark.py</code> for comparisons, plus a ready-to-use <code>llm-pid-tuner.exe</code> package.</p>
-      <h3>4. Results</h3><p>The project has received <strong><span class="gh-stars">700+</span> GitHub stars</strong>. In temperature and motion control applications, it reduces manual tuning rounds and improves convergence and stability.</p>
+      <h3>4. Results</h3><p>Independently developed in February–April 2026. The project has <strong><span class="gh-stars">892</span> GitHub stars</strong> and had 86 forks at this update. Its tutorial video reached 48,000 views, 1,446 likes and 4,140 saves.</p>
+      <p>An Industrial Monitor Direct knowledge-base article compares it with four classical tuning methods. A Delphi discussion in the FRC community cites it as an example of online LLM tuning.</p>
       <p><a href="https://github.com/KINGSTON-115/llm-pid-tuner" target="_blank" rel="noopener noreferrer">View project repository</a></p>`
   },
   portfolioSite: {
@@ -81,11 +101,11 @@ export const projectDetails = {
     content: '<p>I tuned the vision-guided grasping module. OpenCV color-region detection and localization, combined with robotic-arm inverse kinematics, enabled automatic object sorting.</p>'
   },
   smartcar2024: {
-    title: '19th Smart Car Competition — 1st prize', tags: ['Camera category', 'South China regional'],
-    content: '<p>As the algorithm lead, I designed track-edge extraction using dynamic thresholds based on an improved Otsu method. Inverse perspective mapping (IPM) corrected image distortion, greatly improving robustness under rapidly changing light.</p>'
+    title: '19th Smart Car Competition — 1st prize', tags: ['STC camera category', 'STC32F', 'C / PID', 'South China regional'],
+    content: '<p>Led the camera-guided line-following car project in March–July 2024. Built around <strong>STC32F, dual linear CCD cameras, two rear-drive 380 brushed motors and a high-torque front-steering servo</strong>.</p><p>Implemented image acquisition, adaptive-threshold binarization, centerline extraction and a track-element recognition state machine in C. Upgraded PID line following and active differential motor control, and modeled a carbon-fiber chassis for external fabrication.</p>'
   },
   smartcar2025: {
-    title: '20th Smart Car Competition — 3rd prize', tags: ['Electromagnetic category', 'South China regional'],
+    title: '20th Smart Car Competition — 3rd prize', tags: ['Miniature electromagnetic category', 'South China regional'],
     content: '<p>I designed the electromagnetic signal acquisition circuit and PCB. Cascaded operational amplifiers boosted weak induction signals, while software filtering removed motor interference.</p>'
   }
 };

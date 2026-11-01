@@ -1,4 +1,30 @@
 export const projectDetails = {
+            plcAnalog: {
+                title: "PLC 模拟量扩展模块 · 四层 PCB 与投产验证",
+                tags: ["Cadence Allegro", "4-Layer PCB", "Schematic Debug", "Prototype Validation"],
+                content: `
+                    <p class="project-role">2026.06–2026.09 / 独立完成扩展模块 Layout，协作完成相关板卡打样贴片验证。</p>
+                    <h3>1. 从原理图到四层板</h3>
+                    <p>面向 PLC 模拟量扩展模块，使用 <strong>Cadence Allegro</strong> 独立完成四层 PCB Layout。工作覆盖原理图网络核查、布局布线与板级检查，将电路连接关系落实到可制造的板卡设计。</p>
+                    <h3>2. 强弱电间距与网络排查</h3>
+                    <p>按项目约束执行强弱电安全间距：<strong>220V ≥ 3mm，24V ≥ 2mm</strong>。核查时定位到原理图跨页网络标号错误造成的飞线缺失，修正网络连接后继续布局检查，避免把不完整连接带入制板流程。</p>
+                    <h3>3. 打样、贴片与工程协作</h3>
+                    <p>与同事协作完成相关触控板 Layout、打样及贴片验证，将版图工作衔接到实物板卡。把原理图问题定位、四层板设计与实物验证串联起来，积累面向投产的板级工程经验。</p>
+                `
+            },
+            aiKnowledge: {
+                title: "AI 客服知识库管理平台",
+                tags: ["Software Architecture", "Access Control", "Alibaba Cloud", "Windows Deployment"],
+                content: `
+                    <p class="project-role">2026.07–2026.08 / 独立完成需求梳理、软件架构与前后端开发，交付多部门使用。</p>
+                    <h3>1. 从一线问题定义工作流</h3>
+                    <p>原有客服知识库仅能由单一后台账号上传，内容更新容易形成瓶颈。我深入客服一线调研，将需求转化为<strong>开放上传权限 + 配套审核流程</strong>，兼顾多人参与与内容管理。</p>
+                    <h3>2. 前后端与云知识库对接</h3>
+                    <p>独立设计软件架构并完成前后端开发，把上传、权限与审核流程组织成可使用的管理平台；对接<strong>阿里云知识库接口</strong>，连接本地管理入口和云端知识维护能力。</p>
+                    <h3>3. Windows 交付与持续迭代</h3>
+                    <p>打包为 <strong>Windows 一键部署包</strong>，交付多个部门使用，并结合反馈持续迭代。个人贡献贯穿需求分析、流程设计、接口集成与部署交付，覆盖从业务问题到可部署软件的完整交付链路。</p>
+                `
+            },
             nexus: {
                 title: "Nexus 智能时钟",
                 tags: ["ESP32-S3", "WebSocket", "LLM", "LVGL"],
@@ -40,14 +66,15 @@ export const projectDetails = {
             },
             laser: {
                 title: "精准激光除草机",
-                tags: ["OpenCV", "YOLOv8", "Jetson Nano", "Laser"],
+                tags: ["YOLOv11s", "STM32F103", "SPI / DAC", "XY Galvanometer", "PX4"],
                 content: `
-                    <h3>1. 研发背景</h3>
-                    <p>传统化学除草不仅污染土壤，还可能导致作物药害。物理激光除草作为一种绿色方案，对视觉识别的实时性与光束控制的精度提出了极高要求。</p>
-                    <h3>2. 视觉识别算法</h3>
-                    <p>采用 <strong>YOLOv8n</strong> 轻量级模型，针对 Jetson Nano 边缘设备进行了 TensorRT 加速。针对田间复杂光照，引入了 HSV 色彩空间过滤与直方图均衡化预处理，使杂草识别准确率提升至 95% 以上。</p>
-                    <h3>3. 伺服控制系统</h3>
-                    <p>设计了二自由度云台，通过坐标变换算法将图像像素坐标映射为物理空间角度。利用增量式 PID 算法控制舵机，快速响应目标移动，实现“指哪打哪”的动态追踪。</p>
+                    <p class="project-role">2025.04–2025.07 / 项目负责人，承担机械结构搭建、硬件调试与系统联调；海南省级立项大创项目。</p>
+                    <h3>1. 实时采集与目标识别</h3>
+                    <p>使用 USB 免驱摄像头实时采集图像，微调 <strong>YOLOv11s</strong> 识别杂草坐标，再通过串口下发至 <strong>STM32F103</strong> 主控，把视觉识别结果送入硬件执行链路。</p>
+                    <h3>2. SPI-DAC 与 XY 振镜</h3>
+                    <p>MCU 完成坐标解算后，经 <strong>SPI 驱动 DAC 输出 ±10V 模拟量</strong>，精确控制 XY 轴振镜电机。调试工作贯穿图像坐标、通信、模拟量输出与执行机构，逐段完成联调。</p>
+                    <h3>3. 车身导航与整机集成</h3>
+                    <p>通过 <strong>PX4 + GPS + 地面站</strong> 实现车身自动导航。我负责机械结构搭建、硬件调试与系统联调，将视觉、激光指向和移动平台整合为完整系统。</p>
                 `
             },
             ship: {
@@ -90,20 +117,22 @@ export const projectDetails = {
             },
             llmPidTuner: {
                 title: "LLM-PID-Tuner 智能调参系统",
-                tags: ["Python", "PID Control", "Serial", "LLM", "Safety Rollback"],
+                tags: ["Python", "MATLAB / Simulink", "System Identification", "LLM", "Safety Rollback"],
                 content: `
                     <h3>1. 项目定位</h3>
                     <p>这是一个面向真实控制系统的 LLM 辅助 PID 调参工具。目标是把“靠经验反复试错”的调参过程，变成可观察、可复现、可回退的数据闭环。</p>
                     <h3>2. 核心架构</h3>
                     <ul>
-                        <li><strong>双模式：</strong>支持本地仿真（simulator）与真实硬件（serial CSV）两条调参链路。</li>
-                        <li><strong>决策层：</strong>LLM 基于响应曲线质量给出下一轮 PID 建议。</li>
-                        <li><strong>安全层：</strong>参数边界、保守回退、最佳状态记忆，防止调参失控。</li>
+                        <li><strong>三种模式：</strong>硬件串口实调、Python 本地仿真与 MATLAB/Simulink，覆盖算法验证到真实执行系统。</li>
+                        <li><strong>决策层：</strong>通过 Prompt Engineering 引导 LLM 解析系统响应数据，生成下一轮 PID 参数建议。</li>
+                        <li><strong>安全层：</strong>系统辨识、安全回退、参数保护与最佳状态记忆，约束自动调参过程。</li>
+                        <li><strong>Simulink 闭环：</strong>自动注入参数、采集响应数据并循环调参，串联仿真模型与自动化决策。</li>
                     </ul>
                     <h3>3. 工程亮点</h3>
                     <p>支持 OpenAI 兼容 API（OpenAI / DeepSeek / Ollama / LM Studio），提供 <code>system_id.py</code> 初值建议和 <code>benchmark.py</code> 对比验证，并打包为可直接使用的 <code>llm-pid-tuner.exe</code>。</p>
                     <h3>4. 结果与价值</h3>
-                    <p>项目已在 GitHub 收获 <strong><span class="gh-stars">700+</span> Stars</strong>，在温控与运动控制场景中显著降低手动调参轮次，提升参数收敛效率和稳定性。</p>
+                    <p>项目独立完成，开发周期为 2026.02–2026.04。GitHub 获得 <strong><span class="gh-stars">892</span> Stars</strong>，更新时记录 86 Forks；配套教程视频累计 4.8 万播放、1446 点赞与 4140 收藏。</p>
+                    <p>Industrial Monitor Direct 官方知识库专题长文将其与四大经典整定方法对比；FRC 社区 Delphi 讨论将其作为 LLM 在线调参案例引用。</p>
                     <p class="mt-4"><a href="https://github.com/KINGSTON-115/llm-pid-tuner" target="_blank" rel="noopener noreferrer" class="underline">查看项目仓库</a></p>
                 `
             },
@@ -133,12 +162,12 @@ export const projectDetails = {
             },
             smartcar2024: {
                 title: "第十九届智能车 - 一等奖",
-                tags: ["摄像头组", "华南赛区"],
-                content: "<p>作为算法负责人，我设计了基于动态阈值的赛道边缘提取算法（大津法改进版），并实现了逆透视变换（IPM）以消除图像畸变。极大地提高了赛车在光照剧烈变化环境下的鲁棒性。</p>"
+                tags: ["STC 摄像头组", "STC32F", "C / PID", "华南赛区"],
+                content: "<p>2024.03–2024.07，担任摄像头自动循迹小车项目负责人。基于 <strong>STC32F、双线性 CCD、双 380 有刷电机后驱与高扭矩舵机前轮转向</strong>搭建系统。</p><p>使用 C 语言实现图像采集、自适应阈值二值化、中线提取与赛道元素特征识别状态机；升级 PID 循迹控制与电机主动差速。自主建模碳纤维底盘并交付厂方制作，将算法调试与机械实现衔接起来。</p>"
             },
             smartcar2025: {
                 title: "第二十届智能车 - 三等奖",
-                tags: ["电磁组", "华南赛区"],
+                tags: ["微缩电磁组", "华南赛区"],
                 content: "<p>负责电磁信号采集电路的设计与 PCB 绘制。采用了多级运放放大微弱的电磁感应信号，并通过软件滤波算法有效滤除了电机干扰噪声。</p>"
             }
         };

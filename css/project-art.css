@@ -1,5 +1,12 @@
 /* Each project has a complete scene, with one shared motion lifecycle. */
 .project-art { --motion-state: paused; --scene-accent: #c6e791; perspective: 900px; isolation: isolate; }
+.project-card[open] > summary { height: auto; }
+.project-role { padding: 14px 18px; border-left: 2px solid var(--acid); background: #c6e79108; font-size: 12px; }
+.project-large .art-pcb { background: radial-gradient(ellipse at 50% 35%,#657e3433,transparent 68%),#17231b; }
+.project-large .art-knowledge { background: radial-gradient(ellipse at 50% 40%,#4c6d3e44,transparent 68%),#1c261a; }
+.pcb-trace { stroke-dasharray: 15 85; animation: signal-flow 5s linear infinite; }
+.knowledge-flow { animation: route-flow 12s linear infinite; }
+.knowledge-gate { transform-origin: 280px 160px; animation: medallion-breathe 7s ease-in-out infinite; }
 .spatial-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 2; opacity: 0; }
 .spatial-ready > .spatial-canvas { opacity: 1; }
 .spatial-ready > :is(.scene-parallax,.sculpture-float,.clock-orbit,.orbit,.drone-signal) { visibility: hidden; }

@@ -7,25 +7,27 @@ import './build-mobius.mjs';
 const arrow = '<span aria-hidden="true">↗</span>';
 const projects = [
   ['llmPidTuner', '01', 'CONTROL × INTELLIGENCE', 'LLM–PID<br>TUNER.', '让大模型走进真实控制系统。连接本地仿真与硬件，以可观察、可回退的方式探索自动调参。', 'Python / PID / LLM', 'signal'],
-  ['nexus', '02', 'CONNECTED OBJECTS', 'NEXUS<br> 智能时钟', '从一块 ESP32 开始，把语音、时间与智能连接到桌面。', 'ESP32-S3 / LVGL / WebSocket', 'clock'],
-  ['drone', '03', 'IOT ECOSYSTEM', '共享<br> 无人机柜', '连接小程序、云端与实体柜，让设备共享形成完整闭环。', 'MiniApp / Spring Boot / MQTT', 'drone'],
-  ['laser', '04', 'MACHINE VISION', '精准激光除草机', '在视觉识别与运动控制之间，探索精准农业的另一种可能。', 'YOLOv8 / OpenCV / Jetson', 'laser'],
-  ['ship', '05', 'AUTONOMOUS SYSTEMS', '北斗水质监测船', '从航向控制到远距离遥测，让嵌入式系统走进真实水域。', 'STM32 / BeiDou / LoRa', 'ship'],
-  ['culture', '06', 'GENERATIVE CULTURE', '非遗文化 AIGC', '以 Stable Diffusion 与 LoRA 串联数据清洗、标注、模型微调和 Web 生成交互，展示生成式 AI 的应用实践。', 'Stable Diffusion / LoRA / Web', 'culture'],
-  ['piano', '07', 'BACK TO THE BITS', '51 单片机电子琴', '中断、时序、频率。从寄存器出发，让代码发出声音。', 'C51 / PWM / Hardware', 'piano'],
-  ['portfolioSite', '08', 'DIGITAL PLAYGROUND', '你正在浏览的作品', '一个持续生长的数字空间，收集工程、影像与新的想法。', 'HTML / JavaScript / Motion', 'web'],
+  ['plcAnalog', '02', 'LAYOUT → PRODUCTION', 'PLC 模拟量扩展模块', '独立完成 Allegro 四层 PCB Layout，贯通跨页网络排查、强弱电间距约束与打样贴片验证。', 'Cadence Allegro / 4-Layer PCB / Validation', 'pcb'],
+  ['aiKnowledge', '03', 'KNOWLEDGE × WORKFLOW', 'AI 知识库管理平台', '从一线需求到多部门交付：开放上传与审批、对接云知识库，让知识维护走出单账号瓶颈。', 'Permissions / Alibaba Cloud / Windows', 'knowledge'],
+  ['nexus', '04', 'CONNECTED OBJECTS', 'NEXUS<br> 智能时钟', '从一块 ESP32 开始，把语音、时间与智能连接到桌面。', 'ESP32-S3 / LVGL / WebSocket', 'clock'],
+  ['drone', '05', 'IOT ECOSYSTEM', '共享<br> 无人机柜', '连接小程序、云端与实体柜，让设备共享形成完整闭环。', 'MiniApp / Spring Boot / MQTT', 'drone'],
+  ['laser', '06', 'MACHINE VISION', '精准激光除草机', '从 YOLOv11s 视觉识别到 STM32 振镜控制，打通图像坐标、模拟量输出与车身自主导航。', 'YOLOv11s / STM32F103 / SPI-DAC / PX4', 'laser'],
+  ['ship', '07', 'AUTONOMOUS SYSTEMS', '北斗水质监测船', '从航向控制到远距离遥测，让嵌入式系统走进真实水域。', 'STM32 / BeiDou / LoRa', 'ship'],
+  ['culture', '08', 'GENERATIVE CULTURE', '非遗文化 AIGC', '以 Stable Diffusion 与 LoRA 串联数据清洗、标注、模型微调和 Web 生成交互，展示生成式 AI 的应用实践。', 'Stable Diffusion / LoRA / Web', 'culture'],
+  ['piano', '09', 'BACK TO THE BITS', '51 单片机电子琴', '中断、时序、频率。从寄存器出发，让代码发出声音。', 'C51 / PWM / Hardware', 'piano'],
+  ['portfolioSite', '10', 'DIGITAL PLAYGROUND', '你正在浏览的作品', '一个持续生长的数字空间，收集工程、影像与新的想法。', 'HTML / JavaScript / Motion', 'web'],
 ];
 
-const cards = projects.map(([id, no, label, title, description, tags, kind], i) => `<details class="project-card ${i===0?'project-featured':'project-large'}${i===7?' project-finale':''} reveal" id="project-${id}">
+const cards = projects.map(([id, no, label, title, description, tags, kind], i) => `<details class="project-card ${i===0?'project-featured':'project-large'}${id==='portfolioSite'?' project-finale':''} reveal" id="project-${id}">
   <summary data-project="${id}" aria-haspopup="dialog">
     <div class="project-art art-${kind}" data-spatial="${kind}" aria-hidden="true">${projectVisual(kind)}</div>
-    <div class="project-copy"><div class="eyebrow"><span>${no} / ${label}</span>${i===0?'<span class="star-badge">★ <span class="gh-stars">700+</span> STARS</span>':''}</div><h3>${title}</h3><p>${description}</p><div class="project-bottom"><span>${tags}</span><span class="round-arrow" aria-hidden="true">↗</span></div></div>
+    <div class="project-copy"><div class="eyebrow"><span>${no} / ${label}</span>${i===0?'<span class="star-badge">★ <span class="gh-stars">892</span> STARS</span>':''}</div><h3>${title}</h3><p>${description}</p><div class="project-bottom"><span>${tags}</span><span class="round-arrow" aria-hidden="true">↗</span></div></div>
   </summary><div class="project-fallback detail-body" data-project-content="${id}">${projectDetails[id].content}</div>
 </details>`).join('\n');
 
 const awards = [
-  ['smartcar2024','2024','第十九届全国大学生智能车竞赛','摄像头组 · 华南赛区','一等奖'],
-  ['smartcar2025','2025','第二十届全国大学生智能车竞赛','电磁组 · 华南赛区','三等奖'],
+  ['smartcar2024','2024','第十九届全国大学生智能车竞赛','STC 摄像头组 · 华南赛区','一等奖'],
+  ['smartcar2025','2025','第二十届全国大学生智能车竞赛','微缩电磁组 · 华南赛区','三等奖'],
   ['robocom2025','2025','睿抗机器人开发者大赛','魔力元宝 · 海南赛区','二等奖'],
   ['robocom2024','2024','睿抗机器人开发者大赛','魔力元宝 · 海南赛区','三等奖'],
 ].map(([id,year,title,subtitle,prize])=>`<details class="award-row reveal"><summary data-project="${id}" aria-haspopup="dialog"><span class="award-year">${year}</span><span class="award-name"><strong>${title}</strong><small>${subtitle}</small></span><span class="award-prize">${prize}</span>${arrow}</summary><div class="project-fallback detail-body" data-project-content="${id}">${projectDetails[id].content}</div></details>`).join('');
@@ -93,7 +95,7 @@ const html = `<!DOCTYPE html>
     </section>
     <div class="discipline-strip" aria-hidden="true"><div class="strip-track">${Array.from({length:4},()=>'<span>HARDWARE</span><i>✳</i><span>SOFTWARE</span><i>✳</i><span class="strip-outline">SOMEWHERE IN BETWEEN</span><i>✳</i>').join('')}</div></div>
     <section id="projects" class="work-section page-gutter section-space" aria-labelledby="work-title">
-      <div class="section-heading reveal"><div><span class="eyebrow section-label">01 / SELECTED WORK</span><h2 id="work-title">把想法，<br><span class="muted">做成作品。</span></h2></div><p>从第一行代码到真实世界的反馈。<br>这里是我的工程实践与持续实验。<span class="section-count">08 PROJECTS ↘</span></p></div>
+      <div class="section-heading reveal"><div><span class="eyebrow section-label">01 / SELECTED WORK</span><h2 id="work-title">把想法，<br><span class="muted">做成作品。</span></h2></div><p>从第一行代码到真实世界的反馈。<br>这里是我的工程实践与持续实验。<span class="section-count" data-i18n="home.workCount" data-i18n-vars='{"count":"${String(projects.length).padStart(2,'0')}"}'>${projects.length} PROJECTS ↘</span></p></div>
       <div class="project-grid">${cards}</div>
     </section>
     <section id="awards" class="awards-section page-gutter section-space" aria-labelledby="awards-title"><div class="section-heading reveal"><div><span class="eyebrow section-label">02 / MILESTONES</span><h2 id="awards-title">在探索中，<br><span class="muted">留下坐标。</span></h2></div><p>每一个结果背后，<br>都是无数次调试与重新出发。</p></div><div class="award-list">${awards}</div></section>
@@ -106,4 +108,4 @@ const html = `<!DOCTYPE html>
 </body>
 </html>`;
 await writeFile(new URL('../index.html',import.meta.url),localizeMarkup(html, 'home')+'\n','utf8');
-console.log('Built homepage with 8 project archives, 4 milestones, and local photography.');
+console.log(`Built homepage with ${projects.length} project archives, 4 milestones, and local photography.`);
