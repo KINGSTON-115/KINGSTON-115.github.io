@@ -70,7 +70,7 @@ function stage(kind) {
     grid.material.opacity = .2;
     scene.add(grid);
   }
-  const radius = { hero: 2.5, signal: 2.3, clock: 1.8, drone: 2.2, laser: 2.4, ship: 2.4, culture: 2.1, piano: 2.3, web: 2.45 }[kind];
+  const radius = { hero: 2.5, signal: 2.3, pcb: 2.55, knowledge: 2.45, clock: 1.8, drone: 2.2, laser: 2.4, ship: 2.4, culture: 2.1, piano: 2.3, web: 2.45 }[kind];
   return { scene, root, camera, radius };
 }
 
@@ -339,7 +339,110 @@ function web(s) {
   };
 }
 
-const factories = { hero, signal, clock, drone, laser, ship, culture, piano, web };
+function pcb(s) {
+  s.camera.position.set(3.5, 3.4, 6.2); s.camera.lookAt(0, 0, 0);
+  const assembly = new T.Group(); s.root.add(assembly);
+  const copper = material(0xb4a06b, { metalness: .72, roughness: .36 });
+  const solder = material(0xc4d2af, { metalness: .78 });
+  const plastic = material(0x162019, { roughness: .65, metalness: .1 });
+  const glow = new T.MeshBasicMaterial({ color: lime, toneMapped: false });
+  const layers = [];
+  for (let i = 0; i < 4; i++) {
+    const layer = new T.Group(); assembly.add(layer); layers.push(layer);
+    box(layer, [3.45, .055, 2.2], material([0x304b32,0x59654a,0x68734c,0x36523d][i]));
+    // Concept routing only: no product topology or proprietary circuit is used.
+    for (let route = 0; route < 5; route++) {
+      const z = -.78 + route * .34;
+      const points = [v(-1.4, .035, z), v(-.8 + (route % 2) * .15, .035, z), v(-.5, .035, z + .16), v(.75, .035, z + .16), v(1.35, .035, z - .06)];
+      for (let j = 0; j < points.length - 1; j++) rod(layer, points[j], points[j + 1], .013, copper);
+      for (const x of [-1.4, 1.35]) { const pad = ring(layer, .044, .013, solder, [x, .042, x < 0 ? z : z - .06]); pad.rotation.x = -Math.PI / 2; }
+    }
+    for (const x of [-1.55, 1.55]) for (const z of [-.94, .94]) {
+      const hole = ring(layer, .065, .019, solder, [x, .035, z]); hole.rotation.x = -Math.PI / 2;
+    }
+  }
+  const top = layers[3];
+  box(top, [.86, .13, .82], plastic, [-.25, .1, -.02]);
+  box(top, [.64, .007, .58], material(0x344332), [-.25, .17, -.02]);
+  for (let i = 0; i < 8; i++) {
+    for (const side of [-1, 1]) {
+      box(top, [.18, .025, .045], solder, [-.25 + side * .5, .07, -.34 + i * .09]);
+      box(top, [.045, .025, .18], solder, [-.57 + i * .09, .07, -.02 + side * .5]);
+    }
+  }
+  // Terminal banks, passives and debug header make the module read as hardware.
+  for (const x of [-1.26, 1.22]) for (let i = 0; i < 4; i++) {
+    box(top, [.32, .27, .33], material(0x718b46), [x, .17, -.6 + i * .38]);
+    mesh(top, new T.CylinderGeometry(.06, .06, .015, 16), solder, [x, .315, -.6 + i * .38]);
+    box(top, [.17, .095, .018], plastic, [x, .2, -.42 + i * .38]);
+  }
+  for (let i = 0; i < 6; i++) {
+    box(top, [.13, .06, .07], i % 2 ? copper : plastic, [.15 + i * .13, .07, .77]);
+    box(top, [.035, .15, .035], solder, [-.76 + i * .13, .16, -.88]);
+  }
+  const marking = texture(384, 64, (ctx, w, h) => {
+    ctx.fillStyle = '#304b32'; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#cddbb8'; ctx.font = '19px monospace'; ctx.fillText('ANALOG / 4-LAYER STUDY', 10, 40);
+  });
+  const label = mesh(top, new T.PlaneGeometry(1.25, .2), new T.MeshBasicMaterial({ map: marking }), [-.15, .038, .98]); label.rotation.x = -Math.PI / 2;
+  const viaColumns = [];
+  for (const x of [-1.55, 1.55]) for (const z of [-.94, .94]) {
+    viaColumns.push(rod(assembly, v(x, -1, z), v(x, 1, z), .009, copper));
+  }
+  const pulse = ball(top, .042, glow);
+  const trace = new T.CatmullRomCurve3([v(-1.4,.06,-.44),v(-.65,.06,-.44),v(-.5,.06,-.28),v(.75,.06,-.28),v(1.35,.06,-.5)]);
+  return t => {
+    const spacing = .27 + Math.sin(t * .42) * .055;
+    layers.forEach((layer, i) => { layer.position.y = -.58 + i * spacing; });
+    viaColumns.forEach(column => { column.position.y = -.58 + 1.5 * spacing; column.scale.y = (spacing * 3 + .05) / 2; });
+    assembly.rotation.y = -.14 + Math.sin(t * .24) * .12;
+    pulse.position.copy(trace.getPoint((t * .15 + .2) % 1));
+  };
+}
+
+function knowledge(s) {
+  s.camera.position.set(2.5, 1.8, 7); s.camera.lookAt(0, 0, 0);
+  const cloud = new T.Group(); cloud.position.set(1.15, -.12, -.35); s.root.add(cloud);
+  const shell = material(0x657e4d, { metalness: .6, roughness: .3 });
+  const glow = new T.MeshBasicMaterial({ color: lime, toneMapped: false });
+  for (let i = 0; i < 3; i++) {
+    mesh(cloud, new T.CylinderGeometry(.64, .64, .28, 56), shell, [0, -.45 + i * .39, 0]);
+    const rim = ring(cloud, .645, .012, i === 2 ? glow : material(0xa6bc89), [0, -.3 + i * .39, 0]); rim.rotation.x = Math.PI / 2;
+  }
+  const documents = [];
+  for (let i = 0; i < 3; i++) {
+    const doc = new T.Group(); s.root.add(doc); documents.push(doc);
+    doc.position.set(-1.7 + i * .3, .28 - i * .15, -.55 + i * .27);
+    box(doc, [.93, 1.26, .055], material(i === 2 ? ivory : 0x64735a), [0,0,0]);
+    box(doc, [.16, .19, .007], material(0x547532), [-.25,.38,.032]);
+    for (let j = 0; j < 4; j++) box(doc, [.58 - j % 2 * .12, .025, .009], material(0x4c6041), [-j % 2 * .06, .13-j*.15, .034]);
+    box(doc, [.29, .075, .009], material(0x77994b), [-.14,-.43,.034]);
+  }
+  const gate = new T.Group(); gate.position.set(-.05, -.1, .6); s.root.add(gate);
+  const shield = new T.Shape(); shield.moveTo(0,.57); shield.lineTo(.43,.37); shield.lineTo(.36,-.17); shield.quadraticCurveTo(.2,-.43,0,-.56); shield.quadraticCurveTo(-.2,-.43,-.36,-.17); shield.lineTo(-.43,.37); shield.closePath();
+  mesh(gate, new T.ExtrudeGeometry(shield,{depth:.07,bevelEnabled:true,bevelSize:.025,bevelThickness:.025,bevelSegments:2}), material(0x415e30));
+  rod(gate, v(-.2,0,.11), v(-.04,-.15,.11), .026, glow);
+  rod(gate, v(-.04,-.15,.11), v(.23,.19,.11), .026, glow);
+  const routes = [
+    new T.CatmullRomCurve3([v(-1.2,-.5,.12),v(-.83,-.7,.5),v(-.2,-.72,.6),v(0,-.1,.6)]),
+    new T.CatmullRomCurve3([v(.1,.18,.6),v(.55,.55,.35),v(1.15,.8,-.35)]),
+    new T.CatmullRomCurve3([v(1.5,-.45,-.35),v(1.65,-.82,.1),v(.65,-.9,.8),v(.2,-.7,.65)])
+  ];
+  routes.forEach(curve => mesh(s.root, new T.TubeGeometry(curve, 48, .012, 6, false), material(0x81986b)));
+  const packets = routes.map(() => ball(s.root, .045, glow));
+  const delivery = new T.Group(); delivery.position.set(.88,-.81,1); s.root.add(delivery);
+  box(delivery,[.58,.32,.07],material(0x8da66c));
+  box(delivery,[.48,.21,.008],material(0x192a1a),[0,.015,.04]);
+  rod(delivery,v(0,-.14,0),v(0,-.25,0),.035,shell); box(delivery,[.3,.03,.16],shell,[0,-.25,0]);
+  return t => {
+    documents.forEach((doc,i) => { doc.position.y = .28-i*.15+Math.sin(t*.65+i*.8)*.045; doc.rotation.y = -.15+Math.sin(t*.27)*.09; });
+    gate.rotation.y = -.12+Math.sin(t*.4)*.14;
+    cloud.position.y = -.12+Math.sin(t*.5)*.035;
+    packets.forEach((packet,i) => packet.position.copy(routes[i].getPoint((t*.17+i*.3)%1)));
+  };
+}
+
+const factories = { hero, signal, pcb, knowledge, clock, drone, laser, ship, culture, piano, web };
 export function createModel(kind) {
   const model = stage(kind);
   model.animate = factories[kind](model);
